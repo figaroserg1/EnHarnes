@@ -1,44 +1,38 @@
-# QUICKSTART: порядок работы с шаблоном
+# QUICKSTART: запуск scaffold по Harness Engineering
 
-## Шаг 0. Прочитать метод
-- Открой `METHOD.md`.
-- Открой `approach.md` (источник идей и rationale).
+## Шаг 0. Прочитать основу
+- `METHOD.md`
+- `approach.md`
+- `AGENTS.md`
 
-## Шаг 1. Зафиксировать контекст продукта
-Заполни `docs/system-spec.md` строго в порядке:
-1. Project identity
-2. Problem statement
-3. Users & stakeholders
-4. Scope
-5. Functional requirements
-6. Non-functional requirements
-7. Risks / assumptions
-8. Open questions
+## Шаг 1. Зафиксировать цель и рамки
+- Заполни `docs/system-spec.md`.
+- Заполни `docs/rules.md`.
 
-Если не хватает данных — ставь `TODO: [AI->HUMAN]` и список вопросов.
-
-## Шаг 2. Зафиксировать правила
-Заполни `docs/rules.md`:
-1. Product rules
-2. Engineering rules
-3. AI agent rules
-4. Documentation rules
-
-## Шаг 3. Зафиксировать архитектуру
+## Шаг 2. Зафиксировать архитектуру
 - Заполни `docs/architecture.md`.
-- Сверь high-level карту в `ARCHITECTURE.md`.
-- При решениях добавляй ADR в `docs/adr/`.
+- Синхронизируй high-level карту в `ARCHITECTURE.md`.
+- Добавляй решения в `docs/adr/`.
 
-## Шаг 4. Настроить тулы агента
-- Пройди `tooling/SETUP_TOOLS.md` (MCP + skills).
-- При необходимости адаптируй `tooling/setup-tools.sh`.
+## Шаг 3. Настроить выполняемые команды для агента
+- `scripts/dev-start.sh`
+- `scripts/lint-all.sh`
+- `scripts/test-all.sh`
+- `scripts/seed-dev-data.sh`
+- `scripts/obs-up.sh` / `scripts/obs-down.sh`
+
+## Шаг 4. Подготовить docs как single source of truth
+- Product: `docs/product-specs/`
+- Design: `docs/design-docs/`
+- Reliability/Security/Quality: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/QUALITY_SCORE.md`
+- Планы: `docs/PLANS.md`, `docs/exec-plans/`
 
 ## Шаг 5. Прогнать проверки
 ```bash
 make lint
 make build
+bash scripts/test-all.sh
 ```
 
-## Шаг 6. Закрыть TODO реестр
+## Шаг 6. Синхронизировать реестр TODO
 - Обнови `docs/todo-registry.md`.
-- Удали или замени `EXAMPLE (REPLACE ME)` по мере заполнения.

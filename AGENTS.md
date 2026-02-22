@@ -7,17 +7,18 @@
 
 ## Где что искать
 - Старт для человека: `README.md`, `QUICKSTART.md`, `METHOD.md`
-- Основные шаблоны: `docs/system-spec.md`, `docs/rules.md`, `docs/architecture.md`
+- High-level структура: `ARCHITECTURE.md`
+- Policy и design: `docs/system-spec.md`, `docs/rules.md`, `docs/architecture.md`
+- Reliability/security/quality: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/QUALITY_SCORE.md`
+- Планы: `.agent/PLANS.md`, `docs/PLANS.md`, `docs/exec-plans/`
 - Реестр незаполненного: `docs/todo-registry.md`
-- Референсы: `docs/references.md`
-- Сетап тулов: `tooling/SETUP_TOOLS.md`
 - Технические проверки: `scripts/custom_linter.py`, `scripts/custom_builder.sh`
 
 ## Working rules
 1. Не удаляй TODO, пока нет фактического содержимого.
 2. Любой пример помечай `EXAMPLE (REPLACE ME)`.
 3. Для каждого TODO указывай owner: `[HUMAN]`, `[AI]`, `[AI->HUMAN]`.
-4. Изменения, затрагивающие структуру, синхронизируй с `ARCHITECTURE.md` и `docs/todo-registry.md`.
+4. Изменения структуры синхронизируй с `ARCHITECTURE.md` и `docs/todo-registry.md`.
 
 ## ExecPlans
-When writing complex features or significant refactors, use an ExecPlan (as described in `.agent/PLANS.md`) from design to implementation.
+Для сложных фич и рефакторингов используй ExecPlan по `.agent/PLANS.md`.

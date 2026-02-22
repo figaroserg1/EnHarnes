@@ -1,7 +1,7 @@
 # References (external guides)
 
 ## Agent-first / Harness Engineering
-- OpenAI: Harness Engineering article (добавьте постоянную ссылку вашей команды).
+- OpenAI: Harness Engineering — https://openai.com/index/harness-engineering/
 - Diátaxis: https://diataxis.fr/
 
 ## Architecture
@@ -12,7 +12,3 @@
 ## Decisions and process
 - ADR: https://adr.github.io/
 - Team Topologies: https://teamtopologies.com/
-
-## Documentation quality
-- Write the Docs: https://www.writethedocs.org/guide/
-- Google developer documentation style guide: https://developers.google.com/style
