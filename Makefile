@@ -1,4 +1,4 @@
-.PHONY: lint build tools
+.PHONY: lint build tools todo-sync
 
 lint:
 	python3 scripts/custom_linter.py
@@ -8,3 +8,6 @@ build:
 
 tools:
 	bash tooling/setup-tools.sh
+
+todo-sync:
+	python3 scripts/sync_todo_registry.py

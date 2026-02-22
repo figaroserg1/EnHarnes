@@ -1,32 +1,38 @@
-# EnHarnes — Universal Project Scaffold
+# EnHarnes — universal agent-first repo scaffold
 
-Готовый публичный шаблон репозитория для запуска проектов, когда на старте ещё неясны точные правила, система или процессы.
+Публичный шаблон, который помогает быстро стартовать проект, даже если на старте ещё неизвестны точные system spec, rules, архитектура и процессы.
 
-> Важный принцип: если что-то неизвестно — **оставляем явный placeholder формата `TODO: [HUMAN|AI|AI->HUMAN]`** с пометкой **кто заполняет**:
-> - `[HUMAN]` — заполняет человек.
-> - `[AI]` — заполняет ИИ без доп. вопросов.
-> - `[AI->HUMAN]` — ИИ обязан сначала опросить человека, потом заполнить.
+## Главная идея
+Если данных не хватает, **не выдумывать**. Оставляем явный placeholder:
 
-## Что внутри
-- Пошаговый запуск работы с шаблоном: `QUICKSTART.md`
-- Краткая метод-напоминалка: `METHOD.md`
-- Шаблоны системного описания/правил/архитектуры: `docs/`
-- Заготовки кастомного линтера и сборщика: `scripts/`
-- Отдельный сетап тулов (MCP + skills): `tooling/SETUP_TOOLS.md` и `tooling/setup-tools.sh`
+- `TODO: [HUMAN]` — заполняет человек.
+- `TODO: [AI]` — ИИ может заполнить сам.
+- `TODO: [AI->HUMAN]` — ИИ обязан сначала опросить человека и только потом заполнить.
 
-## Рекомендуемый порядок
-1. Открой `QUICKSTART.md`.
-2. Заполни критичные `TODO` из `docs/system-spec.md`.
-3. Уточни правила в `docs/rules.md`.
-4. Зафиксируй целевую архитектуру в `docs/architecture.md`.
-5. Настрой инструменты через `tooling/SETUP_TOOLS.md`.
-6. Прогони `scripts/custom_linter.py` и `scripts/custom_builder.sh`.
+Для примеров используем только метку:
+- `EXAMPLE (REPLACE ME)` — пример обязателен к замене.
 
-## Быстрые команды
+## Что уже есть в шаблоне
+- Пошаговый старт: `QUICKSTART.md`
+- Краткая памятка метода: `METHOD.md`
+- Карта работы для агента: `AGENTS.md`
+- Базовые шаблоны документов: `docs/`
+- Заготовки полезных скриптов: `scripts/`
+- Отдельный сетап тулов (MCP + skills): `tooling/SETUP_TOOLS.md`
+- Полуавтоматическая проверка TODO/примеров: `scripts/custom_linter.py`
+
+## Как начать
+1. Пройти `QUICKSTART.md`.
+2. Заполнить `docs/system-spec.md`.
+3. Заполнить `docs/rules.md`.
+4. Уточнить `docs/architecture.md` + `ARCHITECTURE.md`.
+5. Настроить инструменты по `tooling/SETUP_TOOLS.md`.
+6. Запустить:
+
 ```bash
-python3 scripts/custom_linter.py
-bash scripts/custom_builder.sh
+make lint
+make build
 ```
 
-## Полезные внешние гайды
-Смотри `docs/references.md` — туда уже добавлены стартовые ссылки по architecture docs, ADR и style guides.
+## Внешние референсы
+Ссылки на хорошие внешние гайды собраны в `docs/references.md`.
