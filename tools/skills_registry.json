@@ -1,0 +1,19 @@
+{
+  "skills": [
+    {
+      "name": "filesystem",
+      "owner": "AI",
+      "description": "read write repo files"
+    },
+    {
+      "name": "observability",
+      "owner": "AI",
+      "description": "query logs metrics traces"
+    },
+    {
+      "name": "browser",
+      "owner": "AI",
+      "description": "UI automation"
+    }
+  ]
+}

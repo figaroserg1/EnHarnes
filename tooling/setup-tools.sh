@@ -26,3 +26,8 @@ python3 /opt/codex/skills/.system/skill-installer/scripts/install-skill-from-git
 CMDS
 
 echo "[4/4] TODO: [HUMAN] Uncomment and adapt commands in this script for your team."
+
+echo "Installing advanced MCP servers..."
+npm install -g @modelcontextprotocol/server-browser || true
+npm install -g @modelcontextprotocol/server-memory || true
+npm install -g @modelcontextprotocol/server-shell || true
