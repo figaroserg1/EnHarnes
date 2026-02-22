@@ -18,3 +18,6 @@
 2. Любой пример помечай `EXAMPLE (REPLACE ME)`.
 3. Для каждого TODO указывай owner: `[HUMAN]`, `[AI]`, `[AI->HUMAN]`.
 4. Изменения, затрагивающие структуру, синхронизируй с `ARCHITECTURE.md` и `docs/todo-registry.md`.
+
+## ExecPlans
+When writing complex features or significant refactors, use an ExecPlan (as described in `.agent/PLANS.md`) from design to implementation.
