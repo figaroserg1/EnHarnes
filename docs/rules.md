@@ -1,23 +1,20 @@
 # Rules Template
 
-> Ниже шаблон правил. Все примеры помечены и должны быть заменены.
+## 1) Product rules
+- TODO: [HUMAN] Основные продуктовые ограничения.
+- TODO: [AI->HUMAN] Проверяемые acceptance criteria.
+- EXAMPLE (REPLACE ME): "Данные пользователя удаляются только после двойного подтверждения".
 
-## Product rules
-- TODO: [HUMAN] Бизнес-ограничения.
-- TODO: [AI->HUMAN] Критерии приёмки по сценариям.
-- EXAMPLE (REPLACE ME): "Нельзя удалять данные пользователя без двойного подтверждения".
+## 2) Engineering rules
+- TODO: [HUMAN] Технологический стек и обязательные версии.
+- TODO: [HUMAN] PR/release policy.
+- TODO: [AI] Базовый CI pipeline (lint + tests + docs checks).
 
-## Engineering rules
-- TODO: [HUMAN] Языки/стек.
-- TODO: [HUMAN] Политика ветвления и релизов.
-- TODO: [AI] Предложить baseline CI-пайплайн.
-- EXAMPLE (REPLACE ME): "Все PR проходят линтер и юнит-тесты".
-
-## AI agent rules
-- TODO: [HUMAN] Явные ограничения для агента (security, privacy, approvals).
-- TODO: [AI->HUMAN] Шаблон prompt policy для проекта.
+## 3) AI agent rules
+- TODO: [HUMAN] Ограничения по security/privacy.
+- TODO: [AI->HUMAN] Политика на auto-fix, review и эскалации.
 - EXAMPLE (REPLACE ME): "Агент не пушит в main напрямую".
 
-## Documentation rules
-- TODO: [AI] Проверка наличия владельца у каждого TODO.
-- TODO: [HUMAN] Периодичность ревью документации.
+## 4) Documentation rules
+- TODO: [AI] Автопроверка owner у каждого TODO.
+- TODO: [HUMAN] Частота ревью документации.

@@ -1,20 +1,18 @@
-# References
+# References (external guides)
 
-Подборка внешних материалов, на которые стоит ссылаться в проектных документах.
+## Agent-first / Harness Engineering
+- OpenAI: Harness Engineering article (добавьте постоянную ссылку вашей команды).
+- Diátaxis: https://diataxis.fr/
 
 ## Architecture
 - C4 model: https://c4model.com/
-- Arc42 template: https://arc42.org/
-- Google Architecture Framework: https://cloud.google.com/architecture/framework
+- arc42: https://arc42.org/
+- AWS Well-Architected: https://docs.aws.amazon.com/wellarchitected/
 
-## Decisions / process
+## Decisions and process
 - ADR: https://adr.github.io/
 - Team Topologies: https://teamtopologies.com/
 
-## Documentation
-- Write the Docs guide: https://www.writethedocs.org/guide/
-- Diátaxis framework: https://diataxis.fr/
-
-## Engineering quality
-- Conventional Commits: https://www.conventionalcommits.org/
-- Keep a Changelog: https://keepachangelog.com/
+## Documentation quality
+- Write the Docs: https://www.writethedocs.org/guide/
+- Google developer documentation style guide: https://developers.google.com/style

@@ -1,48 +1,61 @@
-# Tools setup (MCP + Skills)
+# Setup tools (MCP + Skills)
 
-Этот файл специально вынесен отдельно, чтобы каждый мог подправить команды под свою среду.
+Отдельный файл, который легко кастомизировать под команду.
 
-## 1) Проверка базовых зависимостей
+## 1) Базовые проверки
 ```bash
 python3 --version
+git --version
+gh --version
 node --version
 npm --version
 ```
 
-## 2) Пример установки MCP tooling
-> TODO: [HUMAN] Подставить актуальный MCP-клиент под вашу экосистему.
+## 2) MCP: базовая установка (пример)
+> TODO: [HUMAN] Подставить ваш MCP-клиент и поддерживаемые серверы.
 
 ```bash
-# EXAMPLE (REPLACE ME): установка условного MCP CLI
+# EXAMPLE (REPLACE ME)
 npm install -g @modelcontextprotocol/cli
-
-# EXAMPLE (REPLACE ME): инициализация конфигурации
 mcp init
-```
 
-## 3) Пример подключения MCP серверов
-> TODO: [AI->HUMAN] Спросить у команды список нужных MCP серверов и доступов.
-
-```bash
-# EXAMPLE (REPLACE ME): файловый MCP
+# EXAMPLE (REPLACE ME)
 mcp server add filesystem -- npx -y @modelcontextprotocol/server-filesystem .
-
-# EXAMPLE (REPLACE ME): git MCP
 mcp server add git -- npx -y @modelcontextprotocol/server-git .
 ```
 
-## 4) Пример установки skills для агента
-> TODO: [HUMAN] Заменить путь/репозиторий навыков на ваш.
+## 3) Skills: прямые команды для Codex агента
 
+### 3.1 Установить curated skill из openai/skills
 ```bash
-# EXAMPLE (REPLACE ME): создать локальную папку skills
-mkdir -p "$HOME/.codex/skills"
-
-# EXAMPLE (REPLACE ME): склонировать набор skills
-git clone https://github.com/<org>/<skills-repo>.git "$HOME/.codex/skills/<skills-repo>"
+python3 /opt/codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo openai/skills \
+  --path skills/.curated/<skill-name>
 ```
 
-## 5) Проверка, что всё поднялось
+### 3.2 Установить skill из произвольного GitHub репозитория
+```bash
+python3 /opt/codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo <owner>/<repo> \
+  --path <path/to/skill>
+```
+
+### 3.3 Установить skill по URL
+```bash
+python3 /opt/codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --url https://github.com/<owner>/<repo>/tree/<ref>/<path-to-skill>
+```
+
+### 3.4 Посмотреть curated список навыков
+```bash
+python3 /opt/codex/skills/.system/skill-installer/scripts/list-curated-skills.py
+```
+
+> TODO: [AI->HUMAN] Уточнить, какие именно skills нужны команде и зафиксировать ниже:
+- TODO: [HUMAN] Список обязательных skills.
+- TODO: [HUMAN] Список optional skills.
+
+## 4) Проверка после установки
 ```bash
 # EXAMPLE (REPLACE ME)
 mcp server list

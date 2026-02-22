@@ -1,46 +1,44 @@
-# QUICKSTART: как начать работать с шаблоном
+# QUICKSTART: порядок работы с шаблоном
 
-## 0) Подготовка
-- Склонируй репозиторий.
-- Прочитай `METHOD.md` (2 минуты).
-- Убедись, что установлен Python 3 и Bash.
+## Шаг 0. Прочитать метод
+- Открой `METHOD.md`.
+- Открой `approach.md` (источник идей и rationale).
 
-## 1) Заполни базовый контекст проекта
-Открой `docs/system-spec.md` и заполни TODO в порядке:
-1. `Project identity`
-2. `Problem statement`
-3. `Primary users`
-4. `Constraints`
+## Шаг 1. Зафиксировать контекст продукта
+Заполни `docs/system-spec.md` строго в порядке:
+1. Project identity
+2. Problem statement
+3. Users & stakeholders
+4. Scope
+5. Functional requirements
+6. Non-functional requirements
+7. Risks / assumptions
+8. Open questions
 
-> Если данных не хватает: оставляй `TODO: [AI->HUMAN]` и список вопросов.
+Если не хватает данных — ставь `TODO: [AI->HUMAN]` и список вопросов.
 
-## 2) Зафиксируй правила работы
-Открой `docs/rules.md`:
-1. Опиши продуктовые правила.
-2. Опиши инженерные правила (code style, review policy, release).
-3. Опиши правила для ИИ-агентов.
+## Шаг 2. Зафиксировать правила
+Заполни `docs/rules.md`:
+1. Product rules
+2. Engineering rules
+3. AI agent rules
+4. Documentation rules
 
-## 3) Опиши архитектуру
-Открой `docs/architecture.md`:
-1. Контекстная схема.
-2. Компоненты.
-3. Потоки данных.
-4. Нефункциональные требования.
-5. ADR-ссылки (если есть).
+## Шаг 3. Зафиксировать архитектуру
+- Заполни `docs/architecture.md`.
+- Сверь high-level карту в `ARCHITECTURE.md`.
+- При решениях добавляй ADR в `docs/adr/`.
 
-## 4) Настрой инструменты агента
-Открой `tooling/SETUP_TOOLS.md` и выполни команды:
-1. MCP setup
-2. Skills setup
-3. Проверка, что тулзы видны
+## Шаг 4. Настроить тулы агента
+- Пройди `tooling/SETUP_TOOLS.md` (MCP + skills).
+- При необходимости адаптируй `tooling/setup-tools.sh`.
 
-## 5) Запусти проверки шаблона
+## Шаг 5. Прогнать проверки
 ```bash
-python3 scripts/custom_linter.py
-bash scripts/custom_builder.sh
+make lint
+make build
 ```
 
-## 6) Что делать дальше
-- Заменить все `EXAMPLE (REPLACE ME)` на реальные данные.
-- Пополнить `docs/references.md` ссылками вашего домена.
-- При необходимости добавить новые шаблоны в `docs/templates/`.
+## Шаг 6. Закрыть TODO реестр
+- Обнови `docs/todo-registry.md`.
+- Удали или замени `EXAMPLE (REPLACE ME)` по мере заполнения.

@@ -1,39 +1,37 @@
 # System Specification Template
 
-> Все секции ниже обязательны к ревью.
-> Если данных нет — оставляй placeholder с owner-маркером и назначай владельца.
+> Заполни этот файл до старта активной разработки.
 
-## 1. Project identity
-- TODO: [HUMAN] Название проекта и рабочее кодовое имя.
-- TODO: [HUMAN] Краткое описание (1-2 предложения).
-- EXAMPLE (REPLACE ME): "Платформа для управления внутренними AI-агентами".
+## 1) Project identity
+- TODO: [HUMAN] Название, кодовое имя, владелец продукта.
+- TODO: [HUMAN] Короткое описание системы (1–2 предложения).
+- EXAMPLE (REPLACE ME): "Internal platform for AI-assisted project delivery".
 
-## 2. Problem statement
-- TODO: [AI->HUMAN] Сформулировать 3-5 ключевых проблем пользователя после интервью.
-- TODO: [AI] Подготовить черновик problem statement на основе заметок.
-- EXAMPLE (REPLACE ME): "Командам сложно стандартизировать запуск AI workflow".
+## 2) Problem statement
+- TODO: [AI] Подготовить черновик problem statement.
+- TODO: [AI->HUMAN] Провести опрос стейкхолдеров и уточнить приоритеты.
 
-## 3. Primary users and stakeholders
-- TODO: [HUMAN] Перечень ролей (пользователь, админ, devops и т.д.).
+## 3) Users and stakeholders
+- TODO: [HUMAN] Список ролей и ответственность.
 - TODO: [AI->HUMAN] Таблица pain points по ролям.
 
-## 4. Scope
+## 4) Scope
 ### In scope
-- TODO: [HUMAN] Что точно входит в MVP.
+- TODO: [HUMAN] Что входит в MVP.
 ### Out of scope
-- TODO: [HUMAN] Что точно не делаем в первой версии.
+- TODO: [HUMAN] Что исключено из MVP.
 
-## 5. Functional requirements
-- TODO: [AI] Список use-cases (UC-001...UC-00N).
-- TODO: [AI->HUMAN] Подтвердить приоритеты use-cases.
+## 5) Functional requirements
+- TODO: [AI] Список use-cases (UC-001...UC-N).
+- TODO: [AI->HUMAN] Подтвердить критические сценарии.
 
-## 6. Non-functional requirements
-- TODO: [HUMAN] Требования к производительности.
-- TODO: [HUMAN] Требования к безопасности/комплаенсу.
+## 6) Non-functional requirements
+- TODO: [HUMAN] Security/compliance ограничения.
+- TODO: [HUMAN] Performance/reliability цели.
 - TODO: [AI] Предложить измеримые SLO/SLA.
 
-## 7. Risks and assumptions
-- TODO: [AI->HUMAN] Собрать 5 ключевых рисков и валидационные шаги.
+## 7) Risks and assumptions
+- TODO: [AI->HUMAN] Риски, вероятности, mitigation.
 
-## 8. Open questions
-- TODO: [AI->HUMAN] Список вопросов к стейкхолдерам.
+## 8) Open questions
+- TODO: [AI->HUMAN] Список вопросов к бизнесу/разработке.
