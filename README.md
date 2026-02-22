@@ -1,38 +1,28 @@
 # EnHarnes — universal agent-first repo scaffold
 
-Публичный шаблон, который помогает быстро стартовать проект, даже если на старте ещё неизвестны точные system spec, rules, архитектура и процессы.
+Шаблон репозитория, выровненный под подход Harness Engineering: **Humans steer, agents execute**.
 
-## Главная идея
-Если данных не хватает, **не выдумывать**. Оставляем явный placeholder:
+## Что внутри (каркас agent-first)
+- `AGENTS.md` — короткая карта для агента (не энциклопедия).
+- `ARCHITECTURE.md` — high-level границы и dependency rules.
+- `docs/` — единый versioned источник знаний (specs, design, reliability, security, quality).
+- `scripts/` — воспроизводимые команды запуска, проверок, observability и данных.
+- `tools/` — custom linters, structural tests, agent skills.
+- `.github/workflows/ci.yml` — базовый CI для code+docs проверок.
 
-- `TODO: [HUMAN]` — заполняет человек.
-- `TODO: [AI]` — ИИ может заполнить сам.
-- `TODO: [AI->HUMAN]` — ИИ обязан сначала опросить человека и только потом заполнить.
-
-Для примеров используем только метку:
-- `EXAMPLE (REPLACE ME)` — пример обязателен к замене.
-
-## Что уже есть в шаблоне
-- Пошаговый старт: `QUICKSTART.md`
-- Краткая памятка метода: `METHOD.md`
-- Карта работы для агента: `AGENTS.md`
-- Базовые шаблоны документов: `docs/`
-- Заготовки полезных скриптов: `scripts/`
-- Отдельный сетап тулов (MCP + skills): `tooling/SETUP_TOOLS.md`
-- Полуавтоматическая проверка TODO/примеров: `scripts/custom_linter.py`
-
-## Как начать
-1. Пройти `QUICKSTART.md`.
-2. Заполнить `docs/system-spec.md`.
-3. Заполнить `docs/rules.md`.
-4. Уточнить `docs/architecture.md` + `ARCHITECTURE.md`.
-5. Настроить инструменты по `tooling/SETUP_TOOLS.md`.
-6. Запустить:
+## Быстрый старт
+1. Прочитать `QUICKSTART.md`.
+2. Заполнить policy-слой: `docs/system-spec.md`, `docs/rules.md`.
+3. Заполнить design-слой: `docs/architecture.md`, `docs/adr/`.
+4. Настроить tooling по `tooling/SETUP_TOOLS.md`.
+5. Запустить проверки:
 
 ```bash
 make lint
 make build
 ```
 
-## Внешние референсы
-Ссылки на хорошие внешние гайды собраны в `docs/references.md`.
+## Правила заполнения шаблона
+- TODO только с owner: `[HUMAN]`, `[AI]`, `[AI->HUMAN]`.
+- Любой пример помечать как `EXAMPLE (REPLACE ME)`.
+- Структурные изменения синхронизировать с `ARCHITECTURE.md` и `docs/todo-registry.md`.

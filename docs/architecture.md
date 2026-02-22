@@ -12,14 +12,18 @@
 - TODO: [AI] Основные потоки данных и форматы.
 - TODO: [HUMAN] Подтвердить критические интеграции.
 
-## 4) Quality attributes
+## 4) Observability and operability
+- TODO: [AI] План logs/metrics/traces и health-checks.
+- TODO: [AI->HUMAN] Подтвердить сценарии воспроизведения багов агентом.
+
+## 5) Quality attributes
 - TODO: [HUMAN] Reliability/scalability/security требования.
-- TODO: [AI] Базовый observability план (logs/metrics/traces).
+- TODO: [AI] Базовые quality gates для CI.
 
-## 5) Architecture decision records
+## 6) Architecture decision records
 - TODO: [HUMAN] Создавать ADR в `docs/adr/`.
-- EXAMPLE (REPLACE ME): ADR-001 messaging choice.
+- EXAMPLE (REPLACE ME): ADR-001 dependency direction policy.
 
-## 6) References
+## 7) References
 - https://c4model.com/
 - https://adr.github.io/
