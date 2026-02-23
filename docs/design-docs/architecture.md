@@ -1,29 +1,19 @@
-# Architecture Template
+# Architecture Decisions — Phase 1 Foundation
 
-## 1) Context
-- TODO: [HUMAN] Границы системы и внешние акторы.
-- EXAMPLE (REPLACE ME): C4 Level 1 context.
+## Контекст
+На этом этапе создаётся инфраструктура для разработки с AI coding-агентом без привязки к домену будущего продукта.
 
-## 2) Components/modules
-- TODO: [AI] Предложить модульную декомпозицию.
-- TODO: [AI->HUMAN] Подтвердить ownership зон ответственности.
+## Компоненты
+1. `scripts/` — автоматизируемые шаги проверки и операционных действий.
+2. `tools/` — вспомогательные проверки структуры и зависимостей.
+3. `docs/` — формализованные правила и планы.
 
-## 3) Data flows
-- TODO: [AI] Основные потоки данных и форматы.
-- TODO: [HUMAN] Подтвердить критические интеграции.
+## Поток работы
+1. Человек формулирует задачу и ограничения.
+2. Агент вносит изменение.
+3. Агент запускает проверки и публикует результат.
+4. Человек принимает решение о merge.
 
-## 4) Observability and operability
-- TODO: [AI] План logs/metrics/traces и health-checks.
-- TODO: [AI->HUMAN] Подтвердить сценарии воспроизведения багов агентом.
-
-## 5) Quality attributes
-- TODO: [HUMAN] Reliability/scalability/security требования.
-- TODO: [AI] Базовые quality gates для CI.
-
-## 6) Architecture decision records
-- TODO: [HUMAN] Создавать ADR в `docs/adr/`.
-- EXAMPLE (REPLACE ME): ADR-001 dependency direction policy.
-
-## 7) References
-- https://c4model.com/
-- https://adr.github.io/
+## Открытые архитектурные вопросы
+- TODO: [HUMAN] Определить target runtime для будущего сервиса.
+- TODO: [AI->HUMAN] Предложить стратегию модульности после определения домена.
