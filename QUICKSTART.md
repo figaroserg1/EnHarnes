@@ -6,11 +6,11 @@
 - `AGENTS.md`
 
 ## Шаг 1. Зафиксировать цель и рамки
-- Заполни `docs/system-spec.md`.
-- Заполни `docs/rules.md`.
+- Заполни `docs/design-docs/system-spec.md`.
+- Заполни `docs/design-docs/rules.md`.
 
 ## Шаг 2. Зафиксировать архитектуру
-- Заполни `docs/architecture.md`.
+- Заполни `docs/design-docs/architecture.md`.
 - Синхронизируй high-level карту в `ARCHITECTURE.md`.
 - Добавляй решения в `docs/adr/`.
 

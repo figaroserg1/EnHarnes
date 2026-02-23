@@ -4,10 +4,10 @@
 
 | ID | File | TODO summary | Owner | Status |
 |---|---|---|---|---|
-| T-001 | docs/system-spec.md | Заполнить Project identity и scope | HUMAN | OPEN |
-| T-002 | docs/system-spec.md | Подтвердить stakeholder inputs и open questions | AI->HUMAN | OPEN |
-| T-003 | docs/rules.md | Зафиксировать product/engineering/AI policy | HUMAN | OPEN |
-| T-004 | docs/architecture.md | Уточнить module decomposition и data flows | AI | OPEN |
+| T-001 | docs/design-docs/system-spec.md | Заполнить Project identity и scope | HUMAN | OPEN |
+| T-002 | docs/design-docs/system-spec.md | Подтвердить stakeholder inputs и open questions | AI->HUMAN | OPEN |
+| T-003 | docs/design-docs/rules.md | Зафиксировать product/engineering/AI policy | HUMAN | OPEN |
+| T-004 | docs/design-docs/architecture.md | Уточнить module decomposition и data flows | AI | OPEN |
 | T-005 | ARCHITECTURE.md | Добавить dependency fitness checks в linter | AI | OPEN |
 | T-006 | docs/RELIABILITY.md | Утвердить SLO/error budget policy | HUMAN | OPEN |
 | T-007 | docs/SECURITY.md | Утвердить security/compliance baseline | HUMAN | OPEN |

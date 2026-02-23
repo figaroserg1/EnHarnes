@@ -12,8 +12,8 @@
 
 ## Быстрый старт
 1. Прочитать `QUICKSTART.md`.
-2. Заполнить policy-слой: `docs/system-spec.md`, `docs/rules.md`.
-3. Заполнить design-слой: `docs/architecture.md`, `docs/adr/`.
+2. Заполнить policy-слой: `docs/design-docs/system-spec.md`, `docs/design-docs/rules.md`.
+3. Заполнить design-слой: `docs/design-docs/architecture.md`, `docs/adr/`.
 4. Настроить tooling по `tooling/SETUP_TOOLS.md`.
 5. Запустить проверки:
 

@@ -11,8 +11,8 @@
 - `examples/` — демонстрационные артефакты `EXAMPLE (REPLACE ME)`.
 
 ## Layering
-- **Policy layer**: `docs/system-spec.md`, `docs/rules.md`, `docs/product-specs/`.
-- **Design layer**: `docs/architecture.md`, `docs/design-docs/`, `docs/adr/`.
+- **Policy layer**: `docs/design-docs/system-spec.md`, `docs/design-docs/rules.md`, `docs/product-specs/`.
+- **Design layer**: `docs/design-docs/architecture.md`, `docs/design-docs/`, `docs/adr/`.
 - **Execution layer**: `scripts/`, `.github/workflows/`, `tooling/`, `tools/`, `docs/WORKTREE_WORKFLOW.md`.
 - **Quality & risk layer**: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/QUALITY_SCORE.md`.
 - **Planning layer**: `docs/PLANS.md`, `docs/exec-plans/`.
