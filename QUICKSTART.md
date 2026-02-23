@@ -1,38 +1,23 @@
-# QUICKSTART: запуск scaffold по Harness Engineering
+# QUICKSTART: старт Phase 1
 
-## Шаг 0. Прочитать основу
+## 1. Изучи рамки работы
+- `README.md`
 - `METHOD.md`
-- `approach.md`
 - `AGENTS.md`
 
-## Шаг 1. Зафиксировать цель и рамки
-- Заполни `docs/design-docs/system-spec.md`.
-- Заполни `docs/design-docs/rules.md`.
-
-## Шаг 2. Зафиксировать архитектуру
-- Заполни `docs/design-docs/architecture.md`.
-- Синхронизируй high-level карту в `ARCHITECTURE.md`.
-- Добавляй решения в `docs/adr/`.
-
-## Шаг 3. Настроить выполняемые команды для агента
-- `scripts/dev-start.sh`
-- `scripts/lint-all.sh`
-- `scripts/test-all.sh`
-- `scripts/seed-dev-data.sh`
-- `scripts/obs-up.sh` / `scripts/obs-down.sh`
-
-## Шаг 4. Подготовить docs как single source of truth
-- Product: `docs/product-specs/`
-- Design: `docs/design-docs/`
-- Reliability/Security/Quality: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/QUALITY_SCORE.md`
-- Планы: `docs/PLANS.md`, `docs/exec-plans/`
-
-## Шаг 5. Прогнать проверки
+## 2. Запусти базовые проверки
 ```bash
 make lint
 make build
-bash scripts/test-all.sh
+make test
 ```
 
-## Шаг 6. Синхронизировать реестр TODO
-- Обнови `docs/todo-registry.md`.
+## 3. Проверь обязательные документы фазы
+- `docs/design-docs/system-spec.md`
+- `docs/design-docs/rules.md`
+- `docs/design-docs/architecture.md`
+- `docs/PLANS.md`
+
+## 4. Актуализируй TODO по домену
+- TODO: [HUMAN] Подтвердить приоритетную проблему, которую решает будущий продукт.
+- TODO: [AI] Обновить реестр TODO после изменения документов.

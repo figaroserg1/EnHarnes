@@ -10,7 +10,7 @@ mkdir -p "$DIST_DIR"
 {
   echo "# Project handbook (generated)"
   echo
-  echo "_Generated from scaffold core docs._"
+  echo "_Generated from core Phase 1 docs._"
   echo
   for f in \
     "$ROOT_DIR/README.md" \

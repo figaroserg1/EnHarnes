@@ -1,37 +1,26 @@
-# System Specification Template
+# System Specification — Phase 1
 
-> Заполни этот файл до старта активной разработки.
-
-## 1) Project identity
-- TODO: [HUMAN] Название, кодовое имя, владелец продукта.
-- TODO: [HUMAN] Короткое описание системы (1–2 предложения).
-- EXAMPLE (REPLACE ME): "Internal platform for AI-assisted project delivery".
+## 1) Mission for current phase
+- Построить инфраструктуру инженерного цикла для AI coding-агента.
+- Сохранить независимость от конкретного домена до завершения discovery.
 
 ## 2) Problem statement
-- TODO: [AI] Подготовить черновик problem statement.
-- TODO: [AI->HUMAN] Провести опрос стейкхолдеров и уточнить приоритеты.
+- TODO: [HUMAN] Определить бизнес-проблему, которую решает продукт.
+- TODO: [AI] Подготовить варианты problem framing после интервью со стейкхолдерами.
 
-## 3) Users and stakeholders
-- TODO: [HUMAN] Список ролей и ответственность.
-- TODO: [AI->HUMAN] Таблица pain points по ролям.
+## 3) Stakeholders
+- TODO: [HUMAN] Назначить владельца продукта и технического владельца.
+- TODO: [AI->HUMAN] Уточнить список ролей, которые будут работать с агентом.
 
-## 4) Scope
-### In scope
-- TODO: [HUMAN] Что входит в MVP.
-### Out of scope
-- TODO: [HUMAN] Что исключено из MVP.
+## 4) Scope boundaries
+### In scope now
+- CI/локальные проверки (lint/build/test).
+- Документированный процесс внесения изменений агентом.
 
-## 5) Functional requirements
-- TODO: [AI] Список use-cases (UC-001...UC-N).
-- TODO: [AI->HUMAN] Подтвердить критические сценарии.
+### Out of scope now
+- Конкретная бизнес-логика продукта.
+- Доменные интеграции и production rollout.
 
-## 6) Non-functional requirements
-- TODO: [HUMAN] Security/compliance ограничения.
-- TODO: [HUMAN] Performance/reliability цели.
-- TODO: [AI] Предложить измеримые SLO/SLA.
-
-## 7) Risks and assumptions
-- TODO: [AI->HUMAN] Риски, вероятности, mitigation.
-
-## 8) Open questions
-- TODO: [AI->HUMAN] Список вопросов к бизнесу/разработке.
+## 5) Quality goals
+- TODO: [HUMAN] Утвердить критерии готовности Phase 1.
+- TODO: [AI] Предложить измеримые метрики качества контуров разработки.

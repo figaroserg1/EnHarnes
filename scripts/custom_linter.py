@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scaffold linter for markdown templates.
+"""Markdown linter for Phase 1 docs.
 
 Checks:
 1) Every line containing TODO: has owner marker [HUMAN|AI|AI->HUMAN].
@@ -26,9 +26,9 @@ for file_path in ROOT.rglob("*.md"):
             errors.append(f"{file_path.relative_to(ROOT)}:{idx} EXAMPLE without 'REPLACE ME'")
 
 if errors:
-    print("Scaffold lint errors:")
+    print("Documentation lint errors:")
     for err in errors:
         print(f"  - {err}")
     sys.exit(1)
 
-print("OK: scaffold lint checks passed")
+print("OK: documentation lint checks passed")

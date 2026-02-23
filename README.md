@@ -1,28 +1,28 @@
-# EnHarnes — universal agent-first repo scaffold
+# EnHarnes — Phase 1: AI Coding Agent Infrastructure
 
-Шаблон репозитория, выровненный под подход Harness Engineering: **Humans steer, agents execute**.
+Репозиторий переведён в стартовую фазу проекта: мы строим инфраструктуру для инженерного цикла с AI coding-агентом по подходу Harness Engineering ("Humans steer, agents execute").
 
-## Что внутри (каркас agent-first)
-- `AGENTS.md` — короткая карта для агента (не энциклопедия).
-- `ARCHITECTURE.md` — high-level границы и dependency rules.
-- `docs/` — единый versioned источник знаний (specs, design, reliability, security, quality).
-- `scripts/` — воспроизводимые команды запуска, проверок, observability и данных.
-- `tools/` — custom linters, structural tests, agent skills.
-- `.github/workflows/ci.yml` — базовый CI для code+docs проверок.
+## Текущий фокус
+- Описать рабочий контур агента, роли человека и гарантии безопасности.
+- Подготовить минимально-исполняемую инфраструктуру для lint/build/test/doc-check циклов.
+- Зафиксировать TODO по продуктовой специфике, которая будет определена позже.
 
-## Быстрый старт
-1. Прочитать `QUICKSTART.md`.
-2. Заполнить policy-слой: `docs/design-docs/system-spec.md`, `docs/design-docs/rules.md`.
-3. Заполнить design-слой: `docs/design-docs/architecture.md`, `docs/adr/`.
-4. Настроить tooling по `tooling/SETUP_TOOLS.md`.
-5. Запустить проверки:
+## Карта репозитория
+- `AGENTS.md` — краткие правила и навигация для агента.
+- `METHOD.md` — рабочий метод и loop взаимодействия человека и агента.
+- `ARCHITECTURE.md` — high-level устройство текущей фазы.
+- `docs/` — живой source of truth (policy, design, reliability, security, execution plans).
+- `scripts/` — исполняемые команды для локальной разработки и проверок.
+- `tools/` — инфраструктурные линтеры и служебные инструменты.
 
+## Что пока неизвестно
+- TODO: [HUMAN] Зафиксировать домен и продуктовую цель Phase 2.
+- TODO: [HUMAN] Утвердить стек runtime и целевую платформу деплоя.
+- TODO: [AI->HUMAN] Предложить стартовый backlog после discovery.
+
+## Базовые команды
 ```bash
 make lint
 make build
+make test
 ```
-
-## Правила заполнения шаблона
-- TODO только с owner: `[HUMAN]`, `[AI]`, `[AI->HUMAN]`.
-- Любой пример помечать как `EXAMPLE (REPLACE ME)`.
-- Структурные изменения синхронизировать с `ARCHITECTURE.md` и `docs/todo-registry.md`.
