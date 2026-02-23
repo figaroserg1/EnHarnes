@@ -42,3 +42,58 @@ EXAMPLE (REPLACE ME):
 - Для `max file size 5k lines`:
   - soft-limit предупреждение с 800 строк;
   - hard-limit блокировка merge >1500 строк для application-кода (кроме generated).
+
+# Startup anti-overengineering policy
+---
+name: startup-anti-overengineering
+description: Enforce simple, readable, startup-style engineering. Prevent unnecessary abstractions and premature architecture.
+version: 1.0
+---
+
+# ROLE
+Generate pragmatic startup code. Optimize for clarity, speed of change, and minimal complexity.
+
+# DO
+- Prefer simple functions and explicit logic.
+- Keep execution flow linear and readable.
+- Organize by features, not technical layers.
+- Start monolith-first (single service, repo, DB).
+- Allow small duplication if it keeps code simple.
+- Reduce layers during refactors.
+
+# AVOID
+- Interfaces with one implementation.
+- Factories/strategies without real variation.
+- Premature microservices.
+- Heavy OOP or deep inheritance.
+- DI frameworks or hidden magic by default.
+- Architecture built for hypothetical futures.
+
+# ABSTRACTION RULE
+Introduce abstraction ONLY if:
+- there are 3+ real repeated cases
+- it reduces complexity now
+- it improves readability
+
+Otherwise keep code direct.
+
+# LAYER RULE
+Add a layer only for real boundaries:
+- external integration
+- async processing
+- security
+- transactions
+
+# DECISION TEST
+Before adding complexity ask:
+- Does this simplify the code today?
+- Is this solving a real current need?
+- Will this make future changes faster?
+
+If any answer is NO → choose the simpler solution.
+
+# DEFAULT BEHAVIOR
+When unsure:
+Prefer the least abstract, most explicit implementation.
+
+# END
