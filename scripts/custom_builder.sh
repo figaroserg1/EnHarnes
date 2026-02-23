@@ -17,9 +17,9 @@ mkdir -p "$DIST_DIR"
     "$ROOT_DIR/METHOD.md" \
     "$ROOT_DIR/QUICKSTART.md" \
     "$ROOT_DIR/ARCHITECTURE.md" \
-    "$ROOT_DIR/docs/system-spec.md" \
-    "$ROOT_DIR/docs/rules.md" \
-    "$ROOT_DIR/docs/architecture.md"; do
+    "$ROOT_DIR/docs/design-docs/system-spec.md" \
+    "$ROOT_DIR/docs/design-docs/rules.md" \
+    "$ROOT_DIR/docs/design-docs/architecture.md"; do
     echo "\n---\n"
     echo "## Source: ${f#$ROOT_DIR/}"
     echo
