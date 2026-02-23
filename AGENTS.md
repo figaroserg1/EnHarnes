@@ -30,5 +30,5 @@
 ## Когда читать отдельные инструкции по разработке шаблона
 Если задача изменяет сам scaffold (структуру репозитория, правила шаблона, базовые скрипты/документы для будущих проектов), сначала открой `docs/TEMPLATE_MAINTENANCE.md` и следуй ему.
 
-## ExecPlans
-Для сложных фич и рефакторингов используй ExecPlan по `.agent/PLANS.md`.
+# ExecPlans
+When writing complex features or significant refactors, use an ExecPlan (as described in docs/PLANS.md) from design to implementation.
