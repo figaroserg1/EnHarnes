@@ -15,10 +15,10 @@
 | T-009 | scripts/dev-start.sh | Заменить заглушку на реальный запуск приложения | HUMAN | OPEN |
 | T-010 | scripts/obs-up.sh | Подключить локальный observability stack | AI | OPEN |
 | T-011 | docs/exec-plans/tech-debt-tracker.md | Заполнить первый техдолг после discovery | AI->HUMAN | OPEN |
-| T-012 | OBSERVABILITY.md | Уточнить ключевые метрики и критичные user journeys | AI->HUMAN | OPEN |
-| T-013 | GOLDEN_PRINCIPLES.md | Зафиксировать golden principles и привязать к lint checks | HUMAN | OPEN |
-| T-014 | SKILLS.md | Поддерживать skills registry синхронизированным с MCP setup | AI | OPEN |
-| T-015 | WORKTREE_WORKFLOW.md | Формализовать isolated instance workflow для worktree | AI | OPEN |
+| T-012 | docs/OBSERVABILITY.md | Уточнить ключевые метрики и критичные user journeys | AI->HUMAN | OPEN |
+| T-013 | docs/GOLDEN_PRINCIPLES.md | Зафиксировать golden principles и привязать к lint checks | HUMAN | OPEN |
+| T-014 | docs/AGENT_CAPABILITIES.md | Поддерживать skills registry синхронизированным с MCP setup | AI | OPEN |
+| T-015 | docs/WORKTREE_WORKFLOW.md | Формализовать isolated instance workflow для worktree | AI | OPEN |
 | T-016 | docs/observability/queries.md | Уточнить logging/metrics stack и рабочие запросы | AI->HUMAN | OPEN |
 | T-017 | scripts/agent_self_review.sh | Добавить observability checks в pre-PR self-review | AI | OPEN |
 | T-018 | scripts/doc_gardener.sh | Реализовать авто-проверки ссылок/TODO/indexes | AI | OPEN |

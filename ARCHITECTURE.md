@@ -6,14 +6,14 @@
 - `docs/` — source of truth для policy/design/reliability/security/quality/планов.
 - `docs/observability/` — запросы и шаблоны проверок для logs/metrics/traces.
 - `scripts/` — воспроизводимые команды запуска, проверки, observability, сидирования.
-- `OBSERVABILITY.md`, `GOLDEN_PRINCIPLES.md`, `SKILLS.md`, `WORKTREE_WORKFLOW.md` — advanced harness layer для агентных процессов.
+- `docs/OBSERVABILITY.md`, `docs/GOLDEN_PRINCIPLES.md`, `docs/AGENT_CAPABILITIES.md`, `docs/WORKTREE_WORKFLOW.md` — advanced harness layer для агентных процессов.
 - `tools/` — custom linters, structural tests, agent skills, registries.
 - `examples/` — демонстрационные артефакты `EXAMPLE (REPLACE ME)`.
 
 ## Layering
 - **Policy layer**: `docs/system-spec.md`, `docs/rules.md`, `docs/product-specs/`.
 - **Design layer**: `docs/architecture.md`, `docs/design-docs/`, `docs/adr/`.
-- **Execution layer**: `scripts/`, `.github/workflows/`, `tooling/`, `tools/`, `WORKTREE_WORKFLOW.md`.
+- **Execution layer**: `scripts/`, `.github/workflows/`, `tooling/`, `tools/`, `docs/WORKTREE_WORKFLOW.md`.
 - **Quality & risk layer**: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/QUALITY_SCORE.md`.
 - **Planning layer**: `docs/PLANS.md`, `docs/exec-plans/`.
 
