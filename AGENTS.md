@@ -1,11 +1,6 @@
 # AGENTS.md
 
-Короткая карта для кодовых агентов, которые используют этот репозиторий как шаблон.
-
-## Mission
-Поддерживать репозиторий как универсальный scaffold для agent-first разработки.
-
-## Эталонная структура
+## Cтруктура проекта
 - `AGENTS.md`
 - `ARCHITECTURE.md`
 - `docs/design-docs/` — design и policy-документы (`index.md`, `core-beliefs.md`, `system-spec.md`, `rules.md`, `architecture.md`)
