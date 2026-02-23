@@ -1,4 +1,4 @@
-# SKILLS REGISTRY
+# AGENT CAPABILITIES REGISTRY
 
 Агент может использовать:
 
