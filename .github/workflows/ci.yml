@@ -13,7 +13,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Lint scaffold
-        run: make lint
-      - name: Build handbook
-        run: make build
+      - name: Install dependencies
+        run: pip install pytest
+      - name: Static checks (lint + source guard)
+        run: make check
+      - name: Structural tests (layer boundaries)
+        run: make structural
+      - name: Full test suite
+        run: make test

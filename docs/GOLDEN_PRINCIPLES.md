@@ -1,99 +1,89 @@
-# GOLDEN PRINCIPLES
+# Golden Principles
 
-Это не советы. Это инварианты.
+These are mechanical invariants, not advice.
+Every rule here maps directly to a linter check or structural test.
+If a principle cannot be enforced automatically, it belongs in `docs/design-docs/rules.md` instead.
 
-- TODO: [HUMAN] Определить и зафиксировать ключевые архитектурные принципы.
-- TODO: [AI] Использовать этот документ как источник правил для автоматических линтеров.
+ ---
 
-EXAMPLE (REPLACE ME):
-- structured logging only;
-- no business logic in UI layer;
-- max file size 5k lines.
+## Structural Rules
 
-## AI Draft: baseline best practices
+**1. Layered imports only flow downward.**
+`Types → Config → Repo → Service → Runtime → UI`
+Cross-cutting concerns go through `Providers` only.
+Enforced by: `tools/structural-tests/test_layer_dependencies.py`
 
-> Этот блок можно использовать как стартовую точку до утверждения финальных принципов.
+**2. Validate at layer boundaries. Never inside.**
+Data entering the system (API, queue, CLI) is validated at the boundary.
+Inside the system, code works with already-valid typed models — no defensive re-parsing.
+Enforced by: structural test + code review gate.
 
-1. **Single source of truth for business rules**
-   - Доменная логика живёт в одном слое (domain/service), а не дублируется между UI, API и jobs.
-2. **Fail fast на границах системы**
-   - Валидация входа на boundary (API, queue consumer, CLI), внутри системы — работа с уже валидными моделями.
-3. **Observability-by-default**
-   - Каждая важная операция имеет структурированный лог, метрики latency/error rate и trace-id.
-4. **Secure-by-default**
-   - Принцип минимальных привилегий, безопасные значения по умолчанию, секреты только через secret manager.
-5. **Idempotency for side effects**
-   - Любые повторяемые вызовы (webhook, job retry, payment callback) проектируются идемпотентными.
-6. **Backward compatibility first**
-   - Контракты (API/events/schema) меняются через versioning + deprecation window.
-7. **Small, reversible changes**
-   - Изменения дробятся на небольшие PR с feature flags и понятным rollback-путём.
-8. **Automation over tribal knowledge**
-   - Обязательные проверки (lint/tests/docs checks/security scan) автоматизированы в CI, а не зависят от памяти команды.
+**3. No business logic in the UI layer.**
+UI modules (`src/UI/`) may not import from `src/Repo/` directly.
+Computation and branching belong in `Service` or `Runtime`.
+Enforced by: `tools/linters/dependency_guard.py`
 
-## AI Draft: mapping принципов в проверяемые правила
+**4. Structured logging only. No bare print statements in production code.**
+Every log line must include: `service`, `env`, `trace_id`, `operation`, `result`.
+Enforced by: `scripts/custom_linter.py` (extend to cover print detection)
 
-- Для `structured logging only`:
-  - запрет неструктурированных `print`/`console.log` в production-коде;
-  - обязательные поля `service`, `env`, `trace_id`, `operation`, `result`.
-- Для `no business logic in UI layer`:
-  - архитектурное правило линтера: UI-модули не импортируют domain repositories напрямую;
-  - проверка PR: бизнес-ветвления и расчёты выносятся в use-case/service.
-- Для `max file size 5k lines`:
-  - soft-limit предупреждение с 800 строк;
-  - hard-limit блокировка merge >1500 строк для application-кода (кроме generated).
+**5. Max file size: 500 lines soft limit, 1500 lines hard limit.**
+Files above 500 lines get a warning. Above 1500 lines blocks merge (except `generated/`).
+Enforced by: `scripts/custom_linter.py` (add file-size check)
 
-# Startup anti-overengineering policy
----
-name: startup-anti-overengineering
-description: Enforce simple, readable, startup-style engineering. Prevent unnecessary abstractions and premature architecture.
-version: 1.0
+**6. Every TODO in a markdown file must have an owner tag.**
+Format: `TODO: [HUMAN]`, `TODO: [AI]`, or `TODO: [AI->HUMAN]`
+Enforced by: `scripts/custom_linter.py`
+
+
 ---
 
-# ROLE
-Generate pragmatic startup code. Optimize for clarity, speed of change, and minimal complexity.
+**7. No direct data probing or dynamic shape guessing.**
+Code must not infer data structure via ad-hoc property access or trial parsing.
+Allowed sources of truth: typed SDKs, validated schemas, shared model utilities.
+Forbidden patterns include inline shape probing (`obj["maybe"]`, deep optional chaining without types, manual JSON guessing).
+Purpose: prevent AI from building logic on unstable assumptions.
+Enforced by: `scripts/custom_linter.py` (AST rule scanning dynamic key access outside schema modules)
 
-# DO
-- Prefer simple functions and explicit logic.
-- Keep execution flow linear and readable.
-- Organize by features, not technical layers.
-- Start monolith-first (single service, repo, DB).
-- Allow small duplication if it keeps code simple.
-- Reduce layers during refactors.
+---
 
-# AVOID
-- Interfaces with one implementation.
-- Factories/strategies without real variation.
-- Premature microservices.
-- Heavy OOP or deep inheritance.
-- DI frameworks or hidden magic by default.
-- Architecture built for hypothetical futures.
+**8. Shared utilities over local helpers.**
+If a function duplicates logic already present in `src/utils/` or shared packages, it must reuse the existing implementation.
+Local helper duplication increases entropy and breaks invariants.
+Enforced by: `tools/structural-tests/test_duplicate_helpers.py` (similarity scan or import whitelist)
 
-# ABSTRACTION RULE
-Introduce abstraction ONLY if:
-- there are 3+ real repeated cases
-- it reduces complexity now
-- it improves readability
+---
 
-Otherwise keep code direct.
+**9. Idempotent external side-effects only.**
+Modules interacting with external systems (webhooks, queues, payments, async jobs) must expose an idempotency mechanism (`idempotency_key`, retry-safe handler, or deduplication guard).
+Enforced by: `tools/structural-tests/test_side_effect_patterns.py` (scan Runtime/Service layers for external clients without idempotency wrapper)
 
-# LAYER RULE
-Add a layer only for real boundaries:
-- external integration
-- async processing
-- security
-- transactions
+---
 
-# DECISION TEST
-Before adding complexity ask:
-- Does this simplify the code today?
-- Is this solving a real current need?
-- Will this make future changes faster?
+**10. Trace context propagation required across async boundaries.**
+Any async job, queue handler, or background task must propagate `trace_id` or equivalent context field.
+Purpose: maintain observability consistency for agent-generated code.
+Enforced by: `scripts/custom_linter.py` (check function signatures or logging context usage)
 
-If any answer is NO → choose the simpler solution.
+---
 
-# DEFAULT BEHAVIOR
-When unsure:
-Prefer the least abstract, most explicit implementation.
+**11. Public contracts must be versioned or additive-only.**
+Changes to API routes, events, or shared schemas must be additive or versioned (`v1`, `v2`, etc.).
+Breaking changes without explicit version namespace are disallowed.
+Enforced by: `tools/structural-tests/test_contract_changes.py` (diff-based schema/API check)
 
-# END
+---
+
+**12. Providers are the only allowed cross-cutting abstraction layer.**
+Shared concerns such as auth, config loading, logging, tracing, or secrets must be accessed via `Providers`.
+Direct cross-layer imports to implement cross-cutting logic are forbidden.
+Enforced by: `tools/linters/dependency_guard.py`
+
+---
+
+---
+
+## What Is Not Here
+
+Developer philosophy (avoid overengineering, prefer simple functions, start monolith-first)
+lives in `docs/design-docs/rules.md`. It guides judgment — it is not a linter rule.

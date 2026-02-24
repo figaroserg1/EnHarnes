@@ -7,3 +7,16 @@
 - Moved layered skeleton from src/app_settings to src/<Layer> as requested.
 - Updated structural dependency test to scan src root layer folders directly.
 - Added requirements.txt with pytest and printdirtree; added AGENTS.md rule to use printdirtree for docs/tree updates.
+- Second-pass gap review completed and implemented:
+  - Repurposed tools/linters/dependency_guard.py: was dead code (infra/domain check against non-existent layers).
+    Now enforces Golden Principles 4 and 5: print() detection and file-size limits in src/ Python files.
+  - Makefile: fixed make ci to just call make test (was calling check+structural+test, running check/structural twice).
+    Added targets for all previously orphaned scripts: review, dev, obs-up, obs-down, seed, gardener.
+  - Simplified agent_self_review.sh: removed redundant make check / make structural calls (make test covers both).
+  - Deleted dead scripts: lint-all.sh (superseded by make check), test-all.sh (superseded by make test),
+    obs_up.sh and obs_down.sh (underscore duplicates of hyphen-named versions).
+  - Created scripts/harness/lint.sh and scripts/harness/typecheck.sh (portable auto-detect harness scripts).
+  - Updated make check to delegate to scripts/harness/lint.sh.
+  - Simplified CI workflow to run single make test step (was 3 steps that re-ran check/structural redundantly).
+  - Added .coderabbit.yaml (AI-assisted PR review, non-blocking, chill profile).
+  - Added docs/design-docs/ci-enforcement-and-risk-policy.md (agent-facing rationale for CI gate structure).

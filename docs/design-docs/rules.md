@@ -18,3 +18,26 @@
 ## 4) Documentation rules
 - Все неизвестные части будущего продукта оформляются как TODO с владельцем.
 - TODO: [AI] Поддерживать консистентность между `README.md`, `METHOD.md`, `ARCHITECTURE.md`.
+
+---
+
+## 5) Engineering philosophy (judgment, not linter rules)
+
+Prefer simple functions and explicit logic over abstractions.
+Keep execution flow linear and readable.
+Start monolith-first: single service, single repo, single DB.
+Allow small duplication if it keeps code simple.
+
+Introduce abstraction only when all three are true:
+- 3+ real repeated cases exist now
+- it reduces complexity now
+- it improves readability now
+
+Add a new architectural layer only for real boundaries:
+- external integration
+- async processing
+- security boundary
+- transaction scope
+
+Before adding complexity: does this simplify the code today?
+Is this solving a real current need? If any answer is NO — choose the simpler solution.
