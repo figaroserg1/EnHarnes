@@ -1,0 +1,5 @@
+2026-02-23
+- Added layered Python domain skeleton under src/app_settings according to ARCHITECTURE.md.
+- Implemented structural dependency tests (ArchUnit-style for Python via pytest workflow).
+- Demonstrated red/green flow: created intentional cycle Types->Config->Types, confirmed failure, then fixed.
+- Wired structural tests into scripts/test-all.sh through scripts/structural-tests.sh.

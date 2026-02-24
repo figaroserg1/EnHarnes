@@ -3,5 +3,6 @@ set -euo pipefail
 
 make lint
 make build
+bash scripts/structural-tests.sh
 
-echo "TODO: [AI] Добавить запуск unit/integration/e2e тестов по мере появления кода"
+echo "OK: base test suite completed (including structural dependency checks)"
