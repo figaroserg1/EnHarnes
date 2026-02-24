@@ -1,6 +1,6 @@
 """UI layer adapters."""
 
-from app_settings.Runtime.runtime import get_runtime_payload
+from Runtime.runtime import get_runtime_payload
 
 
 def render_payload() -> dict:

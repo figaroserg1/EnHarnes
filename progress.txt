@@ -3,3 +3,7 @@
 - Implemented structural dependency tests (ArchUnit-style for Python via pytest workflow).
 - Demonstrated red/green flow: created intentional cycle Types->Config->Types, confirmed failure, then fixed.
 - Wired structural tests into scripts/test-all.sh through scripts/structural-tests.sh.
+2026-02-24
+- Moved layered skeleton from src/app_settings to src/<Layer> as requested.
+- Updated structural dependency test to scan src root layer folders directly.
+- Added requirements.txt with pytest and printdirtree; added AGENTS.md rule to use printdirtree for docs/tree updates.

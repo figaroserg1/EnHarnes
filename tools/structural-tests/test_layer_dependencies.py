@@ -6,7 +6,7 @@ import ast
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC_DOMAIN = ROOT / "src" / "app_settings"
+SRC_DOMAIN = ROOT / "src"
 LAYERS = ("Types", "Config", "Repo", "Service", "Runtime", "UI", "Providers")
 
 ALLOWED_LAYER_IMPORTS: dict[str, set[str]] = {
@@ -28,21 +28,22 @@ def _layer_for_file(path: Path) -> str | None:
     return layer if layer in LAYERS else None
 
 
+def _module_root(module_name: str) -> str:
+    return module_name.split(".")[0]
+
+
 def _parse_imported_layers(path: Path) -> set[str]:
     imported: set[str] = set()
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
 
     for node in ast.walk(tree):
-        if isinstance(node, ast.ImportFrom) and node.module and node.module.startswith("app_settings."):
-            parts = node.module.split(".")
-            if len(parts) > 1 and parts[1] in LAYERS:
-                imported.add(parts[1])
+        if isinstance(node, ast.ImportFrom) and node.module and _module_root(node.module) in LAYERS:
+            imported.add(_module_root(node.module))
         elif isinstance(node, ast.Import):
             for alias in node.names:
-                if alias.name.startswith("app_settings."):
-                    parts = alias.name.split(".")
-                    if len(parts) > 1 and parts[1] in LAYERS:
-                        imported.add(parts[1])
+                root = _module_root(alias.name)
+                if root in LAYERS:
+                    imported.add(root)
 
     return imported
 
