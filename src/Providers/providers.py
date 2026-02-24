@@ -1,6 +1,6 @@
 """Cross-cutting providers entrypoint."""
 
-from app_settings.Service.service import build_runtime_settings
+from Service.service import build_runtime_settings
 
 
 def provide_feature_flags() -> dict:
