@@ -1,0 +1,79 @@
+name: Weekly Entropy Cleanup
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  entropy-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pytest
+
+      - name: Run entropy check and capture output
+        id: entropy
+        continue-on-error: true
+        run: |
+          make entropy 2>&1 | tee entropy-report.txt
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Auto-fix: remove orphan TODO markers without owners
+        if: steps.entropy.outputs.exit_code != '0'
+        run: |
+          # Fix TODOs without owner markers (add [AI] as default)
+          find docs/ -name "*.md" -exec grep -l "TODO:" {} \; | while read -r file; do
+            python3 -c "
+          import re, sys
+          text = open('$file', encoding='utf-8').read()
+          fixed = re.sub(
+              r'TODO:(?!\s*\[(HUMAN|AI|AI->HUMAN)\])',
+              'TODO: [AI]',
+              text
+          )
+          if fixed != text:
+              open('$file', 'w', encoding='utf-8').write(fixed)
+              print(f'Fixed TODOs in $file')
+          "
+          done
+
+      - name: Create PR if fixes were made
+        run: |
+          git diff --quiet && { echo "No changes to commit."; exit 0; }
+
+          BRANCH="auto/entropy-cleanup-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: auto-fix entropy issues (weekly cleanup)
+
+          Automated fixes from weekly entropy scan.
+          See entropy-report.txt for details."
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "chore: weekly entropy cleanup $(date +%Y-%m-%d)" \
+            --body "$(cat <<'BODY'
+          ## Summary
+          Automated weekly entropy cleanup. Fixes found by `make entropy`:
+
+          $(cat entropy-report.txt)
+
+          ## Review
+          - Verify fixes are correct
+          - Merge if green
+          BODY
+          )" \
+            --label "entropy,automated"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

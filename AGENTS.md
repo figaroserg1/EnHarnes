@@ -41,6 +41,12 @@ Navigation map for agents. Single source of truth is `docs/`. Do not invent outs
 | Reliability / Security | `docs/RELIABILITY.md`, `docs/SECURITY.md` |
 | Product specs | `docs/product-specs/` |
 | DB schema (auto-updated) | `docs/generated/db-schema.md` |
+| Browser automation guide | `docs/BROWSER_AUTOMATION.md` |
+| Worktree workflow | `docs/WORKTREE_WORKFLOW.md` |
+| Harness checklist | `docs/CHECKLIST.md` |
+| Deep research backlog | `docs/DEEP_RESEARCH.md` |
+| Metrics evaluation harness | `scripts/measure_metrics.py` |
+| Observability module | `scripts/obs.py` |
 | Scripts | `scripts/` |
 | Linters + structural tests | `tools/` |
 

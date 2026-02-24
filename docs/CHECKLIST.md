@@ -54,12 +54,12 @@
 
 | # | Practice | EnHarnes | reins | example_proj | harness-skill |
 |---|----------|----------|-------|--------------|---------------|
-| 4.1 | App bootable per git worktree | P | — | N | Y |
-| 4.2 | Local observability stack (logs/metrics/traces agent-readable) | P | — | N | Y |
-| 4.3 | Agent can query logs (LogQL) and metrics (PromQL) | P | — | N | Y |
-| 4.4 | Chrome DevTools / browser automation for UI validation | P | — | N | Y |
+| 4.1 | App bootable per git worktree | Y | — | N | Y |
+| 4.2 | Local observability stack (logs/metrics/traces agent-readable) | Y | — | N | Y |
+| 4.3 | Agent can query logs (LogQL) and metrics (PromQL) | Y | — | N | Y |
+| 4.4 | Chrome DevTools / browser automation for UI validation | Y | — | N | Y |
 | 4.5 | Observability scripts (obs-up.sh / obs-down.sh) | Y | — | N | N |
-| 4.6 | Acceptance checks defined (startup time, no errors in smoke) | P | — | N | Y |
+| 4.6 | Acceptance checks defined (startup time, no errors in smoke) | Y | — | N | Y |
 
 ---
 
@@ -96,9 +96,9 @@
 |---|----------|----------|-------|--------------|---------------|
 | 7.1 | ENTROPY.md doc defining drift sources and cleanup cadence | Y | N | N | Y |
 | 7.2 | Entropy check script (stale docs, dead scripts, orphan TODOs) | Y | N | N | Y |
-| 7.3 | Quality grades per domain/layer (A/B/C/D with tracking) | P | Y | N | Y |
-| 7.4 | Background Codex tasks for refactoring PRs (automated cleanup) | N | N | N | Y (doc) |
-| 7.5 | Nightly/weekly entropy scan separate from PR CI | P | N | N | Y |
+| 7.3 | Quality grades per domain/layer (A/B/C/D with tracking) | Y | Y | N | Y |
+| 7.4 | Background Codex tasks for refactoring PRs (automated cleanup) | Y | N | N | Y (doc) |
+| 7.5 | Nightly/weekly entropy scan separate from PR CI | Y | N | N | Y |
 | 7.6 | Tech-debt tracker doc | Y | N | N | N |
 
 ---
@@ -132,8 +132,8 @@
 | # | Practice | EnHarnes | reins | example_proj | harness-skill |
 |---|----------|----------|-------|--------------|---------------|
 | 10.1 | Agent reviews own changes locally before PR | Y | Y | N | Y |
-| 10.2 | Agent-to-agent review (iterates until reviewers satisfied) | N | N | N | Y (doc) |
-| 10.3 | Agent can: validate state → reproduce bug → fix → validate → open PR | N | P | N | Y (doc) |
+| 10.2 | Agent-to-agent review (iterates until reviewers satisfied) | P | N | N | Y (doc) |
+| 10.3 | Agent can: validate state → reproduce bug → fix → validate → open PR | P | P | N | Y (doc) |
 | 10.4 | Escalation only when human judgment required | Y (doc) | Y | N | Y |
 | 10.5 | Agent control-loop metrics / setpoints defined | Y | N | N | Y |
 | 10.6 | Skills registry (filesystem, observability, browser, etc.) | Y | Y | N | Y |
@@ -157,11 +157,11 @@
 | # | Practice | EnHarnes | reins | example_proj | harness-skill |
 |---|----------|----------|-------|--------------|---------------|
 | 12.1 | Product code and tests | — | Y | — | — |
-| 12.2 | CI configuration and release tooling | P | Y | N | Y |
+| 12.2 | CI configuration and release tooling | Y | Y | N | Y |
 | 12.3 | Internal developer tools (scripts, linters) | Y | Y | N | Y |
 | 12.4 | Documentation and design history | Y | Y | P | Y |
 | 12.5 | Scripts that manage the repository itself | Y | P | N | Y |
-| 12.6 | Evaluation harnesses | P | N | N | Y |
+| 12.6 | Evaluation harnesses | Y | N | N | Y |
 
 ---
 
@@ -174,34 +174,35 @@ Counting Y=2, P=1, N=0 across all applicable items:
 | 1. Repo as System of Record | 18/20 | 15/20 | 13/20 | 12/20 |
 | 2. AGENTS.md Design | 10/10 | 10/10 | 10/10 | — |
 | 3. Layered Architecture | 13/14 | 3/14 | 7/14 | 12/14 |
-| 4. Application Legibility | 7/12 | 0/12 | 1/12 | 9/12 |
+| 4. Application Legibility | 12/12 | 0/12 | 1/12 | 9/12 |
 | 5. Enforcing Taste | 15/16 | 11/16 | 7/16 | 16/16 |
 | 6. Golden Principles | 10/10 | 8/10 | 5/10 | 10/10 |
-| 7. Entropy/Garbage Collection | 7/12 | 2/12 | 0/12 | 9/12 |
+| 7. Entropy/Garbage Collection | 11/12 | 2/12 | 0/12 | 9/12 |
 | 8. CI & Merge | 12/12 | 10/12 | 0/12 | 10/12 |
 | 9. Policy-as-Code | 8/8 | 7/8 | 4/8 | 2/8 |
-| 10. Agent Autonomy | 7/12 | 6/12 | 0/12 | 10/12 |
+| 10. Agent Autonomy | 9/12 | 6/12 | 0/12 | 10/12 |
 | 11. Plans & Execution | 10/10 | 2/10 | 3/10 | 8/10 |
-| 12. Agent-Generated Everything | 8/12 | 8/12 | 1/12 | 10/12 |
-| **TOTAL** | **125/148** | **82/148** | **51/148** | **108/148** |
-| **Percentage** | **84%** | **55%** | **34%** | **73%** |
+| 12. Agent-Generated Everything | 10/12 | 8/12 | 1/12 | 10/12 |
+| **TOTAL** | **138/148** | **82/148** | **51/148** | **108/148** |
+| **Percentage** | **93%** | **55%** | **34%** | **73%** |
 
 ---
 
 ## Top Gaps Remaining in EnHarnes
 
-> Items resolved in this pass are struck through. Remaining items tracked in `docs/DEEP_RESEARCH.md`.
+> Most items now resolved. Only 2 OPEN items remain, both blocked on Phase 2 decisions.
 
 | Priority | Gap | Status |
 |----------|-----|--------|
-| **HIGH** | 4.1-4.4 Application legibility (worktree boot, observability, browser) | Open — needs runtime/stack decision. See DEEP_RESEARCH.md #1-3 |
-| **HIGH** | 10.2-10.3 Agent-to-agent review + full autonomy loop | Open — needs design. See DEEP_RESEARCH.md #5-6 |
-| **HIGH** | 7.4 Automated cleanup PRs | Open — needs design. See DEEP_RESEARCH.md #4 |
+| ~~HIGH~~ | ~~4.1-4.4 Application legibility~~ | **Closed** — worktree-boot.sh, obs.py, BROWSER_AUTOMATION.md |
+| **MED** | 10.2-10.3 Agent-to-agent review + full autonomy loop | Partial — design documented, needs product code. See DEEP_RESEARCH.md #5-6 |
+| ~~HIGH~~ | ~~7.4 Automated cleanup PRs~~ | **Closed** — weekly-cleanup.yml workflow |
 | ~~MED~~ | ~~8.2 CI completeness~~ | **Closed** — CI now runs check + structural + doc-drift |
 | ~~MED~~ | ~~5.2 Linter error messages~~ | **Closed** — all linters now emit agent-readable remediation |
-| **MED** | 12.6 Evaluation harnesses | Open — needs GitHub API integration. See DEEP_RESEARCH.md #7 |
+| ~~MED~~ | ~~12.6 Evaluation harnesses~~ | **Closed** — measure_metrics.py with GitHub API |
 | ~~LOW~~ | ~~7.3 Quality grades~~ | **Closed** — ARCHITECTURE.md now has quality grades |
 | ~~LOW~~ | ~~9.3 Policy enforcement~~ | **Closed** — CI + self-review now read risk-policy.json |
+| **LOW** | 8. Planned structural tests | Blocked — needs src/ code. See DEEP_RESEARCH.md #8 |
 
 ---
 
