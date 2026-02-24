@@ -19,7 +19,7 @@
 | 1.6 | Execution plans as first-class artifacts (active/completed/tech-debt) | Y | P | P | N |
 | 1.7 | Progressive disclosure: small entry point → deeper docs elsewhere | Y | Y | Y | Y |
 | 1.8 | No external knowledge dependency (Google Docs, Slack = invisible to agent) | Y | Y | Y | Y |
-| 1.9 | Doc-gardening agent/process (scans for stale/obsolete docs, opens fix-up PRs) | P | N | N | Y |
+| 1.9 | Doc-gardening agent/process (scans for stale/obsolete docs, opens fix-up PRs) | Y | N | N | Y |
 | 1.10 | Verification headers in docs (last-verified date, status) | Y | Y | Y | N |
 
 ---
@@ -31,7 +31,7 @@
 | 2.1 | Short (~100 lines), not monolithic | Y | Y | Y | — |
 | 2.2 | Pointers to deeper sources of truth | Y | Y | Y | — |
 | 2.3 | Project map with file/folder → purpose | Y | Y | Y | — |
-| 2.4 | Development workflow steps listed | P | Y | Y | — |
+| 2.4 | Development workflow steps listed | Y | Y | Y | — |
 | 2.5 | Key constraints section (what agent must NOT do) | Y | Y | Y | — |
 
 ---
@@ -68,10 +68,10 @@
 | # | Practice | EnHarnes | reins | example_proj | harness-skill |
 |---|----------|----------|-------|--------------|---------------|
 | 5.1 | Golden principles doc (mechanical taste invariants) | Y | Y | Y | Y |
-| 5.2 | Custom linters with actionable error messages (agent-readable remediation) | P | P | N | Y |
+| 5.2 | Custom linters with actionable error messages (agent-readable remediation) | Y | P | N | Y |
 | 5.3 | Structural tests (AST-based layer dependency checks) | Y | N | N | Y |
 | 5.4 | Taste invariants: structured logging enforced | Y (doc) | Y (doc) | Y (doc) | Y |
-| 5.5 | Taste invariants: naming conventions enforced | P | Y | Y (doc) | Y |
+| 5.5 | Taste invariants: naming conventions enforced | Y | Y | Y (doc) | Y |
 | 5.6 | Taste invariants: file size limits enforced | Y | N | N | Y |
 | 5.7 | Invariants over micromanagement (enforce boundaries, allow freedom within) | Y | Y | Y | Y |
 | 5.8 | Human taste fed back via docs/tooling, not ad-hoc | Y | Y | P | Y |
@@ -85,7 +85,7 @@
 | 6.1 | Shared utilities over hand-rolled helpers | Y | Y | Y | Y |
 | 6.2 | Boundary validation (typed SDKs, no YOLO data probing) | Y | Y | Y | Y |
 | 6.3 | Prefer boring technology (composable, stable API, well-represented in training) | Y (doc) | Y | Y | Y |
-| 6.4 | Each principle maps to an enforcement mechanism (linter, test, CI gate) | P | P | N | Y |
+| 6.4 | Each principle maps to an enforcement mechanism (linter, test, CI gate) | Y | P | N | Y |
 | 6.5 | Principles are mechanical rules, not philosophy (philosophy in separate doc) | Y | Y | P | Y |
 
 ---
@@ -108,9 +108,9 @@
 | # | Practice | EnHarnes | reins | example_proj | harness-skill |
 |---|----------|----------|-------|--------------|---------------|
 | 8.1 | Stable command surface: `make smoke`, `make check`, `make test`, `make ci` | Y | P | N | Y |
-| 8.2 | CI runs lint + typecheck + structural tests + unit tests | P | Y | N | Y |
-| 8.3 | Minimal blocking merge gates (speed over perfection) | P | Y | — | Y |
-| 8.4 | Short-lived PRs, flakes addressed with follow-up runs | P | Y | — | Y |
+| 8.2 | CI runs lint + typecheck + structural tests + unit tests | Y | Y | N | Y |
+| 8.3 | Minimal blocking merge gates (speed over perfection) | Y | Y | — | Y |
+| 8.4 | Short-lived PRs, flakes addressed with follow-up runs | Y | Y | — | Y |
 | 8.5 | CI config as code in repo (.github/workflows/) | P | Y | N | N |
 | 8.6 | `make ci` = exact local reproduction of CI pipeline | Y | Y | N | Y |
 
@@ -122,7 +122,7 @@
 |---|----------|----------|-------|--------------|---------------|
 | 9.1 | risk-policy.json exists (risk tiers, watch paths, doc drift rules) | Y | Y | Y | N |
 | 9.2 | Watch paths map source dirs to docs that must stay synchronized | Y | Y | Y | N |
-| 9.3 | CI or agent self-review reads risk-policy.json | P | P | N | Y |
+| 9.3 | CI or agent self-review reads risk-policy.json | Y | P | N | Y |
 | 9.4 | .coderabbit.yaml or equivalent AI code review config | Y | Y | N | N |
 
 ---
@@ -131,7 +131,7 @@
 
 | # | Practice | EnHarnes | reins | example_proj | harness-skill |
 |---|----------|----------|-------|--------------|---------------|
-| 10.1 | Agent reviews own changes locally before PR | P | Y | N | Y |
+| 10.1 | Agent reviews own changes locally before PR | Y | Y | N | Y |
 | 10.2 | Agent-to-agent review (iterates until reviewers satisfied) | N | N | N | Y (doc) |
 | 10.3 | Agent can: validate state → reproduce bug → fix → validate → open PR | N | P | N | Y (doc) |
 | 10.4 | Escalation only when human judgment required | Y (doc) | Y | N | Y |
@@ -171,35 +171,37 @@ Counting Y=2, P=1, N=0 across all applicable items:
 
 | Category | EnHarnes | reins | example_proj | harness-skill |
 |----------|----------|-------|--------------|---------------|
-| 1. Repo as System of Record | 17/20 | 15/20 | 13/20 | 12/20 |
-| 2. AGENTS.md Design | 9/10 | 10/10 | 10/10 | — |
+| 1. Repo as System of Record | 18/20 | 15/20 | 13/20 | 12/20 |
+| 2. AGENTS.md Design | 10/10 | 10/10 | 10/10 | — |
 | 3. Layered Architecture | 13/14 | 3/14 | 7/14 | 12/14 |
 | 4. Application Legibility | 7/12 | 0/12 | 1/12 | 9/12 |
-| 5. Enforcing Taste | 13/16 | 11/16 | 7/16 | 16/16 |
-| 6. Golden Principles | 8/10 | 8/10 | 5/10 | 10/10 |
+| 5. Enforcing Taste | 15/16 | 11/16 | 7/16 | 16/16 |
+| 6. Golden Principles | 10/10 | 8/10 | 5/10 | 10/10 |
 | 7. Entropy/Garbage Collection | 7/12 | 2/12 | 0/12 | 9/12 |
-| 8. CI & Merge | 8/12 | 10/12 | 0/12 | 10/12 |
-| 9. Policy-as-Code | 7/8 | 7/8 | 4/8 | 2/8 |
-| 10. Agent Autonomy | 5/12 | 6/12 | 0/12 | 10/12 |
+| 8. CI & Merge | 12/12 | 10/12 | 0/12 | 10/12 |
+| 9. Policy-as-Code | 8/8 | 7/8 | 4/8 | 2/8 |
+| 10. Agent Autonomy | 7/12 | 6/12 | 0/12 | 10/12 |
 | 11. Plans & Execution | 10/10 | 2/10 | 3/10 | 8/10 |
 | 12. Agent-Generated Everything | 8/12 | 8/12 | 1/12 | 10/12 |
-| **TOTAL** | **112/148** | **82/148** | **51/148** | **108/148** |
-| **Percentage** | **76%** | **55%** | **34%** | **73%** |
+| **TOTAL** | **125/148** | **82/148** | **51/148** | **108/148** |
+| **Percentage** | **84%** | **55%** | **34%** | **73%** |
 
 ---
 
 ## Top Gaps Remaining in EnHarnes
 
-| Priority | Gap | What's missing |
-|----------|-----|----------------|
-| **HIGH** | 4.1-4.4 Application legibility | Worktree boot, observability stack, browser automation are documented but not wired up — no actual implementation yet (Phase 1 = infra only) |
-| **HIGH** | 10.2-10.3 Agent autonomy loop | Agent can't yet self-review → iterate → merge. The full autonomous workflow from the article isn't operational |
-| **HIGH** | 7.4 Automated cleanup PRs | No background agent tasks generating refactoring PRs. Entropy check exists but doesn't auto-remediate |
-| **MED** | 8.2 CI completeness | Structural tests and typecheck need to be wired into actual CI workflows (`.github/workflows/`) |
-| **MED** | 5.2 Linter error messages | Custom linters exist but error messages aren't written as agent-readable remediation instructions |
-| **MED** | 12.6 Evaluation harnesses | `evals/control-loop-metrics.yaml` exists but no harness to actually measure against setpoints |
-| **LOW** | 7.3 Quality grades | ARCHITECTURE.md has domain grades in reins but EnHarnes doesn't grade its own layers yet |
-| **LOW** | 9.3 Policy enforcement | risk-policy.json exists but nothing in CI actually reads and enforces it |
+> Items resolved in this pass are struck through. Remaining items tracked in `docs/DEEP_RESEARCH.md`.
+
+| Priority | Gap | Status |
+|----------|-----|--------|
+| **HIGH** | 4.1-4.4 Application legibility (worktree boot, observability, browser) | Open — needs runtime/stack decision. See DEEP_RESEARCH.md #1-3 |
+| **HIGH** | 10.2-10.3 Agent-to-agent review + full autonomy loop | Open — needs design. See DEEP_RESEARCH.md #5-6 |
+| **HIGH** | 7.4 Automated cleanup PRs | Open — needs design. See DEEP_RESEARCH.md #4 |
+| ~~MED~~ | ~~8.2 CI completeness~~ | **Closed** — CI now runs check + structural + doc-drift |
+| ~~MED~~ | ~~5.2 Linter error messages~~ | **Closed** — all linters now emit agent-readable remediation |
+| **MED** | 12.6 Evaluation harnesses | Open — needs GitHub API integration. See DEEP_RESEARCH.md #7 |
+| ~~LOW~~ | ~~7.3 Quality grades~~ | **Closed** — ARCHITECTURE.md now has quality grades |
+| ~~LOW~~ | ~~9.3 Policy enforcement~~ | **Closed** — CI + self-review now read risk-policy.json |
 
 ---
 
@@ -218,12 +220,12 @@ Counting Y=2, P=1, N=0 across all applicable items:
 
 ## What to Borrow from Other Repos
 
-| From | What | Why |
-|------|------|-----|
-| reins | CI workflows (.github/workflows/) | Complete lint→typecheck→test→audit pipeline with auto-version-bump |
-| reins | Biome config (biome.json) | When TypeScript is chosen as runtime, ready-made formatter/linter |
-| reins | ARCHITECTURE.md quality grades per domain | Concrete A/B/C/D scoring per module |
-| reins | SKILL.md pattern | Clear "use when / don't use when" routing for agent skills |
-| harness-skill | Audit script (harness_wizard.py audit) | Automated readiness scoring across 9 practices |
-| harness-skill | Bootstrap script | One-command repo scaffolding |
-| harness-skill | Nightly CI workflow for entropy | Separates entropy scan from PR CI to reduce noise |
+| From | What | Status |
+|------|------|--------|
+| ~~reins~~ | ~~CI workflows~~ | **Done** — adapted into .github/workflows/ci.yml |
+| reins | Biome config (biome.json) | When TypeScript is chosen as runtime |
+| ~~reins~~ | ~~ARCHITECTURE.md quality grades~~ | **Done** — added to ARCHITECTURE.md |
+| reins | SKILL.md pattern | When agent skills are formalized |
+| harness-skill | Audit script (harness_wizard.py audit) | Future — automated readiness scoring |
+| harness-skill | Bootstrap script | Future — one-command repo scaffolding |
+| ~~harness-skill~~ | ~~Nightly CI workflow for entropy~~ | **Done** — already had nightly-entropy.yml |

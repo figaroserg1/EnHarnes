@@ -44,6 +44,17 @@ Navigation map for agents. Single source of truth is `docs/`. Do not invent outs
 | Scripts | `scripts/` |
 | Linters + structural tests | `tools/` |
 
+## Development Workflow
+
+1. Receive task via prompt.
+2. Read this file, then follow pointers to relevant docs.
+3. Check constraints in `docs/design-docs/rules.md` and `risk-policy.json`.
+4. For complex tasks, create an ExecPlan in `docs/exec-plans/active/` (see `docs/PLANS.md`).
+5. Implement changes in minimal steps. Run `make check` after each step.
+6. Run `make test` to verify all gates pass.
+7. Run `make review` (agent self-review) before opening PR.
+8. Open PR with concise summary. Resolve all review threads before merge.
+
 ## ExecPlans
 
 Any complex task or refactor requires an ExecPlan (see `docs/PLANS.md`).

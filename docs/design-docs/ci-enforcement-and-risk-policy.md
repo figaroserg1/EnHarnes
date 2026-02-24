@@ -52,6 +52,21 @@ they delegate to `custom_linter.py` and `dependency_guard.py`.
 - The `check → structural` sequence catches three distinct failure classes in order:
   doc hygiene → architecture violations → (future) unit test failures.
 
+## Merge Philosophy
+
+**Short-lived PRs.** PRs should be small, focused, and merged quickly. Large PRs increase
+review burden and merge conflict risk. Prefer multiple small PRs over one large one.
+
+**Minimal blocking gates.** Only block merge on things that can be verified mechanically
+(lint, structural tests, doc-drift). Human review focuses on intent and architecture fit,
+not style or formatting (those are enforced by linters).
+
+**Flakes get follow-up, not retries.** If CI fails due to a flake, fix the flake in a
+follow-up PR. Do not retry CI hoping it passes — that hides real issues.
+
+**Conversation resolution is a merge gate.** Unresolved review threads block merge even
+when CI is green. This ensures every comment is addressed, not ignored.
+
 ## Consequences
 
 - Any violation of Golden Principles (print statements, oversized files) in `src/` blocks merge at `make check`.

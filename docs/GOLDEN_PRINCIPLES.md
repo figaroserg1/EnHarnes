@@ -25,11 +25,11 @@ Enforced by: `tools/linters/dependency_guard.py`
 
 **4. Structured logging only. No bare print statements in production code.**
 Every log line must include: `service`, `env`, `trace_id`, `operation`, `result`.
-Enforced by: `scripts/custom_linter.py` (extend to cover print detection)
+Enforced by: `tools/linters/dependency_guard.py` (Rule 4: bare print() detection in src/)
 
 **5. Max file size: 500 lines soft limit, 1500 lines hard limit.**
 Files above 500 lines get a warning. Above 1500 lines blocks merge (except `generated/`).
-Enforced by: `scripts/custom_linter.py` (add file-size check)
+Enforced by: `tools/linters/dependency_guard.py` (Rule 5: file size limits on src/ files)
 
 **6. Every TODO in a markdown file must have an owner tag.**
 Format: `TODO: [HUMAN]`, `TODO: [AI]`, or `TODO: [AI->HUMAN]`
@@ -80,6 +80,40 @@ Direct cross-layer imports to implement cross-cutting logic are forbidden.
 Enforced by: `tools/linters/dependency_guard.py`
 
 ---
+
+## Naming Conventions
+
+- Files: kebab-case (`user-service.py`, `auth-config.ts`)
+- Types/Interfaces: PascalCase (`UserProfile`, `AuthConfig`)
+- Functions/Variables: camelCase (`getUserProfile`, `authToken`)
+- Constants: SCREAMING_SNAKE_CASE (`MAX_RETRY_COUNT`, `DEFAULT_TIMEOUT`)
+- Domain directories: kebab-case (`app-settings/`)
+- Layer directories: PascalCase from fixed set (`Types/`, `Config/`, `Repo/`, `Service/`, `Runtime/`, `UI/`, `Providers/`)
+
+Enforced by: `scripts/custom_linter.py` (naming convention checks on src/ files)
+
+---
+
+## Enforcement Summary
+
+| Principle | Enforcer | Gate |
+|-----------|----------|------|
+| 1. Layer imports | `tools/structural-tests/test_layer_dependencies.py` | `make structural` |
+| 2. Boundary validation | structural test + code review | `make structural` |
+| 3. No biz logic in UI | `tools/linters/dependency_guard.py` | `make check` |
+| 4. Structured logging | `tools/linters/dependency_guard.py` | `make check` |
+| 5. File size limits | `tools/linters/dependency_guard.py` | `make check` |
+| 6. TODO ownership | `scripts/custom_linter.py` | `make smoke` |
+| 7. No data probing | `scripts/custom_linter.py` (planned) | `make check` |
+| 8. Shared utilities | `tools/structural-tests/test_duplicate_helpers.py` (planned) | `make structural` |
+| 9. Idempotent side-effects | `tools/structural-tests/test_side_effect_patterns.py` (planned) | `make structural` |
+| 10. Trace propagation | `scripts/custom_linter.py` (planned) | `make check` |
+| 11. Contract versioning | `tools/structural-tests/test_contract_changes.py` (planned) | `make structural` |
+| 12. Providers only | `tools/linters/dependency_guard.py` | `make check` |
+| Naming conventions | `scripts/custom_linter.py` | `make smoke` |
+
+Items marked **(planned)** have enforcement documented but the check is not yet implemented.
+These are tracked in `docs/exec-plans/tech-debt-tracker.md`.
 
 ---
 

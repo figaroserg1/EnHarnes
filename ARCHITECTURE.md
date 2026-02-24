@@ -24,6 +24,18 @@
 *   **`UI/`** — пользовательский интерфейс.
 *   **`Providers/`** — единственная точка входа для всех сквозных функций (авторизация, коннекторы, телеметрия, фиче-флаги). Прямые вызовы этих функций из других слоев запрещены [13, 15].
 
+## Quality Grades
+
+| Zone | Description | Grade |
+|------|-------------|-------|
+| docs/ | Policies, design, plans — well-structured | A |
+| scripts/ | Automation layer — functional, tested | B |
+| tools/ | Linters, structural tests — working | B |
+| tooling/ | Setup scripts — minimal | C |
+| src/ | Product code — not yet started (Phase 1) | — |
+
+Grade scale: **A** = well-tested, documented, stable. **B** = functional, room for improvement. **C** = works but needs attention. **D** = tech debt, needs refactoring.
+
 ## Ограничения текущей фазы
 - TODO: [HUMAN] Зафиксировать границы доступа агента к прод-средам.
 - TODO: [AI] Добавить диаграмму потока "задача → изменение → проверка → отчёт".
