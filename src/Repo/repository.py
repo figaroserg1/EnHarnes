@@ -1,6 +1,6 @@
 """Repository access layer."""
 
-from app_settings.Config.settings import CONFIG_SCHEMA
+from Config.settings import CONFIG_SCHEMA
 
 
 def load_settings_record() -> dict:

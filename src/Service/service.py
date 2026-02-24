@@ -1,6 +1,6 @@
 """Service layer for app settings."""
 
-from app_settings.Repo.repository import load_settings_record
+from Repo.repository import load_settings_record
 
 
 def build_runtime_settings() -> dict:

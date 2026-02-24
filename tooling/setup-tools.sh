@@ -31,3 +31,7 @@ echo "Installing advanced MCP servers..."
 npm install -g @modelcontextprotocol/server-browser || true
 npm install -g @modelcontextprotocol/server-memory || true
 npm install -g @modelcontextprotocol/server-shell || true
+
+
+echo "Installing Python helpers..."
+python3 -m pip install printdirtree || true
