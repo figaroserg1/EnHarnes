@@ -1,6 +1,6 @@
 # AGENTS.md
 
-You are an AI agent. This file is your map. Read it at session start, follow pointers.
+You are an AI agent. This is your entry point. Read fully at session start.
 
 ## Quick Commands
 
@@ -14,21 +14,6 @@ You are an AI agent. This file is your map. Read it at session start, follow poi
 | Pre-PR review | `make review` |
 | Entropy scan | `make entropy` |
 
-## Workflow
-
-1. Read this file → follow pointers to relevant docs.
-2. `make smoke` to verify repo health.
-3. Implement in minimal steps. `make check` after each.
-4. `make review` before opening PR. Fix failures, re-run until clean.
-5. Open PR. Resolve all review threads before merge.
-
-Details: `docs/AGENT_RUNBOOK.md`
-
-## After Every Change
-
-1. `make check` — fix failures.
-2. Read `risk-policy.json` `docsDriftRules` — if changed files match a `watch` path, verify and update listed docs.
-
 ## Autonomy
 
 | Risk | Action |
@@ -37,21 +22,51 @@ Details: `docs/AGENT_RUNBOOK.md`
 | **Medium** (scripts, refactors) | ExecPlan + PR. Wait for approval. |
 | **High** (architecture, security) | ExecPlan only. Do not implement. |
 
-Unsure → treat as medium. Details: `docs/AGENT_RUNBOOK.md`
+Unsure → medium. Risk tiers defined in `risk-policy.json`.
+
+## After Every Change
+
+1. `make check` — fix failures before continuing.
+2. Open `risk-policy.json` → `docsDriftRules`. If changed files match a `watch` path, verify and update every listed doc in that rule.
+3. If you notice a doc contradicts code — fix the doc, same commit.
+
+## Before Every PR
+
+`make review` — must pass clean. Fixes all failures first. Then open PR.
+
+## When to Load Additional Docs
+
+| Situation | Load |
+|-----------|------|
+| Starting complex/multi-file task | `docs/PLANS.md` → create ExecPlan in `docs/exec-plans/active/` |
+| Resuming prior work | `progress.txt` |
+| Making architecture decisions | `ARCHITECTURE.md`, `docs/design-docs/rules.md` |
+| Facing a design choice | `docs/design-docs/core-beliefs.md` then `docs/design-docs/rules.md` |
+| Writing/modifying linter rules | `docs/GOLDEN_PRINCIPLES.md` |
+| Working with CI or merge config | `docs/design-docs/ci-enforcement-and-risk-policy.md` |
+| Setting up observability/logging | `docs/OBSERVABILITY.md` |
+| Need browser/UI automation | `docs/BROWSER_AUTOMATION.md` |
+| Working in parallel worktrees | `docs/WORKTREE_WORKFLOW.md` |
+| Prompted "maintain"/"housekeeping" | `docs/ENTROPY.md` → then `make entropy`, `make gardener` |
+| Prompted "health check" | `evals/control-loop-metrics.yaml` → then `python scripts/measure_metrics.py` |
+| Adding new tool/script | `tools/skills_registry.json` — register it; update Project Map below |
+
+## Session End
+
+Update `progress.txt`: what done, what's left, blockers.
 
 ## Core Rules
 
-- Unidirectional layers: `Types→Config→Repo→Service→Runtime→UI`. Cross-cutting via `Providers` only → `ARCHITECTURE.md`
+- Layers flow one way: `Types→Config→Repo→Service→Runtime→UI`. Cross-cutting via `Providers` only → `ARCHITECTURE.md`
 - Validate at boundaries. No YOLO-parsing inside layers.
 - Reuse existing utilities. No duplicates.
 - No secrets in repo.
-- Docs that contradict code → fix immediately, same commit.
+- All knowledge lives in-repo. If it's not here, it doesn't exist.
 
 ## Project Map
 
 | What | Where |
 |---|---|
-| Agent runbook (full operational guide) | `docs/AGENT_RUNBOOK.md` |
 | Architecture + quality grades | `ARCHITECTURE.md` |
 | Design rules & philosophy | `docs/design-docs/rules.md` |
 | Core beliefs | `docs/design-docs/core-beliefs.md` |
