@@ -1,6 +1,36 @@
 # AGENTS.md
 
-You are an AI agent. This is your entry point. Read fully at session start.
+You are an AI agent. Read this fully at session start. This is your operating manual.
+
+## Task Loop (every task follows this sequence)
+
+1. **Boot worktree** — `./scripts/worktree-boot.sh <task-name>`. Every task runs in isolation.
+2. **Validate state** — `make smoke`. Do not proceed if it fails.
+3. **Load context** — check `progress.txt` if resuming. Load docs from the table below as needed.
+4. **Implement** — small, verifiable steps. `make check` after each change.
+5. **Doc drift** — open `risk-policy.json` → `docsDriftRules`. If changed files match a `watch` path, update every listed doc.
+6. **Pre-PR** — `make review`. Fix all failures. Then open PR.
+7. **Review loop** — respond to feedback, iterate until reviewers approve.
+8. **Merge + teardown** — merge PR, `git worktree remove <path>`.
+9. **Session end** — update `progress.txt`: done, remaining, blockers.
+
+## Autonomy
+
+| Risk | Action |
+|------|--------|
+| **Low** (docs, tests, lint) | Execute full loop. Commit, PR. |
+| **Medium** (scripts, refactors) | ExecPlan + PR. Wait for approval before merge. |
+| **High** (architecture, security) | ExecPlan only. Do not implement. |
+
+Unsure → medium. Tiers defined in `risk-policy.json`.
+
+## Cadenced Operations
+
+| What | Cadence | How |
+|------|---------|-----|
+| Entropy scan | Weekly (or between tasks) | `make entropy`, `make gardener` → `docs/ENTROPY.md` |
+| Health metrics | Monthly (or when metrics drift) | `python scripts/measure_metrics.py` → `evals/control-loop-metrics.yaml` |
+| Doc gardening | With every PR | `scripts/check_doc_drift.py` runs in CI automatically |
 
 ## Quick Commands
 
@@ -14,47 +44,6 @@ You are an AI agent. This is your entry point. Read fully at session start.
 | Pre-PR review | `make review` |
 | Entropy scan | `make entropy` |
 
-## Autonomy
-
-| Risk | Action |
-|------|--------|
-| **Low** (docs, tests, lint) | Execute, commit, PR. |
-| **Medium** (scripts, refactors) | ExecPlan + PR. Wait for approval. |
-| **High** (architecture, security) | ExecPlan only. Do not implement. |
-
-Unsure → medium. Risk tiers defined in `risk-policy.json`.
-
-## After Every Change
-
-1. `make check` — fix failures before continuing.
-2. Open `risk-policy.json` → `docsDriftRules`. If changed files match a `watch` path, verify and update every listed doc in that rule.
-3. If you notice a doc contradicts code — fix the doc, same commit.
-
-## Before Every PR
-
-`make review` — must pass clean. Fixes all failures first. Then open PR.
-
-## When to Load Additional Docs
-
-| Situation | Load |
-|-----------|------|
-| Starting complex/multi-file task | `docs/PLANS.md` → create ExecPlan in `docs/exec-plans/active/` |
-| Resuming prior work | `progress.txt` |
-| Making architecture decisions | `ARCHITECTURE.md`, `docs/design-docs/rules.md` |
-| Facing a design choice | `docs/design-docs/core-beliefs.md` then `docs/design-docs/rules.md` |
-| Writing/modifying linter rules | `docs/GOLDEN_PRINCIPLES.md` |
-| Working with CI or merge config | `docs/design-docs/ci-enforcement-and-risk-policy.md` |
-| Setting up observability/logging | `docs/OBSERVABILITY.md` |
-| Need browser/UI automation | `docs/BROWSER_AUTOMATION.md` |
-| Working in parallel worktrees | `docs/WORKTREE_WORKFLOW.md` |
-| Prompted "maintain"/"housekeeping" | `docs/ENTROPY.md` → then `make entropy`, `make gardener` |
-| Prompted "health check" | `evals/control-loop-metrics.yaml` → then `python scripts/measure_metrics.py` |
-| Adding new tool/script | `tools/skills_registry.json` — register it; update Project Map below |
-
-## Session End
-
-Update `progress.txt`: what done, what's left, blockers.
-
 ## Core Rules
 
 - Layers flow one way: `Types→Config→Repo→Service→Runtime→UI`. Cross-cutting via `Providers` only → `ARCHITECTURE.md`
@@ -62,24 +51,27 @@ Update `progress.txt`: what done, what's left, blockers.
 - Reuse existing utilities. No duplicates.
 - No secrets in repo.
 - All knowledge lives in-repo. If it's not here, it doesn't exist.
+- If a doc contradicts code — fix the doc, same commit.
 
-## Project Map
+## Reference Table
 
-| What | Where |
-|---|---|
-| Architecture + quality grades | `ARCHITECTURE.md` |
-| Design rules & philosophy | `docs/design-docs/rules.md` |
-| Core beliefs | `docs/design-docs/core-beliefs.md` |
-| Golden principles (linter rules) | `docs/GOLDEN_PRINCIPLES.md` |
-| CI/merge policy | `docs/design-docs/ci-enforcement-and-risk-policy.md` |
-| Execution plans | `docs/exec-plans/active/` → spec: `docs/PLANS.md` |
-| Observability | `docs/OBSERVABILITY.md` |
-| Entropy management | `docs/ENTROPY.md` |
-| Health setpoints | `evals/control-loop-metrics.yaml` |
-| Doc drift policy | `risk-policy.json` |
-| Browser automation | `docs/BROWSER_AUTOMATION.md` |
-| Worktree workflow | `docs/WORKTREE_WORKFLOW.md` |
-| Checklist + scores | `docs/CHECKLIST.md` |
-| Research backlog | `docs/DEEP_RESEARCH.md` |
-| Scripts | `scripts/` |
-| Linters + structural tests | `tools/` |
+| Topic | File | When to load |
+|-------|------|-------------|
+| Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
+| Design rules & philosophy | `docs/design-docs/rules.md` | Design choices |
+| Core beliefs | `docs/design-docs/core-beliefs.md` | Design choices |
+| Golden principles (linter rules) | `docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
+| CI/merge policy | `docs/design-docs/ci-enforcement-and-risk-policy.md` | CI or merge config changes |
+| Execution plans | `docs/PLANS.md` | Complex/multi-file tasks → create plan in `docs/exec-plans/active/` |
+| Worktree workflow | `docs/WORKTREE_WORKFLOW.md` | Boot script issues or naming questions |
+| Observability | `docs/OBSERVABILITY.md` | Logging or metrics setup |
+| Browser automation | `docs/BROWSER_AUTOMATION.md` | UI testing or browser tasks |
+| Entropy management | `docs/ENTROPY.md` | Cadenced entropy scans |
+| Health setpoints | `evals/control-loop-metrics.yaml` | Cadenced health checks |
+| Doc drift policy | `risk-policy.json` | After any code change (step 5 of loop) |
+| Checklist + scores | `docs/CHECKLIST.md` | Evaluating project maturity |
+| Research backlog | `docs/DEEP_RESEARCH.md` | Unresolved research items |
+| Agent capabilities | `docs/AGENT_CAPABILITIES.md` | Adding MCP servers or tools |
+| Skills registry | `tools/skills_registry.json` | Adding new tool/script |
+| Scripts | `scripts/` | — |
+| Linters + structural tests | `tools/` | — |
