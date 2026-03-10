@@ -1,7 +1,28 @@
 #!/usr/bin/env bash
-# Harness typecheck script: auto-detects project type and runs the right type checker.
-# Override with: HARNESS_TYPECHECK_CMD="your command"
-# -e is for exist on any error. -u is for erroron undeclared variable. pipefail -one command failed in pipe it's error.
+# =============================================================================
+# harness/typecheck.sh — Универсальная проверка типов с автоопределением стека
+# =============================================================================
+#
+# ЧТО ДЕЛАЕТ:
+#   Автоматически определяет тип проекта и запускает подходящий type checker:
+#     - Rust (Cargo.toml)    → cargo check
+#     - Node.js (package.json) → npm run typecheck (если скрипт есть)
+#     - Python (pyproject.toml/requirements.txt) → pyright или mypy
+#       (что установлено)
+#   Можно переопределить через переменную HARNESS_TYPECHECK_CMD.
+#
+# ЗАЧЕМ НУЖЕН:
+#   Аналогично lint.sh — единый интерфейс для проверки типов независимо
+#   от языка проекта. Type checking ловит целый класс ошибок на этапе
+#   статического анализа, до запуска кода. Особенно важен для агентов,
+#   которые генерируют код: type checker верифицирует корректность
+#   сгенерированных типов и интерфейсов.
+#
+# ИСПОЛЬЗОВАНИЕ:
+#   bash scripts/harness/typecheck.sh
+#   или: make typecheck
+#   или: HARNESS_TYPECHECK_CMD="mypy src/" make typecheck
+# =============================================================================
 set -euo pipefail
 
 #root is 2 levels above

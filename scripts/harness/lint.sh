@@ -1,6 +1,27 @@
 #!/usr/bin/env bash
-# Harness lint script: auto-detects project type and runs the right linter.
-# Override with: HARNESS_LINT_CMD="your command" make check
+# =============================================================================
+# harness/lint.sh — Универсальный линтер с автоопределением типа проекта
+# =============================================================================
+#
+# ЧТО ДЕЛАЕТ:
+#   Автоматически определяет тип проекта и запускает подходящий линтер:
+#     - Rust (Cargo.toml)    → cargo clippy с -D warnings
+#     - Node.js (package.json) → npm run lint (если скрипт lint есть)
+#     - Python (pyproject.toml/requirements.txt) → custom_linter.py +
+#       dependency_guard.py
+#   Можно переопределить через переменную HARNESS_LINT_CMD.
+#
+# ЗАЧЕМ НУЖЕН:
+#   EnHarnes — мета-фреймворк, который может работать с проектами на
+#   разных языках. Этот скрипт абстрагирует конкретный линтер за единым
+#   интерфейсом: `make check` всегда работает, независимо от стека.
+#   Это позволяет агентам и CI использовать одну и ту же команду.
+#
+# ИСПОЛЬЗОВАНИЕ:
+#   bash scripts/harness/lint.sh
+#   или: make check
+#   или: HARNESS_LINT_CMD="flake8 src/" make check
+# =============================================================================
 set -euo pipefail
 
 root_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)

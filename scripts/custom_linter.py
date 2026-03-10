@@ -1,11 +1,31 @@
 #!/usr/bin/env python3
 """Markdown and naming convention linter.
 
-Checks:
-1) Every TODO: has owner marker [HUMAN|AI|AI->HUMAN].
-2) Every EXAMPLE includes '(REPLACE ME)'.
-3) File naming conventions: kebab-case for src/ files.
-4) Layer directory names match ARCHITECTURE.md.
+ЧТО ДЕЛАЕТ:
+  Проверяет соблюдение соглашений проекта по четырём направлениям:
+    1. TODO-маркеры — каждый «TODO:» в markdown-файлах обязан содержать
+       владельца: [HUMAN], [AI] или [AI->HUMAN]. Без этого непонятно,
+       кто отвечает за выполнение задачи.
+    2. EXAMPLE-плейсхолдеры — каждый блок «EXAMPLE» должен содержать
+       «(REPLACE ME)», чтобы было очевидно, что это шаблон, а не рабочий код.
+    3. Именование файлов — файлы в src/ должны быть в kebab-case
+       (например, user-service.py), что обеспечивает единообразие в проекте.
+    4. Имена директорий-слоёв — поддиректории в src/ должны соответствовать
+       слоям из ARCHITECTURE.md (Types, Config, Repo, Service, Runtime, UI,
+       Providers).
+
+ЗАЧЕМ НУЖЕН:
+  Этот линтер — часть CI-пайплайна (make check). Он ловит нарушения
+  соглашений до код-ревью, экономя время людей и агентов. Без него
+  TODO теряют владельцев, плейсхолдеры попадают в прод, а файловая
+  структура постепенно деградирует.
+
+ИСПОЛЬЗОВАНИЕ:
+  python3 scripts/custom_linter.py
+
+КОД ВОЗВРАТА:
+  0 — нет blocking-ошибок (warnings допустимы)
+  1 — есть ошибки, которые нужно исправить
 """
 
 from pathlib import Path

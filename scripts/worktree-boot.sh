@@ -1,13 +1,37 @@
 #!/usr/bin/env bash
-set -euo pipefail
-
-# Worktree boot script: sets up a fresh worktree for an agent task.
+# =============================================================================
+# worktree-boot.sh — Создание изолированного worktree для задачи агента
+# =============================================================================
 #
-# Usage:
+# ЧТО ДЕЛАЕТ:
+#   Создаёт git worktree — изолированную копию репозитория для одной задачи:
+#     1. Создаёт worktree в ../worktree_<task-name> на ветке task/<task-name>
+#     2. Автоматически определяет тип проекта (Python/Node/Rust) и
+#        устанавливает зависимости
+#     3. Запускает smoke-проверку (make smoke или make check), чтобы
+#        убедиться, что worktree в рабочем состоянии
+#
+# ЗАЧЕМ НУЖЕН:
+#   В agent-first workflow каждая задача выполняется в изолированном
+#   worktree. Это даёт три преимущества:
+#     - Параллелизм: несколько агентов работают одновременно, не мешая
+#       друг другу
+#     - Чистота: каждая задача начинается с чистого состояния, без
+#       артефактов предыдущей работы
+#     - Безопасность: если агент сломает что-то, это не затронет основной
+#       репозиторий — достаточно удалить worktree
+#
+# ИСПОЛЬЗОВАНИЕ:
 #   ./scripts/worktree-boot.sh <task-name>
 #
-# This creates a worktree, installs dependencies, and runs smoke check.
-# Each agent task gets an isolated copy of the repo with no shared state.
+# ПРИМЕР:
+#   ./scripts/worktree-boot.sh fix-auth-bug
+#   # Создаст ../worktree_fix-auth-bug на ветке task/fix-auth-bug
+#
+# ОЧИСТКА:
+#   git worktree remove ../worktree_<task-name>
+# =============================================================================
+set -euo pipefail
 
 TASK_NAME="${1:?Usage: worktree-boot.sh <task-name>}"
 WORKTREE_DIR="../worktree_${TASK_NAME}"

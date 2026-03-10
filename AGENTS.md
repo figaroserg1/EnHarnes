@@ -75,3 +75,7 @@ Unsure → medium. Tiers defined in `risk-policy.json`.
 | Skills registry | `tools/skills_registry.json` | Adding new tool/script |
 | Scripts | `scripts/` | — |
 | Linters + structural tests | `tools/` | — |
+
+## Self improvement
+- You suppoed to update the Agents.md and related docs and scripts, create missing ones for yourself. Your convenience is proority. 
+- Any time you run into an issue and found solution, update docs accordinly to awoid the issue in the future
