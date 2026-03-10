@@ -2,11 +2,11 @@
 
 # Fast sanity: doc linter only (~5s)
 smoke:
-	python3 scripts/custom_linter.py
+	python3 scripts/linters/custom_linter.py
 
 # Static checks: harness lint script (doc linter + Python source guard)
 check:
-	bash scripts/harness/lint.sh
+	bash scripts/linters/lint.sh
 
 # Structural architecture tests only
 structural:
@@ -23,31 +23,31 @@ ci:
 
 # Supporting targets
 build:
-	bash scripts/custom_builder.sh
+	bash scripts/generators/build_handbook.sh
 
 tools:
 	@echo "TODO: setup script not yet implemented"
 
 todo-sync:
-	python3 scripts/sync_todo_registry.py
+	python3 scripts/generators/sync_todo_registry.py
 
 entropy:
-	bash scripts/entropy-check.sh
+	bash scripts/health/entropy-check.sh
 
 review:
-	bash scripts/agent_self_review.sh
+	bash scripts/health/agent_self_review.sh
 
 dev:
-	bash scripts/dev-start.sh
+	bash scripts/dev/dev-start.sh
 
 obs-up:
-	bash scripts/obs-up.sh
+	bash scripts/observability/obs-up.sh
 
 obs-down:
-	bash scripts/obs-down.sh
+	bash scripts/observability/obs-down.sh
 
 seed:
-	bash scripts/seed-dev-data.sh
+	bash scripts/dev/seed-dev-data.sh
 
 gardener:
-	bash scripts/doc_gardener.sh
+	bash scripts/health/doc_gardener.sh
