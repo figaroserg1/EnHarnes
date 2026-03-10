@@ -80,12 +80,12 @@ done
 # 4. Run the doc linter (TODO ownership, EXAMPLE markers)
 echo ""
 echo "-- Doc lint --"
-python3 scripts/custom_linter.py || ISSUES=$((ISSUES + 1))
+python3 scripts/linters/custom_linter.py || ISSUES=$((ISSUES + 1))
 
 # 5. Check risk-policy.json doc references
 echo ""
 echo "-- Doc drift references --"
-python3 scripts/check_doc_drift.py || ISSUES=$((ISSUES + 1))
+python3 scripts/health/check_doc_drift.py || ISSUES=$((ISSUES + 1))
 
 echo ""
 if [ "$ISSUES" -gt 0 ]; then

@@ -45,17 +45,17 @@ make structural || FAILURES=$((FAILURES + 1))
 # 3. Doc-drift check (risk-policy.json references)
 echo ""
 echo "-- Step 3/5: Doc-drift check --"
-python3 scripts/check_doc_drift.py || FAILURES=$((FAILURES + 1))
+python3 scripts/health/check_doc_drift.py || FAILURES=$((FAILURES + 1))
 
 # 4. Verify changed files match risk-policy watch paths
 echo ""
 echo "-- Step 4/5: Changed-file doc reminders --"
-if [ -f risk-policy.json ]; then
+if [ -f policies/risk-policy.json ]; then
   python3 - <<'PYEOF'
 import json, subprocess, sys
 from pathlib import Path
 
-policy = json.loads(Path("risk-policy.json").read_text())
+policy = json.loads(Path("policies/risk-policy.json").read_text())
 try:
     result = subprocess.run(
         ["git", "diff", "--cached", "--name-only"],
@@ -96,8 +96,8 @@ fi
 # 5. Quick entropy spot-check
 echo ""
 echo "-- Step 5/5: Entropy spot-check --"
-if [ -f scripts/entropy-check.sh ]; then
-  bash scripts/entropy-check.sh || echo "  [WARN] Entropy issues found (non-blocking for PR)."
+if [ -f scripts/health/entropy-check.sh ]; then
+  bash scripts/health/entropy-check.sh || echo "  [WARN] Entropy issues found (non-blocking for PR)."
 fi
 
 echo ""

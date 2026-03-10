@@ -48,8 +48,8 @@ fi
 
 if [ -f "$root_dir/pyproject.toml" ] || [ -f "$root_dir/requirements.txt" ]; then
   cd "$root_dir"
-  python3 scripts/custom_linter.py
-  python3 tools/linters/dependency_guard.py
+  python3 scripts/linters/custom_linter.py
+  python3 scripts/linters/dependency_guard.py
   exit 0
 fi
 

@@ -9,11 +9,10 @@
 
 ## Карта репозитория
 - `AGENTS.md` — краткие правила и навигация для агента.
-- `METHOD.md` — рабочий метод и loop взаимодействия человека и агента.
 - `ARCHITECTURE.md` — high-level устройство текущей фазы.
 - `docs/` — живой source of truth (policy, design, reliability, security, execution plans).
-- `scripts/` — исполняемые команды для локальной разработки и проверок.
-- `tools/` — инфраструктурные линтеры и служебные инструменты.
+- `scripts/` — линтеры, проверки здоровья, генераторы, dev-утилиты.
+- `policies/` — machine-readable политики (risk-policy, setpoints, review config).
 
 ## Что пока неизвестно
 - TODO: [HUMAN] Зафиксировать домен и продуктовую цель Phase 2.
@@ -22,7 +21,7 @@
 
 ## Базовые команды
 ```bash
-make lint
-make build
-make test
+make smoke    # быстрая проверка (~5с)
+make check    # статические проверки
+make test     # полный набор тестов
 ```

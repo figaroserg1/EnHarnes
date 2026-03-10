@@ -2,13 +2,12 @@
 
 ## Основные зоны
 - `docs/` — политики, дизайн-ориентиры, планы исполнения.
-- `scripts/` — исполняемый слой локальных проверок и операционных команд.
-- `tools/` — статические проверки структуры и зависимостей.
-- `tooling/` — установка и настройка локальных инструментов.
+- `scripts/` — исполняемый слой: линтеры, проверки здоровья, генераторы, dev-утилиты.
+- `policies/` — machine-readable политики (risk-policy, setpoints, review config).
 
 ## Логика слоёв
 1. **Policy layer**: `docs/design-docs/system-spec.md`, `docs/design-docs/rules.md`.
-2. **Design layer**: `docs/design-docs/architecture.md`, `docs/DESIGN.md`.
+2. **Design layer**: `docs/design-docs/`, `docs/DESIGN.md`.
 3. **Execution layer**: `scripts/`, `Makefile`.
 4. **Reliability & Security layer**: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/OBSERVABILITY.md`.
 5. **Planning layer**: `docs/PLANS.md`, `docs/exec-plans/`.
@@ -29,9 +28,8 @@
 | Zone | Description | Grade |
 |------|-------------|-------|
 | docs/ | Policies, design, plans — well-structured | A |
-| scripts/ | Automation layer — functional, tested | B |
-| tools/ | Linters, structural tests — working | B |
-| tooling/ | Setup scripts — minimal | C |
+| scripts/ | Linters, health checks, generators, dev utils | B |
+| policies/ | Machine-readable policies (risk, setpoints, review) | A |
 | src/ | Product code — not yet started (Phase 1) | — |
 
 Grade scale: **A** = well-tested, documented, stable. **B** = functional, room for improvement. **C** = works but needs attention. **D** = tech debt, needs refactoring.

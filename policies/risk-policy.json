@@ -2,13 +2,12 @@
   "version": 1,
   "description": "When code in a watchPath changes, verify that the listed docs are still accurate.",
   "tiers": ["low", "medium", "high"],
-  "watchPaths": ["src/", "scripts/", "tools/", "evals/"],
+  "watchPaths": ["src/", "scripts/", "policies/"],
   "docsDriftRules": [
     {
       "watch": "src/",
       "docs": [
         "ARCHITECTURE.md",
-        "docs/design-docs/architecture.md",
         "docs/generated/db-schema.md"
       ]
     },
@@ -27,14 +26,14 @@
       ]
     },
     {
-      "watch": "tools/",
+      "watch": "scripts/linters/",
       "docs": [
         "docs/GOLDEN_PRINCIPLES.md",
         "docs/design-docs/rules.md"
       ]
     },
     {
-      "watch": "evals/",
+      "watch": "policies/",
       "docs": [
         "docs/ENTROPY.md"
       ]

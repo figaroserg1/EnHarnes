@@ -26,7 +26,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 KNOWN_BOTS = {
     "dependabot[bot]", "github-actions[bot]", "renovate[bot]",
@@ -60,8 +60,8 @@ def is_bot(user: dict) -> bool:
 
 
 def load_setpoints() -> dict:
-    """Load targets from evals/control-loop-metrics.yaml."""
-    yaml_path = ROOT / "evals" / "control-loop-metrics.yaml"
+    """Load targets from policies/control-loop-metrics.yaml."""
+    yaml_path = ROOT / "policies" / "control-loop-metrics.yaml"
     if not yaml_path.exists():
         return {}
     # Simple YAML parsing (no PyYAML dependency)

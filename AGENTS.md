@@ -4,7 +4,7 @@ You are an AI agent. Read this fully at session start. This is your operating ma
 
 ## Task Loop (every task follows this sequence)
 
-1. **Boot worktree** — `./scripts/worktree-boot.sh <task-name>`. Every task runs in isolation.
+1. **Boot worktree** — `./scripts/dev/worktree-boot.sh <task-name>`. Every task runs in isolation.
 2. **Validate state** — `make smoke`. Do not proceed if it fails.
 3. **Load context** — check `progress.txt` if resuming. Load docs from the table below as needed.
 4. **Implement** — small, verifiable steps. `make check` after each change.
@@ -29,8 +29,8 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | What | Cadence | How |
 |------|---------|-----|
 | Entropy scan | Weekly (or between tasks) | `make entropy`, `make gardener` → `docs/ENTROPY.md` |
-| Health metrics | Monthly (or when metrics drift) | `python scripts/measure_metrics.py` → `policies/control-loop-metrics.yaml` |
-| Doc gardening | With every PR | `scripts/check_doc_drift.py` runs in CI automatically |
+| Health metrics | Monthly (or when metrics drift) | `python scripts/health/measure_metrics.py` → `policies/control-loop-metrics.yaml` |
+| Doc gardening | With every PR | `scripts/health/check_doc_drift.py` runs in CI automatically |
 
 ## Quick Commands
 

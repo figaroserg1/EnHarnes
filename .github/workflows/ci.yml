@@ -23,7 +23,7 @@ jobs:
         run: make structural
 
       - name: Doc-drift check (risk-policy.json)
-        run: python3 scripts/check_doc_drift.py
+        run: python3 scripts/health/check_doc_drift.py
 
       - name: Full test suite
         run: make test

@@ -12,8 +12,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-POLICY_PATH = ROOT / "risk-policy.json"
+ROOT = Path(__file__).resolve().parents[2]
+POLICY_PATH = ROOT / "policies" / "risk-policy.json"
 
 
 def get_changed_files() -> set[str]:

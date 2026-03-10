@@ -56,9 +56,9 @@ done
 
 # 3. Find blank setpoint targets in control-loop-metrics.yaml
 echo ""
-echo "-- Blank setpoints in evals/control-loop-metrics.yaml --"
-if [ -f evals/control-loop-metrics.yaml ]; then
-  if grep -q "target: $" evals/control-loop-metrics.yaml 2>/dev/null; then
+echo "-- Blank setpoints in policies/control-loop-metrics.yaml --"
+if [ -f policies/control-loop-metrics.yaml ]; then
+  if grep -q "target: $" policies/control-loop-metrics.yaml 2>/dev/null; then
     echo "  WARNING: some setpoint targets are empty"
     ERRORS=$((ERRORS + 1))
   fi
@@ -77,12 +77,12 @@ done
 # 5. Check risk-policy.json doc references still resolve
 echo ""
 echo "-- Checking risk-policy.json doc references --"
-if [ -f risk-policy.json ]; then
+if [ -f policies/risk-policy.json ]; then
   python3 - <<'EOF'
 import json, sys
 from pathlib import Path
 
-policy = json.loads(Path("risk-policy.json").read_text())
+policy = json.loads(Path("policies/risk-policy.json").read_text())
 missing = []
 for rule in policy.get("docsDriftRules", []):
     for doc in rule.get("docs", []):
