@@ -10,7 +10,7 @@ check:
 
 # Structural architecture tests only
 structural:
-	bash scripts/structural-tests.sh
+	pytest scripts/structural-tests/test_layer_dependencies.py
 
 # Full test suite: check + structural
 test:
@@ -26,7 +26,7 @@ build:
 	bash scripts/custom_builder.sh
 
 tools:
-	bash tooling/setup-tools.sh
+	@echo "TODO: setup script not yet implemented"
 
 todo-sync:
 	python3 scripts/sync_todo_registry.py

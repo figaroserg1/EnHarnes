@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "description": "When code in a watchPath changes, verify that the listed docs are still accurate.",
+  "tiers": ["low", "medium", "high"],
+  "watchPaths": ["src/", "scripts/", "tools/", "evals/"],
+  "docsDriftRules": [
+    {
+      "watch": "src/",
+      "docs": [
+        "ARCHITECTURE.md",
+        "docs/design-docs/architecture.md",
+        "docs/generated/db-schema.md"
+      ]
+    },
+    {
+      "watch": "src/Providers/",
+      "docs": [
+        "ARCHITECTURE.md",
+        "docs/design-docs/system-spec.md"
+      ]
+    },
+    {
+      "watch": "scripts/",
+      "docs": [
+        "AGENTS.md",
+        "docs/OBSERVABILITY.md"
+      ]
+    },
+    {
+      "watch": "tools/",
+      "docs": [
+        "docs/GOLDEN_PRINCIPLES.md",
+        "docs/design-docs/rules.md"
+      ]
+    },
+    {
+      "watch": "evals/",
+      "docs": [
+        "docs/ENTROPY.md"
+      ]
+    }
+  ]
+}

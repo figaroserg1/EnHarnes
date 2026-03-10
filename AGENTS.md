@@ -8,7 +8,7 @@ You are an AI agent. Read this fully at session start. This is your operating ma
 2. **Validate state** — `make smoke`. Do not proceed if it fails.
 3. **Load context** — check `progress.txt` if resuming. Load docs from the table below as needed.
 4. **Implement** — small, verifiable steps. `make check` after each change.
-5. **Doc drift** — open `risk-policy.json` → `docsDriftRules`. If changed files match a `watch` path, update every listed doc.
+5. **Doc drift** — open `policies/risk-policy.json` → `docsDriftRules`. If changed files match a `watch` path, update every listed doc.
 6. **Pre-PR** — `make review`. Fix all failures. Then open PR.
 7. **Review loop** — respond to feedback, iterate until reviewers approve.
 8. **Merge + teardown** — merge PR, `git worktree remove <path>`.
@@ -22,14 +22,14 @@ You are an AI agent. Read this fully at session start. This is your operating ma
 | **Medium** (scripts, refactors) | ExecPlan + PR. Wait for approval before merge. |
 | **High** (architecture, security) | ExecPlan only. Do not implement. |
 
-Unsure → medium. Tiers defined in `risk-policy.json`.
+Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 ## Cadenced Operations
 
 | What | Cadence | How |
 |------|---------|-----|
 | Entropy scan | Weekly (or between tasks) | `make entropy`, `make gardener` → `docs/ENTROPY.md` |
-| Health metrics | Monthly (or when metrics drift) | `python scripts/measure_metrics.py` → `evals/control-loop-metrics.yaml` |
+| Health metrics | Monthly (or when metrics drift) | `python scripts/measure_metrics.py` → `policies/control-loop-metrics.yaml` |
 | Doc gardening | With every PR | `scripts/check_doc_drift.py` runs in CI automatically |
 
 ## Quick Commands
@@ -43,6 +43,15 @@ Unsure → medium. Tiers defined in `risk-policy.json`.
 | CI-equivalent | `make ci` |
 | Pre-PR review | `make review` |
 | Entropy scan | `make entropy` |
+
+## Agent Capabilities
+
+- filesystem
+- git
+- browser automation
+- observability queries
+- TODO: [AI] Update when adding MCP servers or local tools.
+- TODO: [AI->HUMAN] Clarify staging environment access.
 
 ## Core Rules
 
@@ -65,16 +74,12 @@ Unsure → medium. Tiers defined in `risk-policy.json`.
 | Execution plans | `docs/PLANS.md` | Complex/multi-file tasks → create plan in `docs/exec-plans/active/` |
 | Worktree workflow | `docs/WORKTREE_WORKFLOW.md` | Boot script issues or naming questions |
 | Observability | `docs/OBSERVABILITY.md` | Logging or metrics setup |
-| Browser automation | `docs/BROWSER_AUTOMATION.md` | UI testing or browser tasks |
+| Browser automation | `docs/references/BROWSER_AUTOMATION.md` | UI testing or browser tasks |
 | Entropy management | `docs/ENTROPY.md` | Cadenced entropy scans |
-| Health setpoints | `evals/control-loop-metrics.yaml` | Cadenced health checks |
-| Doc drift policy | `risk-policy.json` | After any code change (step 5 of loop) |
-| Checklist + scores | `docs/CHECKLIST.md` | Evaluating project maturity |
-| Research backlog | `docs/DEEP_RESEARCH.md` | Unresolved research items |
-| Agent capabilities | `docs/AGENT_CAPABILITIES.md` | Adding MCP servers or tools |
-| Skills registry | `tools/skills_registry.json` | Adding new tool/script |
+| Health setpoints | `policies/control-loop-metrics.yaml` | Cadenced health checks |
+| Doc drift policy | `policies/risk-policy.json` | After any code change (step 5 of loop) |
 | Scripts | `scripts/` | — |
-| Linters + structural tests | `tools/` | — |
+| Linters + structural tests | `scripts/linters/`, `scripts/structural-tests/` | — |
 
 ## Self improvement
 - You suppoed to update the Agents.md and related docs and scripts, create missing ones for yourself. Your convenience is proority. 
