@@ -1,4 +1,4 @@
-.PHONY: smoke check structural ast-rules test ci build tools todo-sync entropy review dev obs-up obs-down seed gardener
+.PHONY: smoke check structural ast-rules test ci build tools todo-sync sync-skills entropy review dev obs-up obs-down seed gardener
 
 # Python interpreter — override on Windows: make check PYTHON=python
 PYTHON ?= python3
@@ -41,6 +41,10 @@ tools:
 
 todo-sync:
 	$(PYTHON) scripts/generators/sync_todo_registry.py
+
+# Sync skill AGENTS.md entries into AGENTS.md Reference Table
+sync-skills:
+	$(PYTHON) scripts/generators/sync_skills_to_agents.py
 
 entropy:
 	$(PYTHON) scripts/health/entropy_check.py

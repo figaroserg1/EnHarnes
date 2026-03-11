@@ -1,6 +1,16 @@
+---
+name: harness-planner
+description: Create self-contained execution plans (ExecPlans) for medium/high risk tasks. No code modifications during planning. Read OPENAI_PLANS.md for the canonical format, then author and validate a plan in docs/exec-plans/active/.
+---
+
 # Harness Planner
 
 **No code modifications during planning.**
+
+## AGENTS.md Entry
+
+<!-- sync_skills_to_agents.py reads this section and adds it to AGENTS.md Reference Table -->
+| ExecPlan format | `.claude/skills/harness-planner/OPENAI_PLANS.md` | Medium/high risk tasks (per Autonomy table). Read before creating a plan in `docs/exec-plans/active/` |
 
 ## How to Create an ExecPlan
 
