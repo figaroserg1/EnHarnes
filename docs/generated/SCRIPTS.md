@@ -1,214 +1,210 @@
 # Scripts Reference
 
-Описание всех скриптов проекта. Для человека — что делает, зачем нужен, как запускать.
+All scripts are cross-platform (Python) unless marked as platform-specific stubs.
+Python scripts work on Windows, Linux, and macOS with Python 3.10+.
 
 ---
 
-## worktree-boot.sh
+## scripts/dev/worktree_boot.py
 
-Создаёт изолированный worktree для задачи агента. Автоматически определяет runtime (Python/Node/Rust), ставит зависимости, запускает smoke-проверку. Каждая задача — отдельный worktree, без shared state.
+Creates an isolated git worktree for an agent task. Auto-detects runtime (Python/Node/Rust), installs dependencies, runs smoke check.
 
 ```bash
-./scripts/worktree-boot.sh feature-login
-# Создаёт ../worktree_feature-login на ветке task/feature-login
+python scripts/dev/worktree_boot.py feature-login
+# Creates ../worktree_feature-login on branch task/feature-login
 ```
 
 ---
 
-## agent_self_review.sh
+## scripts/health/agent_self_review.py
 
-Предварительная проверка перед PR — 5 шагов: статический анализ (`make check`), структурные тесты (`make structural`), проверка doc-drift, проверка watch-path из `risk-policy.json`, быстрый entropy spot-check. Если хоть один шаг упал — exit 1, PR открывать нельзя.
+Pre-PR gate — 5 sequential checks: static analysis (`make check`), structural tests (`make structural`), doc-drift validation, watch-path reminders from `risk-policy.json`, entropy spot-check. Exit 1 = don't open PR.
 
 ```bash
-bash scripts/agent_self_review.sh
-# или через Makefile:
-make review
+python scripts/health/agent_self_review.py
+# or: make review
 ```
 
 ---
 
-## check_doc_drift.py
+## scripts/health/check_doc_drift.py
 
-Читает `risk-policy.json`, проверяет что все документы из `docsDriftRules` реально существуют. Если файлы в PR затрагивают watch-path — выводит предупреждения о документах, которые нужно обновить. Запускается в CI и в self-review.
+Reads `policies/risk-policy.json`, verifies all `docsDriftRules` documents exist. If changed files match a watch path, warns about docs to update. Runs in CI and self-review.
 
 ```bash
-python3 scripts/check_doc_drift.py
+python scripts/health/check_doc_drift.py
 ```
-
-Код возврата 1 = есть ссылки на несуществующие документы.
 
 ---
 
-## custom_linter.py
+## scripts/health/doc_gardener.py
 
-Линтер для markdown и соглашений об именовании:
-- Каждый `TODO:` должен иметь маркер владельца `[HUMAN]`, `[AI]` или `[AI->HUMAN]`
-- Каждый `EXAMPLE` должен содержать `(REPLACE ME)`
-- Файлы в `src/` должны быть в kebab-case
-- Директории слоёв в `src/` должны совпадать с ARCHITECTURE.md (Types, Config, Repo, Service, Runtime, UI, Providers)
+Documentation health checker — 5 checks:
+1. Stale verification headers (older than 30 days)
+2. Broken internal markdown links
+3. Sparse index files (< 5 lines)
+4. Doc lint (calls `custom_linter.py`)
+5. Doc drift (calls `check_doc_drift.py`)
 
 ```bash
-python3 scripts/custom_linter.py
+python scripts/health/doc_gardener.py
+# or: make gardener
 ```
-
-Ошибки блокируют (exit 1), предупреждения — нет.
 
 ---
 
-## doc_gardener.sh
+## scripts/health/entropy_check.py
 
-Комплексное обслуживание документации — 5 проверок:
-1. Устаревшие заголовки верификации (старше 30 дней)
-2. Битые внутренние ссылки в markdown
-3. Файлы-индексы, которые всё ещё заглушки (< 5 строк)
-4. Doc lint (вызывает `custom_linter.py`)
-5. Doc drift (вызывает `check_doc_drift.py`)
+Scans for project degradation:
+1. Unreplaced `REPLACE ME` placeholders in docs/
+2. Orphan scripts not referenced in Makefile or CI
+3. Blank target values in `policies/control-loop-metrics.yaml`
+4. Python files over 500 lines in src/
+5. Missing doc references in `risk-policy.json`
 
 ```bash
-bash scripts/doc_gardener.sh
-# или:
-make gardener
+python scripts/health/entropy_check.py
+# or: make entropy
 ```
 
 ---
 
-## entropy-check.sh
+## scripts/health/measure_metrics.py
 
-Сканирование «энтропии» проекта — нарастающего беспорядка:
-1. Незаменённые `REPLACE ME` плейсхолдеры в docs/
-2. Скрипты-сироты, не упомянутые в Makefile или CI
-3. Пустые target-значения в `evals/control-loop-metrics.yaml`
-4. Python-файлы длиннее 500 строк (soft limit)
-5. Битые ссылки на документы в `risk-policy.json`
+Measures 5 control-loop metrics via GitHub API (`gh` CLI): PR pass-at-1, merge cycle time, revert rate, human intervention rate, time to actionable failure. Compares with setpoints from `policies/control-loop-metrics.yaml`.
 
 ```bash
-bash scripts/entropy-check.sh
-# или:
-make entropy
+python scripts/health/measure_metrics.py --owner myorg --repo myrepo --days 30
 ```
+
+Requires: `gh auth login`.
 
 ---
 
-## measure_metrics.py
+## scripts/linters/custom_linter.py
 
-Измеряет 5 метрик контроля через GitHub API (`gh` CLI):
-
-| Метрика | Что измеряет |
-|---------|-------------|
-| `pr_pass_at_1` | % PR где CI прошёл с первого коммита |
-| `merge_cycle_time_hours` | Медиана часов от открытия PR до merge |
-| `revert_rate` | % замерженных PR, которые потом реверт |
-| `human_intervention_rate` | % PR с комментариями от людей (не ботов) |
-| `time_to_actionable_failure_minutes` | Медиана минут от push до провала CI |
-
-Сравнивает с setpoints из `evals/control-loop-metrics.yaml`. Exit 1 при алертах.
+Enforces project conventions on markdown and source files:
+- TODO markers must have owner: `[HUMAN]`, `[AI]`, or `[AI->HUMAN]`
+- EXAMPLE blocks must contain `(REPLACE ME)`
+- Files in `src/` must be kebab-case
+- Layer directories must match ARCHITECTURE.md
 
 ```bash
-python3 scripts/measure_metrics.py --owner figaroserg1 --repo EnHarnes --days 30
+python scripts/linters/custom_linter.py
+# or: make smoke
 ```
-
-Требует: `gh auth login`.
 
 ---
 
-## obs.py
+## scripts/linters/dependency_guard.py
 
-Модуль наблюдаемости без инфраструктуры. Пишет структурированные JSON-логи и метрики в JSONL-файлы (`.claude/observability/`). Имеет API для записи и чтения.
-
-```python
-import obs
-obs.log("info", "task started", component="ci", task_id="abc")
-obs.metric("startup_time_ms", 1230, component="api")
-
-errors = obs.query_logs(level="error", since_minutes=5)
-print(obs.summary())
-```
-
-Phase 1 (текущая) — файлы. Phase 2 — Vector sink. Phase 3 — Grafana + Loki.
-
----
-
-## structural-tests.sh
-
-Запускает структурные тесты: проверяет что зависимости между слоями соответствуют архитектуре (UI не импортирует Repo напрямую и т.д.).
+Enforces Golden Principles on Python source in `src/`:
+- No direct Repo imports from UI layer
+- No bare `print()` in production code
+- File size limits (500 soft, 1500 hard)
+- Cross-cutting concerns via Providers only
 
 ```bash
-bash scripts/structural-tests.sh
-# или:
-make structural
-```
-
-Внутри: `pytest tools/structural-tests/test_layer_dependencies.py`.
-
----
-
-## custom_builder.sh
-
-Генерирует единый `dist/project-handbook.md` из ключевых документов проекта (README, METHOD, QUICKSTART, ARCHITECTURE, system-spec, rules). Полезен для передачи контекста человеку или агенту одним файлом.
-
-```bash
-bash scripts/custom_builder.sh
-# Результат: dist/project-handbook.md
+python scripts/linters/dependency_guard.py
 ```
 
 ---
 
-## sync_todo_registry.py
+## scripts/linters/lint.py
 
-Считает все `TODO:` маркеры по markdown-файлам и группирует по владельцу (HUMAN / AI / AI->HUMAN). Даёт быструю сводку кто за что отвечает.
-
-```bash
-python3 scripts/sync_todo_registry.py
-# TODO owners summary:
-# - HUMAN: 3
-# - AI: 5
-# - AI->HUMAN: 1
-```
-
----
-
-## harness/lint.sh
-
-Автоопределяет тип проекта и запускает правильный линтер:
+Auto-detects project type and runs the appropriate linter:
 - Rust → `cargo clippy`
 - Node.js → `npm run lint`
 - Python → `custom_linter.py` + `dependency_guard.py`
 
-Можно переопределить через переменную `HARNESS_LINT_CMD`.
+Override via `HARNESS_LINT_CMD` environment variable.
 
 ```bash
-bash scripts/harness/lint.sh
+python scripts/linters/lint.py
+# or: make check
 ```
 
 ---
 
-## harness/typecheck.sh
+## scripts/linters/typecheck.py
 
-Автоопределяет тип проекта и запускает тайпчекер:
+Auto-detects project type and runs the appropriate type checker:
 - Rust → `cargo check`
 - Node.js → `npm run typecheck`
-- Python → `pyright` или `mypy`
+- Python → `pyright` or `mypy`
 
-Можно переопределить через `HARNESS_TYPECHECK_CMD`.
+Override via `HARNESS_TYPECHECK_CMD` environment variable.
 
 ```bash
-bash scripts/harness/typecheck.sh
+python scripts/linters/typecheck.py
 ```
 
 ---
 
-## dev-start.sh
+## scripts/linters/validate-ast-rules.py
 
-Заглушка для запуска приложения в dev-режиме. Нужно заменить на реальную команду (например, `docker compose up`).
+Validates ast-grep rule YAML files: syntax, required fields, severity values, no duplicate keys, proper nesting.
+
+```bash
+python scripts/linters/validate-ast-rules.py rules/ast-grep/
+# or: make ast-rules
+```
 
 ---
 
-## obs-up.sh / obs-down.sh
+## scripts/generators/build_handbook.py
 
-Заглушки для поднятия/остановки observability стека (docker compose). Будут актуальны при переходе на Phase 2/3 (Vector, Grafana, Loki).
+Generates `dist/project-handbook.md` — concatenation of core Phase 1 docs (README, METHOD, QUICKSTART, ARCHITECTURE, specs, rules) into a single file for LLM context or quick reading.
+
+```bash
+python scripts/generators/build_handbook.py
+# or: make build
+```
 
 ---
 
-## seed-dev-data.sh
+## scripts/generators/sync_todo_registry.py
 
-Заглушка для загрузки dev-данных (фикстуры, сиды). Нужно заменить на реальную реализацию.
+Counts TODO markers by owner across all markdown files. Outputs summary table.
+
+```bash
+python scripts/generators/sync_todo_registry.py
+# or: make todo-sync
+```
+
+---
+
+## scripts/structural-tests/test_layer_dependencies.py
+
+AST-based structural tests: verifies layer imports follow ARCHITECTURE.md rules. Run via pytest.
+
+```bash
+pytest scripts/structural-tests/test_layer_dependencies.py
+# or: make structural
+```
+
+---
+
+## scripts/observability/obs.py
+
+Zero-infrastructure structured logging and metrics. Writes JSON lines to `.claude/observability/`. Has query and summary APIs.
+
+```python
+import obs
+obs.log("info", "task started", component="ci")
+obs.metric("startup_time_ms", 1230, component="api")
+```
+
+---
+
+## Platform-specific stubs
+
+These are placeholder scripts that users replace with project-specific commands.
+Each has both `.sh` (Linux/Mac) and `.cmd` (Windows) versions.
+
+| Script | Purpose | Make target |
+|--------|---------|-------------|
+| `scripts/dev/dev-start.sh` / `.cmd` | Start local dev environment | `make dev` |
+| `scripts/dev/seed-dev-data.sh` / `.cmd` | Seed local DB with test data | `make seed` |
+| `scripts/observability/obs-up.sh` / `.cmd` | Start observability stack | `make obs-up` |
+| `scripts/observability/obs-down.sh` / `.cmd` | Stop observability stack | `make obs-down` |

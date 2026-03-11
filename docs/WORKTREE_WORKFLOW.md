@@ -6,7 +6,7 @@ Each agent task runs in an isolated git worktree. No shared state between tasks.
 
 ```bash
 # One command: creates worktree, installs deps, runs smoke
-./scripts/worktree-boot.sh feature-x
+python scripts/dev/worktree_boot.py feature-x
 ```
 
 This creates `../worktree_feature-x` on branch `task/feature-x`.

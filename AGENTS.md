@@ -4,7 +4,7 @@ You are an AI agent. Read this fully at session start. This is your operating ma
 
 ## Task Loop (every task follows this sequence)
 
-1. **Boot worktree** — `./scripts/dev/worktree-boot.sh <task-name>`. Every task runs in isolation.
+1. **Boot worktree** — `python scripts/dev/worktree_boot.py <task-name>`. Every task runs in isolation.
 2. **Validate state** — `make smoke`. Do not proceed if it fails.
 3. **Load context** — check `progress.txt` if resuming. Load docs from the table below as needed.
 4. **Implement** — small, verifiable steps. `make check` after each change.

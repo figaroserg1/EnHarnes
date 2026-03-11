@@ -14,4 +14,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run entropy check
-        run: bash scripts/health/entropy-check.sh
+        run: python3 scripts/health/entropy_check.py

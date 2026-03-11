@@ -1,16 +1,19 @@
 .PHONY: smoke check structural ast-rules test ci build tools todo-sync entropy review dev obs-up obs-down seed gardener
 
+# Python interpreter — override on Windows: make check PYTHON=python
+PYTHON ?= python3
+
 # Fast sanity: doc linter only (~5s)
 smoke:
-	python3 scripts/linters/custom_linter.py
+	$(PYTHON) scripts/linters/custom_linter.py
 
 # Static checks: harness lint script (doc linter + Python source guard)
 check:
-	bash scripts/linters/lint.sh
+	$(PYTHON) scripts/linters/lint.py
 
 # Validate ast-grep rule YAML files
 ast-rules:
-	python3 scripts/linters/validate-ast-rules.py rules/ast-grep/
+	$(PYTHON) scripts/linters/validate-ast-rules.py rules/ast-grep/
 
 # Run ast-grep scan on src/ (requires: pip install ast-grep-cli or cargo install ast-grep)
 ast-scan:
@@ -31,19 +34,19 @@ ci:
 
 # Supporting targets
 build:
-	bash scripts/generators/build_handbook.sh
+	$(PYTHON) scripts/generators/build_handbook.py
 
 tools:
 	@echo "TODO: setup script not yet implemented"
 
 todo-sync:
-	python3 scripts/generators/sync_todo_registry.py
+	$(PYTHON) scripts/generators/sync_todo_registry.py
 
 entropy:
-	bash scripts/health/entropy-check.sh
+	$(PYTHON) scripts/health/entropy_check.py
 
 review:
-	bash scripts/health/agent_self_review.sh
+	$(PYTHON) scripts/health/agent_self_review.py
 
 dev:
 	bash scripts/dev/dev-start.sh
@@ -58,4 +61,4 @@ seed:
 	bash scripts/dev/seed-dev-data.sh
 
 gardener:
-	bash scripts/health/doc_gardener.sh
+	$(PYTHON) scripts/health/doc_gardener.py

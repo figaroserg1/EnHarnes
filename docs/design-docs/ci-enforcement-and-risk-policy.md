@@ -14,7 +14,7 @@ Agents read this to understand *why* the CI structure is the way it is — not j
 - `docsDriftRules` mapping code areas to docs that must stay current
 
 When code in a watched path changes, the agent checks `risk-policy.json` and verifies
-that all listed docs still accurately reflect the code. This happens in `agent_self_review.sh`.
+that all listed docs still accurately reflect the code. This happens in `agent_self_review.py`.
 
 **2. CI quality gates are explicit and sequential.**
 `.github/workflows/ci.yml` runs one command: `make test`.
@@ -39,7 +39,7 @@ When branch protection enforces conversation resolution, unresolved review comme
 block merge even when CI is green. This is the only non-automated merge gate.
 
 **6. Harness scripts provide portable entry points.**
-`scripts/harness/lint.sh` and `scripts/harness/typecheck.sh` auto-detect the project
+`scripts/linters/lint.py` and `scripts/linters/typecheck.py` auto-detect the project
 runtime (Rust/Node/Python) and run the appropriate toolchain. For EnHarnes (Python),
 they delegate to `custom_linter.py` and `dependency_guard.py`.
 

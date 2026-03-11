@@ -18,14 +18,14 @@ This document defines what drift looks like and how we fight it.
 | Cadence | Action |
 |---|---|
 | Per PR | `make check` catches lint + structural violations before merge |
-| Weekly | Run `scripts/health/entropy-check.sh` — scans for stale docs, dead scripts, orphaned TODOs |
+| Weekly | Run `scripts/health/entropy_check.py` — scans for stale docs, dead scripts, orphaned TODOs |
 | Monthly | Review `docs/exec-plans/tech-debt-tracker.md` — escalate items older than 30 days |
 | After refactor | Re-run structural tests and verify `policies/risk-policy.json` doc links still resolve |
 
 ## Running the Entropy Check
 
 ```bash
-bash scripts/health/entropy-check.sh
+python scripts/health/entropy_check.py
 ```
 
 Output: list of files with potential drift issues. Each item is a candidate for cleanup, not a guaranteed problem. Agent reviews each and resolves or logs in tech-debt-tracker.
