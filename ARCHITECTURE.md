@@ -10,7 +10,7 @@
 2. **Design layer**: `docs/design-docs/`, `docs/DESIGN.md`.
 3. **Execution layer**: `scripts/`, `Makefile`.
 4. **Reliability & Security layer**: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/OBSERVABILITY.md`.
-5. **Planning layer**: `docs/PLANS.md`, `docs/exec-plans/`.
+5. **Planning layer**: `docs/OPENAI_PLANS.md`, `docs/exec-plans/`.
 
 
 **Архитектура исходного кода (`src/`):**
