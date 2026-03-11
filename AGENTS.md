@@ -71,7 +71,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Core beliefs | `docs/design-docs/core-beliefs.md` | Design choices |
 | Golden principles (linter rules) | `docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
 | CI/merge policy | `docs/design-docs/ci-enforcement-and-risk-policy.md` | CI or merge config changes |
-| ExecPlan format | `.claude/skills/harness-planner/OPENAI_PLANS.md` | Medium/high risk tasks (per Autonomy table). Read before creating a plan in `docs/exec-plans/active/` |
+| harness-planner | `.claude/skills/harness-planner/SKILL.md` | Create self-contained execution plans (ExecPlans) for medium/high risk tasks. No code modifications during planning. Read OPENAI_PLANS.md for the canonical format, then author and validate a plan in docs/exec-plans/active/. |
 | Worktree workflow | `docs/WORKTREE_WORKFLOW.md` | Boot script issues or naming questions |
 | Observability | `docs/OBSERVABILITY.md` | Logging or metrics setup |
 | Browser automation | `docs/references/BROWSER_AUTOMATION.md` | UI testing or browser tasks |

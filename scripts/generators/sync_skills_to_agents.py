@@ -1,26 +1,18 @@
 #!/usr/bin/env python3
-"""sync_skills_to_agents.py — Sync installed skill entries into AGENTS.md.
+"""sync_skills_to_agents.py — Sync installed skills into AGENTS.md.
 
-Reads every .claude/skills/*/SKILL.md, extracts the '## AGENTS.md Entry'
-section (expected to contain a markdown table row), and ensures each entry
-exists in the '## Reference Table' of AGENTS.md.
+Scans .claude/skills/*/SKILL.md, reads YAML frontmatter (name, description),
+and ensures a row exists in the Reference Table of AGENTS.md.
 
-Convention: each SKILL.md may contain a section like:
+Generated row format:
+    | <name> | `.claude/skills/<dir>/SKILL.md` | <description> |
 
-    ## AGENTS.md Entry
-    | Topic | `path/to/file` | When to load |
-
-The script parses table rows from that section and inserts any missing
-rows into the Reference Table in AGENTS.md. Existing rows (matched by
-the file path in column 2) are updated in place.
+Matching is by file path (column 2). Existing rows are updated in place.
+New rows are appended at the end of the table.
 
 Usage:
     python scripts/generators/sync_skills_to_agents.py
     or: make sync-skills
-
-Exit code:
-    0 — AGENTS.md is up to date (or was updated)
-    1 — error (AGENTS.md or skills not found)
 """
 
 import re
@@ -31,44 +23,29 @@ ROOT = Path(__file__).resolve().parents[2]
 AGENTS_MD = ROOT / "AGENTS.md"
 SKILLS_DIR = ROOT / ".claude" / "skills"
 
-# Markers in AGENTS.md
 REF_TABLE_HEADER = "## Reference Table"
-# We look for the table between the header and the next ## section
 SECTION_RE = re.compile(r"^## ", re.MULTILINE)
-# Match a table row: | col1 | col2 | col3 |
 TABLE_ROW_RE = re.compile(r"^\|[^|]+\|[^|]+\|[^|]+\|$")
-# Skill-injected rows are marked with a comment in the SKILL.md
-SKILL_ENTRY_MARKER = "## AGENTS.md Entry"
+FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
 
 
-def extract_skill_rows(skill_md: Path) -> list[str]:
-    """Extract table rows from the AGENTS.md Entry section of a SKILL.md."""
-    text = skill_md.read_text(encoding="utf-8")
-    idx = text.find(SKILL_ENTRY_MARKER)
-    if idx == -1:
-        return []
-
-    # Find the section content (until next ## or end of file)
-    after = text[idx + len(SKILL_ENTRY_MARKER):]
-    next_section = SECTION_RE.search(after)
-    section_text = after[:next_section.start()] if next_section else after
-
-    rows = []
-    for line in section_text.strip().splitlines():
-        line = line.strip()
-        # Skip header rows and separator rows
-        if TABLE_ROW_RE.match(line) and "---" not in line and "Topic" not in line:
-            rows.append(line)
-    return rows
+def parse_frontmatter(text: str) -> dict[str, str]:
+    """Parse simple YAML frontmatter (key: value pairs only)."""
+    match = FRONTMATTER_RE.match(text)
+    if not match:
+        return {}
+    result = {}
+    for line in match.group(1).splitlines():
+        if ":" in line:
+            key, _, value = line.partition(":")
+            result[key.strip()] = value.strip()
+    return result
 
 
 def extract_file_path(row: str) -> str:
-    """Extract the file path (column 2) from a table row for matching."""
+    """Extract column 2 from a table row."""
     cols = [c.strip() for c in row.split("|")]
-    # cols[0] is empty (before first |), cols[1] is topic, cols[2] is file
-    if len(cols) >= 3:
-        return cols[2]
-    return ""
+    return cols[2] if len(cols) >= 3 else ""
 
 
 def sync() -> bool:
@@ -81,58 +58,57 @@ def sync() -> bool:
         print("No .claude/skills/ directory found. Nothing to sync.")
         return False
 
-    # Collect all skill entries
+    # Collect skill rows from frontmatter
     skill_rows: list[str] = []
     for skill_dir in sorted(SKILLS_DIR.iterdir()):
+        if not skill_dir.is_dir():
+            continue
         skill_md = skill_dir / "SKILL.md"
-        if skill_md.exists():
-            rows = extract_skill_rows(skill_md)
-            if rows:
-                print(f"  Found {len(rows)} entry(s) in {skill_dir.name}")
-                skill_rows.extend(rows)
+        if not skill_md.exists():
+            continue
+
+        fm = parse_frontmatter(skill_md.read_text(encoding="utf-8"))
+        name = fm.get("name", "")
+        desc = fm.get("description", "")
+        if not name:
+            print(f"  SKIP: {skill_dir.name} (no name in frontmatter)")
+            continue
+
+        rel_path = f".claude/skills/{skill_dir.name}/SKILL.md"
+        row = f"| {name} | `{rel_path}` | {desc} |"
+        skill_rows.append(row)
+        print(f"  Found: {name}")
 
     if not skill_rows:
-        print("No AGENTS.md entries found in skills.")
+        print("No skills with frontmatter found.")
         return False
 
     # Read AGENTS.md
     agents_text = AGENTS_MD.read_text(encoding="utf-8")
 
-    # Find the Reference Table section
     ref_idx = agents_text.find(REF_TABLE_HEADER)
     if ref_idx == -1:
-        print("ERROR: '## Reference Table' section not found in AGENTS.md")
+        print("ERROR: '## Reference Table' not found in AGENTS.md")
         return False
 
-    # Find the end of the reference table (next ## section)
+    # Find the table boundaries
     after_ref = agents_text[ref_idx + len(REF_TABLE_HEADER):]
     next_section_match = SECTION_RE.search(after_ref)
-    if next_section_match:
-        table_end = ref_idx + len(REF_TABLE_HEADER) + next_section_match.start()
-    else:
-        table_end = len(agents_text)
+    table_end = ref_idx + len(REF_TABLE_HEADER) + (next_section_match.start() if next_section_match else len(after_ref))
 
     table_section = agents_text[ref_idx:table_end]
     table_lines = table_section.splitlines()
 
-    # Find existing file paths in the table for matching
-    existing_paths = set()
-    for line in table_lines:
-        if TABLE_ROW_RE.match(line.strip()) and "---" not in line and "Topic" not in line:
-            existing_paths.add(extract_file_path(line.strip()))
-
-    # Determine which skill rows need to be added or updated
     changes_made = False
     new_table_lines = list(table_lines)
 
     for skill_row in skill_rows:
         skill_path = extract_file_path(skill_row)
 
-        # Check if a row with this file path already exists
+        # Check if row with this path already exists
         found = False
         for i, line in enumerate(new_table_lines):
             if TABLE_ROW_RE.match(line.strip()) and extract_file_path(line.strip()) == skill_path:
-                # Update existing row
                 if line.strip() != skill_row:
                     new_table_lines[i] = skill_row
                     print(f"  Updated: {skill_path}")
@@ -141,7 +117,7 @@ def sync() -> bool:
                 break
 
         if not found:
-            # Find the last table row to insert after
+            # Append after last table row
             last_row_idx = 0
             for i, line in enumerate(new_table_lines):
                 if TABLE_ROW_RE.match(line.strip()) and "---" not in line and "Topic" not in line:
@@ -151,11 +127,10 @@ def sync() -> bool:
             changes_made = True
 
     if changes_made:
-        # Rebuild AGENTS.md
         new_table_section = "\n".join(new_table_lines)
         new_agents = agents_text[:ref_idx] + new_table_section + agents_text[table_end:]
         AGENTS_MD.write_text(new_agents, encoding="utf-8")
-        print(f"\nAGENTS.md updated.")
+        print("\nAGENTS.md updated.")
     else:
         print("\nAGENTS.md already up to date.")
 
