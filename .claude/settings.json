@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "command": "python3 .claude/hooks/validate-bash.py"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "command": "python3 .claude/hooks/prompt-validator.py"
+      }
+    ]
+  }
+}
