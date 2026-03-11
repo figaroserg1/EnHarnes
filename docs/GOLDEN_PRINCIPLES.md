@@ -81,6 +81,15 @@ Enforced by: `scripts/linters/dependency_guard.py`
 
 ---
 
+**13. Detailed logging required — console and file.**
+All production code must emit verbose structured logs to both console and file.
+Every operation, decision branch, and error must be logged with enough context for an agent to diagnose issues without guessing or adding debug prints.
+Minimum fields: `service`, `operation`, `result`, `duration_ms`, `error` (if any).
+File logs go to `logs/` directory (gitignored). Console logs use human-readable format.
+Enforced by: `scripts/linters/custom_linter.py` (planned: check that service modules contain logging setup)
+
+---
+
 ## Naming Conventions
 
 - Files: kebab-case (`user-service.py`, `auth-config.ts`)
@@ -110,6 +119,7 @@ Enforced by: `scripts/linters/custom_linter.py` (naming convention checks on src
 | 10. Trace propagation | `scripts/linters/custom_linter.py` (planned) | `make check` |
 | 11. Contract versioning | `scripts/structural-tests/test_contract_changes.py` (planned) | `make structural` |
 | 12. Providers only | `scripts/linters/dependency_guard.py` | `make check` |
+| 13. Detailed logging | `scripts/linters/custom_linter.py` (planned) | `make check` |
 | Naming conventions | `scripts/linters/custom_linter.py` | `make smoke` |
 
 Items marked **(planned)** have enforcement documented but the check is not yet implemented.
