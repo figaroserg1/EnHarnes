@@ -10,7 +10,7 @@ Create an execution plan for the given task. **No code modifications during plan
 
 Read these files in order. Do not skip any:
 
-1. `docs/OPENAI_PLANS.md` — the canonical ExecPlan format. Follow it to the letter.
+1. `.claude/skills/harness-planner/OPENAI_PLANS.md` — the canonical ExecPlan format. Follow it to the letter.
 2. `AGENTS.md` — check autonomy tier for this task (low/medium/high).
 3. `ARCHITECTURE.md` — understand layers, boundaries, quality grades.
 4. `docs/GOLDEN_PRINCIPLES.md` — mechanical invariants the plan must respect.
@@ -22,7 +22,7 @@ Then scan the affected source files to understand current state.
 
 Create `docs/exec-plans/active/YYYY-MM-DD-<slug>.md`.
 
-The plan MUST include ALL of these sections (from `docs/OPENAI_PLANS.md` skeleton):
+The plan MUST include ALL of these sections (from `OPENAI_PLANS.md` skeleton):
 
 ### Required sections
 - **Purpose / Big Picture** — what someone gains after this change, how to see it working
