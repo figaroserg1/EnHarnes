@@ -1,0 +1,12 @@
+id: no-os-environ-direct
+language: Python
+severity: warning
+message: "Access config through Providers/Config layer, not os.environ directly. Golden Principle #12."
+note: "Move env var access to src/Config/ or src/Providers/ and import from there."
+files:
+  - src/**/*.py
+ignores:
+  - src/Config/**/*.py
+  - src/Providers/**/*.py
+rule:
+  pattern: os.environ[$KEY]

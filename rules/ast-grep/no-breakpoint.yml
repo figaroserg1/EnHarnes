@@ -1,0 +1,8 @@
+id: no-breakpoint
+language: Python
+severity: error
+message: "Remove breakpoint() before committing."
+files:
+  - src/**/*.py
+rule:
+  pattern: breakpoint()

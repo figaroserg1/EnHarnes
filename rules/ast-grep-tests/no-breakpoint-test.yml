@@ -1,0 +1,9 @@
+id: no-breakpoint
+valid:
+  - |
+    x = compute_value()
+  - |
+    logging.debug("checkpoint reached")
+invalid:
+  - |
+    breakpoint()

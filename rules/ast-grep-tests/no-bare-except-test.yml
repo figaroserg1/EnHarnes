@@ -1,0 +1,18 @@
+id: no-bare-except
+valid:
+  - |
+    try:
+        do_something()
+    except ValueError as e:
+        handle_error(e)
+  - |
+    try:
+        do_something()
+    except (TypeError, KeyError):
+        pass
+invalid:
+  - |
+    try:
+        do_something()
+    except:
+        pass

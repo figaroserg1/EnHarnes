@@ -1,0 +1,14 @@
+id: no-exit-in-library
+language: Python
+severity: error
+message: "Do not call sys.exit() outside Runtime/UI layers. Raise exceptions instead."
+note: "sys.exit() belongs in src/Runtime/ or src/UI/ entry points only."
+files:
+  - src/**/*.py
+ignores:
+  - src/Runtime/**/*.py
+  - src/UI/**/*.py
+rule:
+  any:
+    - pattern: sys.exit($$$)
+    - pattern: exit($$$)

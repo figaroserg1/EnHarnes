@@ -1,4 +1,4 @@
-.PHONY: smoke check structural test ci build tools todo-sync entropy review dev obs-up obs-down seed gardener
+.PHONY: smoke check structural ast-rules test ci build tools todo-sync entropy review dev obs-up obs-down seed gardener
 
 # Fast sanity: doc linter only (~5s)
 smoke:
@@ -7,6 +7,14 @@ smoke:
 # Static checks: harness lint script (doc linter + Python source guard)
 check:
 	bash scripts/linters/lint.sh
+
+# Validate ast-grep rule YAML files
+ast-rules:
+	python3 scripts/linters/validate-ast-rules.py rules/ast-grep/
+
+# Run ast-grep scan on src/ (requires: pip install ast-grep-cli or cargo install ast-grep)
+ast-scan:
+	ast-grep scan --rule rules/ast-grep/ src/
 
 # Structural architecture tests only
 structural:

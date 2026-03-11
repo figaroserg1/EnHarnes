@@ -1,0 +1,11 @@
+id: no-bare-except
+language: Python
+severity: error
+message: "Catch specific exceptions, not bare 'except:'. Golden Principle #2 (validate at boundaries)."
+note: "Replace with: except SomeSpecificError as e:"
+files:
+  - src/**/*.py
+rule:
+  pattern: |
+    except:
+        $$$BODY

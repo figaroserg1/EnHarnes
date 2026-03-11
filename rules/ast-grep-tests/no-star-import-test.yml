@@ -1,0 +1,13 @@
+id: no-star-import
+valid:
+  - |
+    from pathlib import Path
+  - |
+    from typing import List, Dict, Optional
+  - |
+    import os
+invalid:
+  - |
+    from os import *
+  - |
+    from module import *

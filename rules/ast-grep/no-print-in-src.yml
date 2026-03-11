@@ -1,0 +1,11 @@
+id: no-print-in-src
+language: Python
+severity: error
+message: "Use structured logging instead of print(). Golden Principle #4."
+note: "Replace with: import logging; logger = logging.getLogger(__name__); logger.info(...)"
+files:
+  - src/**/*.py
+ignores:
+  - src/**/__init__.py
+rule:
+  pattern: print($$$ARGS)

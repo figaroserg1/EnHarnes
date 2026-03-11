@@ -1,0 +1,9 @@
+id: no-star-import
+language: Python
+severity: error
+message: "Wildcard imports pollute namespace and break layer boundaries. Golden Principle #1."
+note: "Replace with explicit imports: from module import name1, name2"
+files:
+  - src/**/*.py
+rule:
+  pattern: from $MOD import *
