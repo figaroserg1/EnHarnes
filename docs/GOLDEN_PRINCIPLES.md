@@ -101,7 +101,7 @@ Enforced by: `scripts/linters/custom_linter.py` (naming convention checks on src
 | 1. Layer imports | `scripts/structural-tests/test_layer_dependencies.py` | `make structural` |
 | 2. Boundary validation | structural test + code review | `make structural` |
 | 3. No biz logic in UI | `scripts/linters/dependency_guard.py` | `make check` |
-| 4. Structured logging | `scripts/linters/dependency_guard.py` + `rules/ast-grep/no-print-in-src.yml` | `make check` / `make ast-scan` |
+| 4. Structured logging | `scripts/linters/dependency_guard.py` | `make check` |
 | 5. File size limits | `scripts/linters/dependency_guard.py` | `make check` |
 | 6. TODO ownership | `scripts/linters/custom_linter.py` | `make smoke` |
 | 7. No data probing | `scripts/linters/custom_linter.py` (planned) | `make check` |
