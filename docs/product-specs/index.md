@@ -1,3 +1,6 @@
-# Product specs index
+# Product Specifications Index
 
-- TODO: [HUMAN] Добавить список product specs.
+Registry of all documents in this directory.
+
+| Spec | Status | Priority | Owner |
+| --- | --- | --- | --- |

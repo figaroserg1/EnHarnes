@@ -10,6 +10,11 @@
       {
         "command": "python3 .claude/hooks/prompt-validator.py"
       }
+    ],
+    "Stop": [
+      {
+        "command": "python3 .claude/hooks/post-response-sync.py"
+      }
     ]
   }
 }

@@ -1,14 +1,8 @@
-# References (external guides)
+# References Index
 
-## Agent-first / Harness Engineering
-- OpenAI: Harness Engineering — https://openai.com/index/harness-engineering/
-- Diátaxis: https://diataxis.fr/
+Registry of all documents in this directory.
 
-## Architecture
-- C4 model: https://c4model.com/
-- arc42: https://arc42.org/
-- AWS Well-Architected: https://docs.aws.amazon.com/wellarchitected/
-
-## Decisions and process
-- ADR: https://adr.github.io/
-- Team Topologies: https://teamtopologies.com/
+| Reference | Description |
+| --- | --- |
+| [BROWSER_AUTOMATION.md](BROWSER_AUTOMATION.md) | TODO: [AI] Add description |
+| [observability-queries.md](observability-queries.md) | TODO: [AI] Add description |
