@@ -22,4 +22,4 @@
 ---
 
 _Engineering philosophy (simplicity, anti-overengineering) lives in the optional skill:
-`.claude/skills/harness_anti_overengineering/SKILL.md`_
+`.claude/skills/harness.anti-overengineering/SKILL.md`_

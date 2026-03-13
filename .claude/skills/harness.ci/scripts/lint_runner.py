@@ -52,8 +52,8 @@ def main() -> int:
     if (ROOT / "pyproject.toml").exists() or (ROOT / "requirements.txt").exists():
         py = sys.executable
         S = ".claude/skills"
-        rc1 = run([py, f"{S}/harness_linters/scripts/doc-health/doc_linter.py"])
-        rc2 = run([py, f"{S}/harness_linters/scripts/code-quality/code_conventions.py"])
+        rc1 = run([py, f"{S}/harness.linters/scripts/doc-health/doc_linter.py"])
+        rc2 = run([py, f"{S}/harness.linters/scripts/code-quality/code_conventions.py"])
         return max(rc1, rc2)
 
     print("No default lint command detected.")

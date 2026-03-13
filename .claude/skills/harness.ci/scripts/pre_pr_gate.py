@@ -69,7 +69,7 @@ def check_watch_paths() -> None:
 
 
 def run_entropy() -> None:
-    entropy_script = ROOT / ".claude" / "skills" / "harness_linters" / "scripts" / "entropy" / "entropy_check.py"
+    entropy_script = ROOT / ".claude" / "skills" / "harness.linters" / "scripts" / "entropy" / "entropy_check.py"
     if entropy_script.exists():
         result = subprocess.run([sys.executable, str(entropy_script)], cwd=ROOT)
         if result.returncode != 0:
@@ -96,7 +96,7 @@ def main() -> int:
     # 3. Doc-drift
     print("\n-- Step 3/5: Doc-drift check --")
     rc = subprocess.run(
-        [sys.executable, str(ROOT / ".claude/skills/harness_linters/scripts/doc-health/check_doc_drift.py")], cwd=ROOT,
+        [sys.executable, str(ROOT / ".claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py")], cwd=ROOT,
     ).returncode
     if rc != 0:
         failures += 1

@@ -71,19 +71,19 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Topic | File | When to load |
 |-------|------|-------------|
 | Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
-| Workflow rules | `.claude/skills/harness_core/docs/WORKFLOW_RULES.md` | Agent execution, change mgmt |
-| Core principles | `.claude/skills/harness_core/docs/CORE_PRINCIPLES.md` | Harness methodology |
-| Golden principles (linter rules) | `.claude/skills/harness_core/docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
+| Workflow rules | `.claude/skills/harness.core/docs/WORKFLOW_RULES.md` | Agent execution, change mgmt |
+| Core principles | `.claude/skills/harness.core/docs/CORE_PRINCIPLES.md` | Harness methodology |
+| Golden principles (linter rules) | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
 | CI/merge policy | `docs/design-docs/ci-enforcement.md` | CI or merge config changes |
-| harness-planner (skill) | `.claude/skills/harness_planner/SKILL.md` | ExecPlans for medium/high risk |
-| Worktree workflow | `.claude/skills/harness_core/docs/WORKTREE_WORKFLOW.md` | Boot script issues |
+| harness-planner (skill) | `.claude/skills/harness.planner/SKILL.md` | ExecPlans for medium/high risk |
+| Worktree workflow | `.claude/skills/harness.core/docs/WORKTREE_WORKFLOW.md` | Boot script issues |
 | Observability | `docs/PROJECT_OBSERVABILITY.md` | Logging or metrics |
-| Browser automation | `.claude/skills/harness_core/docs/BROWSER_AUTOMATION.md` | UI testing |
-| Entropy management | `.claude/skills/harness_core/docs/ENTROPY_PRINCIPLES.md` | Entropy scans |
+| Browser automation | `.claude/skills/harness.core/docs/BROWSER_AUTOMATION.md` | UI testing |
+| Entropy management | `.claude/skills/harness.core/docs/ENTROPY_PRINCIPLES.md` | Entropy scans |
 | Health setpoints | `policies/control-loop-metrics.yaml` | Health checks |
 | Doc drift policy | `policies/risk-policy.json` | After any code change (step 5) |
 | Architecture policy | `policies/architecture.yaml` | Setting up layers for a new project |
-| Example project | `.claude/skills/harness_core/example/` | Reference for `src/` layout + `architecture.yaml` |
+| Example project | `.claude/skills/harness.core/example/` | Reference for `src/` layout + `architecture.yaml` |
 
 ## Subagent Roles
 
