@@ -1,7 +1,7 @@
 .PHONY: lint-docs lint structural ast-rules ast-scan test ci handbook todo-sync sync-skills sync-indexes entropy review doc-health worktree obs-up obs-down
 
-# Python interpreter — auto-detect: python3 (Unix) or python (Windows)
-PYTHON ?= $(shell command -v python3 2>/dev/null || command -v python 2>/dev/null)
+# Python interpreter — override: make lint PYTHON=python3
+PYTHON ?= python
 S = .claude/skills
 
 # Doc linter only (~5s)
