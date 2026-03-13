@@ -76,6 +76,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Topic | File | When to load |
 |-------|------|-------------|
 | Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
+| Architecture checklist | `.claude/skills/harness.core/docs/ARCHITECTURE_CHECKLIST.md` | Writing or validating ARCHITECTURE.md |
 | Core skill (docs, templates, examples) | `.claude/skills/harness.core/SKILL.md` | Setting up harness in a new project |
 | Workflow rules | `.claude/skills/harness.core/docs/WORKFLOW_RULES.md` | Agent execution, change mgmt |
 | Core principles | `.claude/skills/harness.core/docs/CORE_PRINCIPLES.md` | Harness methodology |
