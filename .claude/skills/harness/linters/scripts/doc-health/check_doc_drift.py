@@ -12,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[6]
 POLICY_PATH = ROOT / "policies" / "risk-policy.json"
 
 

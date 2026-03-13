@@ -28,7 +28,7 @@ def _find_root() -> Path:
             return Path(result.stdout.strip())
     except FileNotFoundError:
         pass
-    return Path(__file__).resolve().parents[3]
+    return Path(__file__).resolve().parents[5]
 
 
 ROOT = _find_root()

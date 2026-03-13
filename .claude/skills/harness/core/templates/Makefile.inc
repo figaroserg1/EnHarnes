@@ -1,8 +1,13 @@
-.PHONY: smoke check structural ast-rules ast-scan test ci build tools todo-sync sync-skills sync-indexes entropy review gardener obs-up obs-down
+# Harness Makefile include — add to your project Makefile:
+#   include .claude/skills/harness/core/templates/Makefile.inc
+#
+# Override S if skills are installed elsewhere:
+#   S = .claude/skills/harness
 
-# Python interpreter — override on Windows: make check PYTHON=python
+.PHONY: smoke check structural ast-rules ast-scan test ci build todo-sync sync-skills sync-indexes entropy review gardener obs-up obs-down
+
 PYTHON ?= python3
-S = .claude/skills/harness
+S ?= .claude/skills/harness
 
 # Fast sanity: doc linter only (~5s)
 smoke:
@@ -29,7 +34,7 @@ test:
 	make check
 	make structural
 
-# CI-equivalent local run — same as make test
+# CI-equivalent local run
 ci:
 	make test
 

@@ -30,12 +30,6 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 10. **Merge + teardown** — merge PR, remove worktree.
 11. **Session end** — update `progress.txt`.
 
-## Cadenced Ops
-
-- **Weekly / between tasks:** `make entropy`, `make gardener`
-- **Monthly / when drift:** `python scripts/harness/measure_metrics.py`
-- **Every PR (CI):** `scripts/harness/doc-health/check_doc_drift.py`
-
 ## Available Tools
 
 | Command | Purpose |
@@ -73,23 +67,23 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 ## Reference Table
 
+<!-- TODO: [HUMAN] Update paths after installing skills -->
 | Topic | File | When to load |
 |-------|------|-------------|
 | Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
-| Core skill (docs, templates, example) | `.claude/skills/harness/core/SKILL.md` | Setting up harness in a new project |
-| Workflow rules | `.claude/skills/harness/core/docs/WORKFLOW_RULES.md` | Agent execution, change mgmt |
-| Core principles | `.claude/skills/harness/core/docs/CORE_PRINCIPLES.md` | Harness methodology |
-| Golden principles (linter rules) | `.claude/skills/harness/core/docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
+| Workflow rules | `docs/harness/WORKFLOW_RULES.md` | Agent execution, change mgmt |
+| Core principles | `docs/harness/CORE_PRINCIPLES.md` | Harness methodology |
+| Golden principles (linter rules) | `docs/harness/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
 | CI/merge policy | `docs/design-docs/ci-enforcement.md` | CI or merge config changes |
-| harness-planner (skill) | `.claude/skills/harness/harness-planner/SKILL.md` | ExecPlans for medium/high risk. No code during planning. |
-| Worktree workflow | `.claude/skills/harness/core/docs/WORKTREE_WORKFLOW.md` | Boot script issues |
+| harness-planner (skill) | `.claude/skills/harness/harness-planner/SKILL.md` | ExecPlans for medium/high risk |
+| Worktree workflow | `docs/harness/WORKTREE_WORKFLOW.md` | Boot script issues |
 | Observability | `docs/PROJECT_OBSERVABILITY.md` | Logging or metrics |
-| Browser automation | `.claude/skills/harness/core/docs/BROWSER_AUTOMATION.md` | UI testing |
-| Entropy management | `.claude/skills/harness/core/docs/ENTROPY_PRINCIPLES.md` | Entropy scans |
+| Browser automation | `docs/harness/BROWSER_AUTOMATION.md` | UI testing |
+| Entropy management | `docs/harness/ENTROPY_PRINCIPLES.md` | Entropy scans |
 | Health setpoints | `policies/control-loop-metrics.yaml` | Health checks |
 | Doc drift policy | `policies/risk-policy.json` | After any code change (step 5) |
 | Architecture policy | `policies/architecture.yaml` | Setting up layers for a new project |
-| Example project | `.claude/skills/harness/core/example/` | Reference for `src/` layout + `architecture.yaml` |
+| Example project | `example/` | Reference for `src/` layout + `architecture.yaml` |
 
 ## Subagent Roles
 
@@ -101,10 +95,6 @@ Launch subagents by role name. If `.claude/agents/harness/<role>.md` exists, it 
 | reviewer | Independent pre-PR review. Fresh context, read-only. |
 | codebase-analyzer | Analyze HOW code works — trace data flow. |
 | codebase-locator | Find WHERE code lives — file search by topic. |
-| security-orchestrator | Multi-phase security investigation. |
-| code-synthesis-analyzer | Analyze recent changes for issues. |
-| code-clarity-refactorer | Apply refactoring rules. Proactive. |
-| bug-issue-creator | Investigate bug + create GitHub issue. |
 
 ## Failure Ledger
 
