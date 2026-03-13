@@ -1,7 +1,6 @@
 # Core Beliefs
 
 Operational facts that govern how agents and humans work in this repository.
-These are not aspirational — they change behavior.
 
 ## 1. Repository Is the Single Source of Truth
 
@@ -22,7 +21,7 @@ Minimal CI gates. No flaky-test blocking. Unresolved review threads are the only
 
 ## 4. Constraints Enable Speed
 
-Strict layered architecture (`Types → Config → Repo → Service → Runtime → UI`),
+Strict layered architecture (e.g.`Types → Config → Repo → Service → Runtime → UI`),
 enforced mechanically by linters and structural tests, allows the agent to ship fast
 without architectural drift. Freedom exists within boundaries.
 

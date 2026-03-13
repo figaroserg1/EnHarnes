@@ -112,6 +112,15 @@ When an agent breaks something, **fix the harness, not the agent**. Add entries:
 
 <!-- Add failure ledger entries below this line -->
 
+## Slash Commands
+
+| Command | What it does |
+|---------|-------------|
+| `/harness.smoke` | Run `make smoke`. Report result. If passed → suggest `/harness.test` or `/harness.review`. |
+| `/harness.test` | Run `make test`. Report results. If all passed → suggest `/harness.review`. |
+| `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: static / structural / doc-drift / entropy. If all pass → "Ready for PR". |
+| `/harness.entropy` | Run `make entropy` + `make gardener`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |
+
 ## Self-Improvement
 
 - Update this file, docs, and scripts as needed. Your convenience is priority.

@@ -88,46 +88,15 @@ Minimum fields: `service`, `operation`, `result`, `duration_ms`, `error` (if any
 File logs go to `logs/` directory (gitignored). Console logs use human-readable format.
 Enforced by: `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` (planned: check that service modules contain logging setup)
 
----
 
-## Naming Conventions
+--- 
 
-- Files: kebab-case (`user-service.py`, `auth-config.ts`)
-- Types/Interfaces: PascalCase (`UserProfile`, `AuthConfig`)
-- Functions/Variables: camelCase (`getUserProfile`, `authToken`)
-- Constants: SCREAMING_SNAKE_CASE (`MAX_RETRY_COUNT`, `DEFAULT_TIMEOUT`)
-- Domain directories: kebab-case (`app-settings/`)
-- Layer directories: PascalCase from fixed set (`Types/`, `Config/`, `Repo/`, `Service/`, `Runtime/`, `UI/`, `Providers/`)
+**14. Parse, Don’t Validate**
+- Parse untrusted input at system boundaries.
+- Convert raw data immediately into strict domain models.
+- Work only with parsed, trusted representations.
+- Encode invariants in types, schemas, constructors, and value objects.
+- Do not scatter repeated validation checks across the codebase.
+- Fail early and explicitly on invalid input.
+- Make invalid states unrepresentable.
 
-Enforced by: `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` (naming convention checks on src/ files)
-
----
-
-## Enforcement Summary
-
-| Principle | Enforcer | Gate |
-|-----------|----------|------|
-| 1. Layer imports | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` | `make structural` |
-| 2. Boundary validation | structural test + code review | `make structural` |
-| 3. No biz logic in UI | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` | `make structural` |
-| 4. Structured logging | `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` | `make check` |
-| 5. File size limits | `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` | `make check` |
-| 6. TODO ownership | `.claude/skills/harness.linters/scripts/doc-health/doc_linter.py` | `make smoke` |
-| 7. No data probing | `.claude/skills/harness.linters/scripts/doc-health/doc_linter.py` (planned) | `make check` |
-| 8. Shared utilities | `.claude/skills/harness.linters/scripts/architecture/test_duplicate_helpers.py` (planned) | `make structural` |
-| 9. Idempotent side-effects | `.claude/skills/harness.linters/scripts/architecture/test_side_effect_patterns.py` (planned) | `make structural` |
-| 10. Trace propagation | `.claude/skills/harness.linters/scripts/doc-health/doc_linter.py` (planned) | `make check` |
-| 11. Contract versioning | `.claude/skills/harness.linters/scripts/architecture/test_contract_changes.py` (planned) | `make structural` |
-| 12. Providers only | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` | `make structural` |
-| 13. Detailed logging | `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` (planned) | `make check` |
-| Naming conventions | `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` | `make smoke` |
-
-Items marked **(planned)** have enforcement documented but the check is not yet implemented.
-These are tracked in `docs/exec-plans/tech-debt-tracker.md`.
-
----
-
-## What Is Not Here
-
-Developer philosophy (avoid overengineering, prefer simple functions, start monolith-first)
-lives in `.claude/skills/harness.core/docs/WORKFLOW_RULES.md`. It guides judgment — it is not a linter rule.

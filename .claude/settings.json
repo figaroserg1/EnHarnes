@@ -2,18 +2,37 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash",
-        "command": "python3 .claude/hooks/validate-bash.py"
+        "matcher": {
+          "tools": ["Bash"]
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python3 || command -v python) .claude/hooks/validate-bash.py"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
       {
-        "command": "python3 .claude/hooks/prompt-validator.py"
+        "matcher": {},
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python3 || command -v python) .claude/hooks/prompt-validator.py"
+          }
+        ]
       }
     ],
     "Stop": [
       {
-        "command": "python3 .claude/hooks/post-response-sync.py"
+        "matcher": {},
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python3 || command -v python) .claude/hooks/post-response-sync.py"
+          }
+        ]
       }
     ]
   }
