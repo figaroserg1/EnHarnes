@@ -33,7 +33,7 @@
 | 1.6 | Execution plans as first-class artifacts (active/completed/tech-debt) | Y | `docs/exec-plans/active/`, `docs/exec-plans/completed/`, `docs/exec-plans/tech-debt-tracker.md` |
 | 1.7 | Progressive disclosure: small entry point → deeper docs | Y | `AGENTS.md` → Reference Table (строки 74-92) → ссылки на глубокие доки |
 | 1.8 | No external knowledge dependency | Y | Всё в репо: `docs/`, `policies/`, `.claude/skills/` |
-| 1.9 | Doc-gardening agent/process | Y | `.claude/skills/harness.entropy/SKILL.md`, `.claude/skills/harness.linters/scripts/doc-health/doc_health_check.py`, `Makefile` target `gardener` |
+| 1.9 | Doc-gardening agent/process | Y | `AGENTS.md` (Slash Commands), `.claude/skills/harness.linters/scripts/doc-health/doc_health_check.py`, `Makefile` target `gardener` |
 | 1.10 | Verification headers in docs (last-verified date, status) | Y | `docs/design-docs/index.md` — колонки Status + Last Verified |
 | 1.11 | Process to encode external knowledge (Slack/Docs/heads) into repo `[OAI]` | P | `.claude/skills/harness.core/docs/CORE_PRINCIPLES.md` Principle #1: "If it is not committed, it does not exist". Принцип есть, но нет documented how-to процесса втягивания |
 | 1.12 | Explicit docs per domain: architecture, design, product, plans, reliability, security, quality, observability `[OAI]` | Y | `ARCHITECTURE.md`, `docs/PROJECT_DESIGN.md`, `docs/PROJECT_PRODUCT_SENSE.md`, `docs/exec-plans/`, `docs/PROJECT_RELIABILITY.md`, `docs/PROJECT_SECURITY.md`, `docs/PROJECT_QUALITY_SCORE.md`, `docs/PROJECT_OBSERVABILITY.md` — все 8 доменов |
@@ -167,12 +167,12 @@
 
 | # | Practice | | Файлы |
 |---|----------|-|-------|
-| 11.1 | PLANS.md spec for execution plans | Y | `docs/PLANS.MD`, `.claude/skills/harness.planner/OPENAI_PLANS.md` (каноничный формат) |
+| 11.1 | PLANS.md spec for execution plans | Y | `.claude/skills/harness.plan/OPENAI_PLANS.md` (каноничный формат) |
 | 11.2 | exec-plans/active/ and completed/ directories | Y | `docs/exec-plans/active/`, `docs/exec-plans/completed/` |
-| 11.3 | Plans are self-contained (novice can implement from plan alone) | Y | `.claude/skills/harness.planner/SKILL.md` — правила создания ExecPlan |
-| 11.4 | Living plan sections (progress log, decision log, retrospective) | Y | `.claude/skills/harness.planner/OPENAI_PLANS.md` → формат плана с секциями |
+| 11.3 | Plans are self-contained (novice can implement from plan alone) | Y | `.claude/skills/harness.plan/SKILL.md` — правила создания ExecPlan |
+| 11.4 | Living plan sections (progress log, decision log, retrospective) | Y | `.claude/skills/harness.plan/OPENAI_PLANS.md` → формат плана с секциями |
 | 11.5 | Product specs in-repo (not external tools) | Y | `docs/product-specs/index.md`, `docs/PROJECT_DESIGN.md`, `docs/PROJECT_PRODUCT_SENSE.md`, `docs/PROJECT_FRONTEND.md` |
-| 11.6 | Acceptance criteria explicit enough for agent to verify completion `[OAI]` | Y | `.claude/skills/harness.planner/OPENAI_PLANS.md` → "Validation and Acceptance" mandatory section: "Phrase acceptance as behavior a human can verify". + `docs/PROJECT_OBSERVABILITY.md` → acceptance checks + `policies/control-loop-metrics.yaml` → setpoints |
+| 11.6 | Acceptance criteria explicit enough for agent to verify completion `[OAI]` | Y | `.claude/skills/harness.plan/OPENAI_PLANS.md` → "Validation and Acceptance" mandatory section: "Phrase acceptance as behavior a human can verify". + `docs/PROJECT_OBSERVABILITY.md` → acceptance checks + `policies/control-loop-metrics.yaml` → setpoints |
 
 ---
 
@@ -183,7 +183,7 @@
 | 12.1 | Product code and tests | — | Нет application code (EnHarnes — harness-фреймворк, не приложение) |
 | 12.2 | CI configuration and release tooling | Y | `.github/workflows/ci.yml`, `.github/workflows/nightly-entropy.yml`, `.github/workflows/weekly-cleanup.yml` |
 | 12.3 | Internal developer tools (scripts, linters) | Y | `.claude/skills/harness.linters/scripts/` (7 скриптов), `.claude/skills/harness.ci/scripts/` (4 скрипта), `policies/ast-grep/` (5 правил) |
-| 12.4 | Documentation and design history | Y | `docs/generated/project-handbook.md`, `docs/generated/scripts_registry.md`, `docs/generated/todo-registry.md`, `docs/generated/db-schema.md` |
+| 12.4 | Documentation and design history | Y | `docs/generated/project-handbook.md`, `docs/generated/todo-registry.md`, `docs/generated/db-schema.md` |
 | 12.5 | Scripts that manage the repository itself | Y | `.claude/skills/harness.generators/scripts/` (build_handbook, sync_doc_indexes, sync_skills_to_agents, sync_todo_registry), `scripts/harness/worktree_boot.py` |
 | 12.6 | Evaluation harnesses | Y | `.claude/skills/harness.linters/` (вся подсистема линтеров), `.claude/skills/harness.ci/scripts/measure_metrics.py` |
 

@@ -4,7 +4,7 @@ Goal: make the system agent-verifiable without human intervention.
 
 ## Phase 1: Minimal Python (Zero Infrastructure)
 
-Observability is provided by `scripts/harness/observability/obs.py` — a structured JSON log/metric module
+Observability is provided by `.claude/skills/harness.generators/scripts/observability/structured_log.py` — a structured JSON log/metric module
 with zero containers, zero ports, instant startup.
 
 ```python

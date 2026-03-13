@@ -8,23 +8,31 @@
 # See example/ for a working reference with 7-layer architecture.
 # TODO: [AI] Hook to sync from ARCHITECTURE.md automatically.
 
-layers: []
-  # - Types
-  # - Config
-  # - Repo
-  # - Service
-  # - ...
 
-allowed_imports: {}
-  # Types: []
-  # Config: [Types]
-  # Service: [Repo, Config, Types]
-  # ...
+layers:
+#  - Types
+#  - Config
+#  - Repo
+#  - Service
+#  - Runtime
+#  - UI
+#  - Providers
 
-cross_cutting_modules: []
-  # - auth
-  # - logging
-  # - tracing
+allowed_imports:
+#  Types: []
+#  Config: [Types]
+#  Repo: [Config, Types]
+#  Service: [Repo, Config, Types, Providers]
+#  Runtime: [Service, Repo, Config, Types, Providers]
+#  UI: [Runtime, Service, Config, Types, Providers]  # Rule 3: no Repo
+#  Providers: [Service, Repo, Config, Types]
+
+cross_cutting_modules:
+#  - auth
+#  - logging
+#  - tracing
+#  - secrets
+#  - config_loader
 
 file_size:
   soft_limit: 500

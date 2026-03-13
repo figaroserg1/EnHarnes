@@ -39,7 +39,7 @@ When branch protection enforces conversation resolution, unresolved review comme
 block merge even when CI is green. This is the only non-automated merge gate.
 
 **6. Harness scripts provide portable entry points.**
-`scripts/harness/linters/lint.py` and `scripts/harness/linters/typecheck.py` auto-detect the project
+`.claude/skills/harness.ci/scripts/lint_runner.py` and `.claude/skills/harness.ci/scripts/typecheck.py` auto-detect the project
 runtime (Rust/Node/Python) and run the appropriate toolchain. For EnHarnes (Python),
 they delegate to `custom_linter.py` and `dependency_guard.py`.
 

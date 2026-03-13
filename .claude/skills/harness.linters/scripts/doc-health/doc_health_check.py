@@ -27,6 +27,8 @@ DOCS_DIR = ROOT / "docs"
 
 VERIFIED_RE = re.compile(r"Verified:\s*(\d{4}-\d{2}-\d{2})")
 LINK_RE = re.compile(r"\[.*?\]\((?!http)([^)]+)\)")
+# Backtick paths: `path/to/file.ext` — must contain / and a file extension
+BACKTICK_PATH_RE = re.compile(r"`([^`]*?/[^`]*?\.\w+)`")
 
 
 def check_stale_headers() -> int:
@@ -50,7 +52,7 @@ def check_stale_headers() -> int:
 
 
 def check_broken_links() -> int:
-    """Find broken internal links in markdown files."""
+    """Find broken internal links and backtick paths in markdown files."""
     print("\n-- Broken internal references --")
     issues = 0
 
@@ -64,13 +66,28 @@ def check_broken_links() -> int:
         except OSError:
             continue
 
+        # Check markdown links: [text](path)
         for match in LINK_RE.finditer(text):
             ref = match.group(1).split("#")[0]
             if not ref:
                 continue
-            # Try relative to repo root, then relative to the file
             if not (ROOT / ref).exists() and not (md.parent / ref).exists():
                 print(f"  BROKEN: {md.relative_to(ROOT)} -> {ref}")
+                issues += 1
+
+        # Check backtick paths: `path/to/file.ext`
+        for match in BACKTICK_PATH_RE.finditer(text):
+            ref = match.group(1)
+            # Skip patterns, commands, templates, and slash-commands
+            if any(c in ref for c in ("*", "<", ">", " ")):
+                continue
+            if ref.startswith("/") or ref.startswith("python"):
+                continue
+            if not (ROOT / ref).exists():
+                print(
+                    f"  BROKEN: {md.relative_to(ROOT)} -> {ref}. "
+                    f"Fix: update the path or remove the reference."
+                )
                 issues += 1
 
     return issues

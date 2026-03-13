@@ -65,11 +65,11 @@ _File not found: QUICKSTART.md_
 - `policies/` — machine-readable политики (risk-policy, setpoints, review config).
 
 ## Логика слоёв
-1. **Policy layer**: `docs/design-docs/system-spec.md`, `docs/design-docs/rules.md`.
-2. **Design layer**: `docs/design-docs/`, `docs/DESIGN.md`.
+1. **Policy layer**: `docs/design-docs/system-spec.md`, `.claude/skills/harness.core/docs/WORKFLOW_RULES.md`.
+2. **Design layer**: `docs/design-docs/`, `docs/PROJECT_DESIGN.md`.
 3. **Execution layer**: `scripts/`, `Makefile`.
-4. **Reliability & Security layer**: `docs/RELIABILITY.md`, `docs/SECURITY.md`, `docs/OBSERVABILITY.md`.
-5. **Planning layer**: `.claude/skills/harness-planner/OPENAI_PLANS.md`, `docs/exec-plans/`.
+4. **Reliability & Security layer**: `docs/PROJECT_RELIABILITY.md`, `docs/PROJECT_SECURITY.md`, `docs/PROJECT_OBSERVABILITY.md`.
+5. **Planning layer**: `.claude/skills/harness.plan/OPENAI_PLANS.md`, `docs/exec-plans/`.
 
 
 **Архитектура исходного кода (`src/`):**
