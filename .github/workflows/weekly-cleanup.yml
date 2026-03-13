@@ -24,7 +24,7 @@ jobs:
         id: entropy
         continue-on-error: true
         run: |
-          make entropy 2>&1 | tee entropy-report.txt
+          make check-entropy 2>&1 | tee entropy-report.txt
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Auto-fix: remove orphan TODO markers without owners
@@ -65,7 +65,7 @@ jobs:
             --title "chore: weekly entropy cleanup $(date +%Y-%m-%d)" \
             --body "$(cat <<'BODY'
           ## Summary
-          Automated weekly entropy cleanup. Fixes found by `make entropy`:
+          Automated weekly entropy cleanup. Fixes found by `make check-entropy`:
 
           $(cat entropy-report.txt)
 

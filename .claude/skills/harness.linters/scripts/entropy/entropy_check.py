@@ -5,7 +5,7 @@ Checks:
   1. Orphan scripts — scripts not referenced in Makefile or CI workflows
   2. Blank setpoints — empty target: values in control-loop-metrics.yaml
 
-Note: REPLACE ME placeholders checked by doc_linter.py,
+Note: REPLACE ME placeholders checked by todo_linter.py,
       large files by src_checks.py, doc refs by check_doc_drift.py.
 
 Exit code:
@@ -14,7 +14,7 @@ Exit code:
 
 Usage:
     python scripts/health/entropy_check.py
-    or: make entropy
+    or: make check-entropy
 """
 
 import re

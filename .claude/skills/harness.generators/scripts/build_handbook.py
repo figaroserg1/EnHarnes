@@ -7,7 +7,7 @@ or reading the entire project overview in one file.
 
 Usage:
     python scripts/generators/build_handbook.py
-    or: make handbook
+    or: make gen-handbook
 
 Output:
     dist/project-handbook.md

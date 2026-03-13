@@ -33,7 +33,7 @@ Enforced by: `.claude/skills/harness.linters/scripts/code-quality/code_conventio
 
 **6. Every TODO in a markdown file must have an owner tag.**
 Format: `TODO: [HUMAN]`, `TODO: [AI]`, or `TODO: [AI->HUMAN]`
-Enforced by: `.claude/skills/harness.linters/scripts/doc-health/doc_linter.py`
+Enforced by: `.claude/skills/harness.linters/scripts/doc-health/todo_linter.py`
 
 
 ---
@@ -43,7 +43,7 @@ Code must not infer data structure via ad-hoc property access or trial parsing.
 Allowed sources of truth: typed SDKs, validated schemas, shared model utilities.
 Forbidden patterns include inline shape probing (`obj["maybe"]`, deep optional chaining without types, manual JSON guessing).
 Purpose: prevent AI from building logic on unstable assumptions.
-Enforced by: `.claude/skills/harness.linters/scripts/doc-health/doc_linter.py` (planned: AST rule scanning dynamic key access outside schema modules)
+Enforced by: `.claude/skills/harness.linters/scripts/doc-health/todo_linter.py` (planned: AST rule scanning dynamic key access outside schema modules)
 
 ---
 
@@ -63,7 +63,7 @@ Enforced by: `.claude/skills/harness.linters/scripts/architecture/test_side_effe
 **10. Trace context propagation required across async boundaries.**
 Any async job, queue handler, or background task must propagate `trace_id` or equivalent context field.
 Purpose: maintain observability consistency for agent-generated code.
-Enforced by: `.claude/skills/harness.linters/scripts/doc-health/doc_linter.py` (planned: check function signatures or logging context usage)
+Enforced by: `.claude/skills/harness.linters/scripts/doc-health/todo_linter.py` (planned: check function signatures or logging context usage)
 
 ---
 

@@ -32,7 +32,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 ## Cadenced Ops
 
-- **Weekly / between tasks:** `make entropy`, `make doc-health`
+- **Weekly / between tasks:** `make check-entropy`, `make check-docs`
 - **Monthly / when drift:** `python .claude/skills/harness.ci/scripts/measure_metrics.py`
 - **Every PR (CI):** `python .claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py`
 
@@ -41,15 +41,15 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Command | Purpose |
 |---------|---------|
 | `make lint-todos` | TODO ownership & placeholder checks (~5s) |
-| `make lint` | All static checks (doc lint + code conventions) |
-| `make structural` | Architecture boundary tests (pytest) |
-| `make test` | Full suite: lint + structural |
-| `make ci` | CI-equivalent local run |
-| `make review` | Pre-PR self-review (5 gates) |
-| `make entropy` | Entropy scan (orphans, blank setpoints) |
-| `make doc-health` | Doc health (stale headers, broken links) |
-| `make handbook` | Generate project handbook |
-| `make sync-skills` / `sync-indexes` / `todo-sync` | Sync generators |
+| `make lint-src` | Code conventions (bare print, kebab-case, file size) |
+| `make lint-structural` | Architecture boundary tests (pytest) |
+| `make lint` | Composite: lint-todos + lint-src + lint-structural |
+| `make ci` | CI alias for `lint` |
+| `make review` | Pre-PR self-review (4 gates) |
+| `make check-entropy` | Entropy scan (orphans, blank setpoints) |
+| `make check-docs` | Doc health (stale headers, broken links) |
+| `make gen-handbook` | Generate project handbook |
+| `make sync-skills` / `sync-indexes` / `sync-todos` | Sync generators |
 | `make obs-up` / `obs-down` | Observability stack |
 
 ### DO NOT USE
@@ -119,10 +119,10 @@ When an agent breaks something, **fix the harness, not the agent**. Add entries:
 
 | Command | What it does |
 |---------|-------------|
-| `/harness.smoke` | Run `make lint-todos`. Report result. If passed → suggest `/harness.test` or `/harness.review`. |
-| `/harness.test` | Run `make test`. Report results. If all passed → suggest `/harness.review`. |
-| `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: lint / structural / doc-drift / entropy. If all pass → "Ready for PR". |
-| `/harness.entropy` | Run `make entropy` + `make doc-health`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |
+| `/harness.smoke` | Run `make lint-todos`. Report result. If passed → suggest `/harness.lint` or `/harness.review`. |
+| `/harness.lint` | Run `make lint`. Report results. If all passed → suggest `/harness.review`. |
+| `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: lint / doc-drift / entropy. If all pass → "Ready for PR". |
+| `/harness.entropy` | Run `make check-entropy` + `make check-docs`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |
 
 ## Self-Improvement
 

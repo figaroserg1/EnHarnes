@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Documentation linter: checks TODO ownership and EXAMPLE placeholders.
+"""TODO linter: checks TODO ownership and EXAMPLE placeholders.
 
 Checks:
   1. TODO markers — every 'TODO:' in markdown must have owner:
@@ -7,7 +7,7 @@ Checks:
   2. EXAMPLE placeholders — every 'EXAMPLE' block must contain
      '(REPLACE ME)' to indicate it's a template.
 
-Runs as part of `make lint` (via lint_runner.py).
+Runs as part of `make lint-todos` and `make lint` (composite).
 """
 
 from pathlib import Path
@@ -44,4 +44,4 @@ if errors:
         print(f"  [ERROR] {err}")
     sys.exit(1)
 else:
-    print("[doc-linter] OK: all checks passed.")
+    print("[todo-linter] OK: all checks passed.")

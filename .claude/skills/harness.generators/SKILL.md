@@ -26,9 +26,9 @@ Scripts that generate or sync documentation artifacts and observability infrastr
 ## Makefile Targets
 
 ```makefile
-build:        build_handbook.py
+gen-handbook: build_handbook.py
 sync-indexes: sync_doc_indexes.py
 sync-skills:  sync_skills_to_agents.py
-todo-sync:    sync_todo_registry.py
+sync-todos:   sync_todo_registry.py
 obs-up/down:  structured_log.py
 ```

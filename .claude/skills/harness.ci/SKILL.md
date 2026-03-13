@@ -9,8 +9,8 @@ Orchestration scripts for CI pipelines, pre-PR quality gates, and developer work
 
 ## Scripts
 
-- `lint_runner.py` — Orchestrator: runs doc_linter + code_conventions in sequence
-- `pre_pr_gate.py` — 5-check pre-PR self-review gate
+- `lint_runner.py` — Orchestrator: runs todo_linter + code_conventions in sequence
+- `pre_pr_gate.py` — 4-check pre-PR self-review gate
 - `typecheck.py` — Type checking wrapper
 - `measure_metrics.py` — Harness health metrics collection
 - `worktree_boot.py` — Git worktree bootstrap for isolated task branches
@@ -23,15 +23,13 @@ Orchestration scripts for CI pipelines, pre-PR quality gates, and developer work
 ## Makefile Targets
 
 ```makefile
-lint:     lint_runner.py
+lint:     lint-todos + lint-src + lint-structural (composite)
 review:   pre_pr_gate.py
-ci:       make test (lint + structural)
+ci:       lint (alias)
 ```
 
 ## CI Workflow
 
 Typical CI pipeline order:
-1. `make lint-todos` — Doc linter only (~5s)
-2. `make lint` — All static checks (lint runner)
-3. `make structural` — Architecture boundary tests
-4. `make review` — Pre-PR gate (5 checks)
+1. `make lint` — All linters (TODO + source + structural)
+2. `make review` — Pre-PR gate (4 checks)

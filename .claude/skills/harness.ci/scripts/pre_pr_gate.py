@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""pre_pr_gate.py — Pre-PR gate: runs 5 checks equivalent to CI.
+"""pre_pr_gate.py — Pre-PR gate: runs 4 checks equivalent to CI.
 
 Steps:
-  1. Static checks (make lint) — doc lint + code conventions
-  2. Structural tests (make structural) — layer dependencies + cross-cutting
-  3. Doc-drift (check_doc_drift.py) — risk-policy.json references
-  4. Watch-path reminders — changed files matching risk-policy watch paths
-  5. Entropy spot-check — orphan scripts, blank setpoints
+  1. Lint (make lint) — TODO linter + code conventions + structural
+  2. Doc-drift (check_doc_drift.py) — risk-policy.json references
+  3. Watch-path reminders — changed files matching risk-policy watch paths
+  4. Entropy spot-check — orphan scripts, blank setpoints
 
 Exit code:
   0 — all checks passed, ready for PR
@@ -83,30 +82,25 @@ def main() -> int:
     print("Run this before opening a PR. Equivalent to what CI checks.")
     failures = 0
 
-    # 1. Static checks
-    print("\n-- Step 1/5: Static checks --")
+    # 1. Lint (composite: lint-todos + lint-src + lint-structural)
+    print("\n-- Step 1/4: Lint --")
     if run_make("lint") != 0:
         failures += 1
 
-    # 2. Structural tests
-    print("\n-- Step 2/5: Structural tests --")
-    if run_make("structural") != 0:
-        failures += 1
-
-    # 3. Doc-drift
-    print("\n-- Step 3/5: Doc-drift check --")
+    # 2. Doc-drift
+    print("\n-- Step 2/4: Doc-drift check --")
     rc = subprocess.run(
         [sys.executable, str(ROOT / ".claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py")], cwd=ROOT,
     ).returncode
     if rc != 0:
         failures += 1
 
-    # 4. Watch-path reminders
-    print("\n-- Step 4/5: Changed-file doc reminders --")
+    # 3. Watch-path reminders
+    print("\n-- Step 3/4: Changed-file doc reminders --")
     check_watch_paths()
 
-    # 5. Entropy spot-check
-    print("\n-- Step 5/5: Entropy spot-check --")
+    # 4. Entropy spot-check
+    print("\n-- Step 4/4: Entropy spot-check --")
     run_entropy()
 
     print("\n================================")

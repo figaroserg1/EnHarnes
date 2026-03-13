@@ -1,44 +1,59 @@
-.PHONY: lint-todos lint structural ast-rules ast-scan test ci handbook todo-sync sync-skills sync-indexes entropy review doc-health worktree obs-up obs-down
+.PHONY: lint-todos lint-src lint-structural lint-yaml lint-ast lint ci check-docs check-entropy review gen-handbook sync-todos sync-skills sync-indexes worktree obs-up obs-down
 
 # Python interpreter — override: make lint PYTHON=python3
 PYTHON ?= python
 S = .claude/skills
 
-# TODO & placeholder linter (~5s)
-lint-todos:
-	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_linter.py
+# === Linters (CI-blocking) ===
 
-# All static checks: doc lint + code conventions
-lint:
-	$(PYTHON) $(S)/harness.ci/scripts/lint_runner.py
+# TODO ownership & placeholder checks (~5s)
+lint-todos:
+	$(PYTHON) $(S)/harness.linters/scripts/doc-health/todo_linter.py
+
+# Code conventions: bare print, kebab-case, file size
+lint-src:
+	$(PYTHON) $(S)/harness.linters/scripts/code-quality/code_conventions.py
+
+# Architecture boundary tests (pytest)
+lint-structural:
+	pytest $(S)/harness.linters/scripts/architecture/test_layer_dependencies.py
 
 # Validate ast-grep rule YAML files
-ast-rules:
+lint-yaml:
 	$(PYTHON) $(S)/harness.linters/scripts/code-quality/validate_lint_rules.py policies/ast-grep/
 
 # Run ast-grep scan on src/
-ast-scan:
+lint-ast:
 	ast-grep scan --rule policies/ast-grep/ src/
 
-# Structural architecture tests (pytest)
-structural:
-	pytest $(S)/harness.linters/scripts/architecture/test_layer_dependencies.py
+# Composite: all CI-blocking linters
+lint: lint-todos lint-src lint-structural
 
-# Full test suite: lint + structural
-test:
-	make lint
-	make structural
+# CI alias
+ci: lint
 
-# CI-equivalent local run
-ci:
-	make test
+# === Health checks (periodic) ===
 
-# Generate project handbook
-handbook:
+# Doc health: stale headers, broken links
+check-docs:
+	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_health_check.py
+
+# Entropy: orphan scripts, blank setpoints
+check-entropy:
+	$(PYTHON) $(S)/harness.linters/scripts/entropy/entropy_check.py
+
+# === Pre-PR gate ===
+
+# Pre-PR self-review (4 gates)
+review:
+	$(PYTHON) $(S)/harness.ci/scripts/pre_pr_gate.py
+
+# === Generators ===
+
+gen-handbook:
 	$(PYTHON) $(S)/harness.generators/scripts/build_handbook.py
 
-# Sync generators
-todo-sync:
+sync-todos:
 	$(PYTHON) $(S)/harness.generators/scripts/sync_todo_registry.py
 
 sync-skills:
@@ -47,16 +62,7 @@ sync-skills:
 sync-indexes:
 	$(PYTHON) $(S)/harness.generators/scripts/sync_doc_indexes.py
 
-# Health checks
-entropy:
-	$(PYTHON) $(S)/harness.linters/scripts/entropy/entropy_check.py
-
-doc-health:
-	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_health_check.py
-
-# Pre-PR self-review (5 gates)
-review:
-	$(PYTHON) $(S)/harness.ci/scripts/pre_pr_gate.py
+# === Dev tools ===
 
 # Worktree bootstrap
 worktree:

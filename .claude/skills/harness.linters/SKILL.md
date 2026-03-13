@@ -17,7 +17,7 @@ Static analysis scripts that enforce code quality, architecture boundaries, and 
 - `validate_lint_rules.py` — Validates ast-grep rule YAML files in `policies/ast-grep/`.
 
 ### doc-health/
-- `doc_linter.py` — TODO owner format, template marker checks. Universal, no config needed.
+- `todo_linter.py` — TODO owner format, template marker checks. Universal, no config needed.
 - `doc_health_check.py` — Stale docs, broken links, orphan files, index coverage. Uses autodiscovery.
 - `check_doc_drift.py` — Detects doc/code drift per `policies/risk-policy.json` watch paths.
 
@@ -32,10 +32,11 @@ Static analysis scripts that enforce code quality, architecture boundaries, and 
 ## Makefile Targets
 
 ```makefile
-smoke:      doc_linter.py
-check:      lint_runner.py (orchestrates doc_linter + code_conventions)
-structural: pytest test_layer_dependencies.py
-ast-rules:  validate_lint_rules.py
-entropy:    entropy_check.py
-gardener:   doc_health_check.py
+lint-todos:      todo_linter.py
+lint-src:        code_conventions.py
+lint-structural: pytest test_layer_dependencies.py
+lint-yaml:       validate_lint_rules.py
+lint-ast:        ast-grep scan
+check-entropy:   entropy_check.py
+check-docs:      doc_health_check.py
 ```

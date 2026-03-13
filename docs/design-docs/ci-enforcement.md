@@ -16,16 +16,17 @@ Agents read this to understand *why* the CI structure is the way it is — not j
 When code in a watched path changes, the agent checks `risk-policy.json` and verifies
 that all listed docs still accurately reflect the code. This happens in `agent_self_review.py`.
 
-**2. CI quality gates are explicit and sequential.**
-`.github/workflows/ci.yml` runs one command: `make test`.
-`make test` wraps two gates in order:
-1. `make lint` — doc lint (TODO ownership, unreplaced template markers) + Python source guard (print detection, file size limits)
-2. `make structural` — AST-based layer dependency validation (Types → Config → Repo → Service → Runtime → UI)
+**2. CI quality gates are explicit and composite.**
+`.github/workflows/ci.yml` runs `make lint`.
+`make lint` is a composite target that runs three gates:
+1. `make lint-todos` — TODO ownership, unreplaced template markers
+2. `make lint-src` — Python source guard (print detection, file size limits)
+3. `make lint-structural` — AST-based layer dependency validation (Types → Config → Repo → Service → Runtime → UI)
 
-Both gates are blocking. No advisory-only CI steps.
+All gates are blocking. No advisory-only CI steps.
 
-**3. `make ci` equals `make test` locally.**
-`make ci` and `make test` run the same pipeline. Agents and CI use the same command surface.
+**3. `make ci` equals `make lint` locally.**
+`make ci` is an alias for `make lint`. Agents and CI use the same command surface.
 No divergence between local runs and CI behavior.
 
 **4. Nightly entropy check is separate from PR-triggered CI.**
@@ -41,16 +42,16 @@ block merge even when CI is green. This is the only non-automated merge gate.
 **6. Harness scripts provide portable entry points.**
 `.claude/skills/harness.ci/scripts/lint_runner.py` and `.claude/skills/harness.ci/scripts/typecheck.py` auto-detect the project
 runtime (Rust/Node/Python) and run the appropriate toolchain. For EnHarnes (Python),
-they delegate to `custom_linter.py` and `dependency_guard.py`.
+they delegate to `todo_linter.py` and `code_conventions.py`.
 
 ## Rationale
 
-- One CI command (`make test`) makes local reproduction trivial: copy the CI command, run it, done.
+- One CI command (`make lint`) makes local reproduction trivial: copy the CI command, run it, done.
 - Separating nightly entropy from PR CI avoids noise on every commit.
 - Machine-readable drift policy (`risk-policy.json`) means agents can audit their own impact
   without prompting — they know which docs to check before opening a PR.
-- The `check → structural` sequence catches three distinct failure classes in order:
-  doc hygiene → architecture violations → (future) unit test failures.
+- The `lint-todos → lint-src → lint-structural` sequence catches three distinct failure classes in order:
+  doc hygiene → code conventions → architecture violations.
 
 ## Merge Philosophy
 
@@ -69,7 +70,7 @@ when CI is green. This ensures every comment is addressed, not ignored.
 
 ## Consequences
 
-- Any violation of Golden Principles (print statements, oversized files) in `src/` blocks merge at `make lint`.
-- Layer boundary violations block merge at `make structural`.
+- Any violation of Golden Principles (print statements, oversized files) in `src/` blocks merge at `make lint-src`.
+- Layer boundary violations block merge at `make lint-structural`.
 - Doc references in `risk-policy.json` that no longer resolve are caught by the nightly entropy scan, not PR CI.
-- Adding a new script to `scripts/` without a Makefile target will be flagged by `make entropy`.
+- Adding a new script to `scripts/` without a Makefile target will be flagged by `make check-entropy`.

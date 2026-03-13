@@ -21,7 +21,7 @@
 
 ## Базовые команды
 ```bash
-make lint-docs  # быстрая проверка доков (~5с)
-make lint       # все статические проверки
-make test     # полный набор тестов
+make lint-todos  # быстрая проверка TODO (~5с)
+make lint        # все линтеры (lint-todos + lint-src + lint-structural)
+make ci          # CI алиас для lint
 ```

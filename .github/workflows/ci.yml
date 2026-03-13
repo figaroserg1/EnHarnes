@@ -16,14 +16,8 @@ jobs:
       - name: Install dependencies
         run: pip install pytest
 
-      - name: Static checks (lint + source guard)
+      - name: Lint (TODO + source + structural)
         run: make lint
-
-      - name: Structural tests (layer boundaries)
-        run: make structural
 
       - name: Doc-drift check (risk-policy.json)
         run: python3 .claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py
-
-      - name: Full test suite
-        run: make test

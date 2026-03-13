@@ -33,7 +33,7 @@
 | 1.6 | Execution plans as first-class artifacts (active/completed/tech-debt) | Y | `docs/exec-plans/active/`, `docs/exec-plans/completed/`, `docs/exec-plans/tech-debt-tracker.md` |
 | 1.7 | Progressive disclosure: small entry point → deeper docs | Y | `AGENTS.md` → Reference Table (строки 74-92) → ссылки на глубокие доки |
 | 1.8 | No external knowledge dependency | Y | Всё в репо: `docs/`, `policies/`, `.claude/skills/` |
-| 1.9 | Doc-gardening agent/process | Y | `AGENTS.md` (Slash Commands), `.claude/skills/harness.linters/scripts/doc-health/doc_health_check.py`, `Makefile` target `gardener` |
+| 1.9 | Doc-gardening agent/process | Y | `AGENTS.md` (Slash Commands), `.claude/skills/harness.linters/scripts/doc-health/doc_health_check.py`, `Makefile` target `check-docs` |
 | 1.10 | Verification headers in docs (last-verified date, status) | Y | `docs/design-docs/index.md` — колонки Status + Last Verified |
 | 1.11 | Process to encode external knowledge (Slack/Docs/heads) into repo `[OAI]` | P | `.claude/skills/harness.core/docs/CORE_PRINCIPLES.md` Principle #1: "If it is not committed, it does not exist". Принцип есть, но нет documented how-to процесса втягивания |
 | 1.12 | Explicit docs per domain: architecture, design, product, plans, reliability, security, quality, observability `[OAI]` | Y | `ARCHITECTURE.md`, `docs/PROJECT_DESIGN.md`, `docs/PROJECT_PRODUCT_SENSE.md`, `docs/exec-plans/`, `docs/PROJECT_RELIABILITY.md`, `docs/PROJECT_SECURITY.md`, `docs/PROJECT_QUALITY_SCORE.md`, `docs/PROJECT_OBSERVABILITY.md` — все 8 доменов |
@@ -61,7 +61,7 @@
 | 3.3 | Dependency direction: forward-only | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` (AST-проверка) |
 | 3.4 | ARCHITECTURE.md with domain map + quality grades | Y | `ARCHITECTURE.md` → "Основные зоны" + Quality Grades (A/B/C/D) |
 | 3.5 | Custom linters enforce layer boundaries | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` |
-| 3.6 | Structural tests validate dependency direction | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py`, `Makefile` target `structural` |
+| 3.6 | Structural tests validate dependency direction | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py`, `Makefile` target `lint-structural` |
 | 3.7 | Data parsed at layer boundaries | Y | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` (Principle #2: boundary validation) |
 
 ---
@@ -94,7 +94,7 @@
 | 5.6 | Taste invariants: file size limits enforced | Y | `policies/architecture.yaml` → `file_size: { soft_limit: 500, hard_limit: 1500 }` |
 | 5.7 | Invariants over micromanagement | Y | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` — каждый принцип = механическое правило |
 | 5.8 | Human taste fed back via docs/tooling, not ad-hoc | Y | `AGENTS.md` → Failure Ledger (строки 109-114): failure → fix → enforcement |
-| 5.9 | Linter errors include remediation hints useful to agent `[OAI]` | Y | `code_conventions.py`: `"Fix: split into smaller modules. See Golden Principle 5."`, `doc_linter.py`: `"Fix: add [HUMAN], [AI]..."` — все ошибки с Fix + ссылкой |
+| 5.9 | Linter errors include remediation hints useful to agent `[OAI]` | Y | `code_conventions.py`: `"Fix: split into smaller modules. See Golden Principle 5."`, `todo_linter.py`: `"Fix: add [HUMAN], [AI]..."` — все ошибки с Fix + ссылкой |
 
 ---
 
@@ -128,8 +128,8 @@
 
 | # | Practice | | Файлы |
 |---|----------|-|-------|
-| 8.1 | Stable command surface: `make smoke`, `make check`, `make test`, `make ci` | Y | `Makefile` — targets: smoke, check, test, ci, review, entropy, gardener, build, structural |
-| 8.2 | CI runs lint + typecheck + structural tests + unit tests | Y | `.github/workflows/ci.yml` (static checks → structural → doc-drift → full test), `.claude/skills/harness.ci/scripts/lint_runner.py`, `.claude/skills/harness.ci/scripts/typecheck.py` |
+| 8.1 | Stable command surface: `make lint-todos`, `make lint`, `make ci` | Y | `Makefile` — targets: lint-todos, lint-src, lint-structural, lint, ci, review, check-entropy, check-docs, gen-handbook |
+| 8.2 | CI runs lint + typecheck + structural tests + unit tests | Y | `.github/workflows/ci.yml` (make lint → doc-drift), `.claude/skills/harness.ci/scripts/lint_runner.py`, `.claude/skills/harness.ci/scripts/typecheck.py` |
 | 8.3 | Minimal blocking merge gates (speed over perfection) | Y | `docs/design-docs/ci-enforcement.md` |
 | 8.4 | Short-lived PRs, flakes addressed with follow-up runs | Y | `docs/design-docs/ci-enforcement.md` |
 | 8.5 | CI config as code in repo (.github/workflows/) | Y | `.github/workflows/ci.yml`, `.github/workflows/nightly-entropy.yml`, `.github/workflows/weekly-cleanup.yml` |
