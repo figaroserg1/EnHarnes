@@ -1,0 +1,25 @@
+# Engineering Rules — Phase 1
+
+## 1) Agent execution rules
+- Агент выполняет только проверяемые изменения и фиксирует проверки.
+- Агент не пропускает обновление документации, если меняется процесс.
+- TODO: [HUMAN] Утвердить границы автономности для изменений среднего/высокого риска.
+
+## 2) Change management rules
+- Все значимые изменения проходят через commit + PR.
+- Для сложных задач используется ExecPlan.
+- TODO: [AI->HUMAN] Зафиксировать SLA на review и критерии эскалации.
+
+## 3) Security and reliability rules
+- Секреты не хранятся в репозитории.
+- Изменения в security/reliability должны сопровождаться обновлением профильных документов.
+- TODO: [HUMAN] Утвердить минимальные требования compliance.
+
+## 4) Documentation rules
+- Все неизвестные части будущего продукта оформляются как TODO с владельцем.
+- TODO: [AI] Поддерживать консистентность между `README.md`, `METHOD.md`, `ARCHITECTURE.md`.
+
+---
+
+_Engineering philosophy (simplicity, anti-overengineering) lives in the optional skill:
+`.claude/skills/harness/startup-anti-overengineering/SKILL.md`_

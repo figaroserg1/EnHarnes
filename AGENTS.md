@@ -18,14 +18,14 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 ## Task Loop
 
-1. **Boot worktree** — `python scripts/dev/worktree_boot.py <task-name>`
+1. **Boot worktree** — `python scripts/harness/worktree_boot.py <task-name>`
 2. **Validate** — `make smoke`. Stop if fails.
 3. **Load context** — check `progress.txt` if resuming. Load docs from Reference Table.
-4. **Research** — for medium/high risk: launch `researcher` subagent. Output → `docs/exec-plans/active/*-research.md`.
+4. **Research** — for medium/high risk: launch subagent in researcher role (facts only, no opinions). Output → `docs/exec-plans/active/*-research.md`.
 5. **Implement** — small steps. `make check` after each change.
 6. **Doc drift** — check `policies/risk-policy.json` → `docsDriftRules`. Update matching docs.
 7. **Pre-PR** — `make review`. Fix all failures.
-8. **Agent review** — for medium/high risk: launch `reviewer` subagent (fresh context, no shared assumptions).
+8. **Agent review** — for medium/high risk: launch subagent in reviewer role (fresh context, no shared assumptions).
 9. **Review loop** — respond to feedback until approved.
 10. **Merge + teardown** — merge PR, remove worktree.
 11. **Session end** — update `progress.txt`.
@@ -33,8 +33,8 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 ## Cadenced Ops
 
 - **Weekly / between tasks:** `make entropy`, `make gardener`
-- **Monthly / when drift:** `python scripts/health/measure_metrics.py`
-- **Every PR (CI):** `scripts/health/check_doc_drift.py`
+- **Monthly / when drift:** `python scripts/harness/measure_metrics.py`
+- **Every PR (CI):** `scripts/harness/doc-health/check_doc_drift.py`
 
 ## Available Tools
 
@@ -50,9 +50,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | `make gardener` | Doc gardening check |
 | `make build` | Generate handbook |
 | `make sync-skills` / `sync-indexes` / `todo-sync` | Sync generators |
-| `python scripts/dev/worktree_boot.py <name>` | Create isolated worktree |
-| `python scripts/health/measure_metrics.py` | GitHub health metrics |
-| `python scripts/observability/obs.py up\|down` | Observability stack |
+| `make obs-up` / `obs-down` | Observability stack |
 
 ### DO NOT USE
 
@@ -65,7 +63,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 ## Core Rules
 
-- Layers: `Types→Config→Repo→Service→Runtime→UI`. Cross-cutting via `Providers` only → `ARCHITECTURE.md`
+- Layer imports flow downward only. Cross-cutting via `Providers` only → `ARCHITECTURE.md`, `policies/architecture.yaml`
 - Validate at boundaries. No YOLO-parsing inside layers.
 - Reuse existing utilities. No duplicates.
 - No secrets in repo. All knowledge lives in-repo.
@@ -78,25 +76,34 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Topic | File | When to load |
 |-------|------|-------------|
 | Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
-| Design rules & philosophy | `docs/design-docs/rules.md` | Design choices |
-| Core beliefs | `docs/design-docs/core-beliefs.md` | Design choices |
-| Golden principles (linter rules) | `docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
-| CI/merge policy | `docs/design-docs/ci-enforcement-and-risk-policy.md` | CI or merge config changes |
-| harness-planner (skill) | `.claude/skills/harness-planner/SKILL.md` | ExecPlans for medium/high risk. No code during planning. |
-| researcher (agent) | `.claude/agents/researcher.md` | Pre-planning codebase research. Facts only, no opinions. |
-| reviewer (agent) | `.claude/agents/reviewer.md` | Independent pre-PR review. Fresh context, read-only. |
-| codebase-analyzer (agent) | `.claude/agents/codebase-analyzer.md` | Analyze HOW code works — trace data flow. |
-| codebase-locator (agent) | `.claude/agents/codebase-locator.md` | Find WHERE code lives — file search by topic. |
-| security-orchestrator (agent) | `.claude/agents/security-orchestrator.md` | Multi-phase security investigation. |
-| code-synthesis-analyzer (agent) | `.claude/agents/code-synthesis-analyzer.md` | Analyze recent changes for issues. |
-| code-clarity-refactorer (agent) | `.claude/agents/code-clarity-refactorer.md` | Apply 10 refactoring rules. Proactive. |
-| bug-issue-creator (agent) | `.claude/agents/bug-issue-creator.md` | Investigate bug + create GitHub issue. |
-| Worktree workflow | `docs/WORKTREE_WORKFLOW.md` | Boot script issues |
-| Observability | `docs/OBSERVABILITY.md` | Logging or metrics |
-| Browser automation | `docs/references/BROWSER_AUTOMATION.md` | UI testing |
-| Entropy management | `docs/ENTROPY.md` | Entropy scans |
+| Workflow rules | `docs/harness/WORKFLOW_RULES.md` | Agent execution, change mgmt |
+| Core principles | `docs/harness/CORE_PRINCIPLES.md` | Harness methodology |
+| Golden principles (linter rules) | `docs/harness/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
+| CI/merge policy | `docs/design-docs/ci-enforcement.md` | CI or merge config changes |
+| harness-planner (skill) | `.claude/skills/harness/harness-planner/SKILL.md` | ExecPlans for medium/high risk. No code during planning. |
+| Worktree workflow | `docs/harness/WORKTREE_WORKFLOW.md` | Boot script issues |
+| Observability | `docs/PROJECT_OBSERVABILITY.md` | Logging or metrics |
+| Browser automation | `docs/harness/BROWSER_AUTOMATION.md` | UI testing |
+| Entropy management | `docs/harness/ENTROPY_PRINCIPLES.md` | Entropy scans |
 | Health setpoints | `policies/control-loop-metrics.yaml` | Health checks |
 | Doc drift policy | `policies/risk-policy.json` | After any code change (step 5) |
+| Architecture policy | `policies/architecture.yaml` | Setting up layers for a new project |
+| Example project | `example/` | Reference for `src/` layout + `architecture.yaml` when bootstrapping a new project |
+
+## Subagent Roles
+
+Launch subagents by role name. If `.claude/agents/harness/<role>.md` exists, it will be used. Otherwise Claude creates a universal agent with that role — both work fine.
+
+| Role | Purpose |
+|------|---------|
+| researcher | Pre-planning codebase research. Facts only, no opinions. |
+| reviewer | Independent pre-PR review. Fresh context, read-only. |
+| codebase-analyzer | Analyze HOW code works — trace data flow. |
+| codebase-locator | Find WHERE code lives — file search by topic. |
+| security-orchestrator | Multi-phase security investigation. |
+| code-synthesis-analyzer | Analyze recent changes for issues. |
+| code-clarity-refactorer | Apply refactoring rules. Proactive. |
+| bug-issue-creator | Investigate bug + create GitHub issue. |
 
 ## Failure Ledger
 

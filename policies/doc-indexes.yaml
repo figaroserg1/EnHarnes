@@ -1,0 +1,25 @@
+# Doc index generation config — defines which directories get auto-generated index.md.
+# Used by: scripts/harness/generators/sync_doc_indexes.py
+
+indexes:
+  - dir: docs/design-docs
+    title: Design Documents Index
+    columns: [Document, Status, Last Verified, Owner]
+    defaults:
+      Status: Draft
+      Last Verified: "—"
+      Owner: "TODO: [HUMAN]"
+
+  - dir: docs/product-specs
+    title: Product Specifications Index
+    columns: [Spec, Status, Priority, Owner]
+    defaults:
+      Status: Draft
+      Priority: "—"
+      Owner: "TODO: [HUMAN]"
+
+  - dir: docs/references
+    title: References Index
+    columns: [Reference, Description]
+    defaults:
+      Description: "TODO: [AI] Add description"

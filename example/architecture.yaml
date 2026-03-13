@@ -1,0 +1,31 @@
+# Architecture policy — single source of truth for layer structure.
+# TODO: [AI] Hook to sync from ARCHITECTURE.md automatically.
+
+layers:
+  - Types
+  - Config
+  - Repo
+  - Service
+  - Runtime
+  - UI
+  - Providers
+
+allowed_imports:
+  Types: []
+  Config: [Types]
+  Repo: [Config, Types]
+  Service: [Repo, Config, Types, Providers]
+  Runtime: [Service, Repo, Config, Types, Providers]
+  UI: [Runtime, Service, Config, Types, Providers]  # Rule 3: no Repo
+  Providers: [Service, Repo, Config, Types]
+
+cross_cutting_modules:
+  - auth
+  - logging
+  - tracing
+  - secrets
+  - config_loader
+
+file_size:
+  soft_limit: 500
+  hard_limit: 1500

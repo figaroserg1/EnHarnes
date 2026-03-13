@@ -1,27 +1,28 @@
-.PHONY: smoke check structural ast-rules test ci build tools todo-sync sync-skills sync-indexes entropy review dev obs-up obs-down seed gardener
+.PHONY: smoke check structural ast-rules ast-scan test ci build tools todo-sync sync-skills sync-indexes entropy review gardener obs-up obs-down
 
 # Python interpreter — override on Windows: make check PYTHON=python
 PYTHON ?= python3
+H = scripts/harness
 
 # Fast sanity: doc linter only (~5s)
 smoke:
-	$(PYTHON) scripts/linters/custom_linter.py
+	$(PYTHON) $(H)/doc-health/doc_linter.py
 
-# Static checks: harness lint script (doc linter + Python source guard)
+# Static checks: doc lint + code conventions
 check:
-	$(PYTHON) scripts/linters/lint.py
+	$(PYTHON) $(H)/lint_runner.py
 
-# Validate ast-grep rule YAML files
+# Validate lint rule YAML files
 ast-rules:
-	$(PYTHON) scripts/linters/validate-ast-rules.py rules/ast-grep/
+	$(PYTHON) $(H)/code-quality/validate_lint_rules.py policies/ast-grep/
 
-# Run ast-grep scan on src/ (requires: pip install ast-grep-cli or cargo install ast-grep)
+# Run ast-grep scan on src/
 ast-scan:
-	ast-grep scan --rule rules/ast-grep/ src/
+	ast-grep scan --rule policies/ast-grep/ src/
 
 # Structural architecture tests only
 structural:
-	pytest scripts/structural-tests/test_layer_dependencies.py
+	pytest $(H)/architecture/test_layer_dependencies.py
 
 # Full test suite: check + structural
 test:
@@ -32,41 +33,32 @@ test:
 ci:
 	make test
 
-# Supporting targets
+# Generators
 build:
-	$(PYTHON) scripts/generators/build_handbook.py
-
-tools:
-	@echo "TODO: setup script not yet implemented"
+	$(PYTHON) $(H)/generators/build_handbook.py
 
 todo-sync:
-	$(PYTHON) scripts/generators/sync_todo_registry.py
+	$(PYTHON) $(H)/generators/sync_todo_registry.py
 
-# Sync skill AGENTS.md entries into AGENTS.md Reference Table
 sync-skills:
-	$(PYTHON) scripts/generators/sync_skills_to_agents.py
+	$(PYTHON) $(H)/generators/sync_skills_to_agents.py
 
-# Regenerate index.md files in doc directories
 sync-indexes:
-	$(PYTHON) scripts/generators/sync_doc_indexes.py
+	$(PYTHON) $(H)/generators/sync_doc_indexes.py
 
+# Health
 entropy:
-	$(PYTHON) scripts/health/entropy_check.py
+	$(PYTHON) $(H)/entropy/entropy_check.py
 
 review:
-	$(PYTHON) scripts/health/agent_self_review.py
-
-dev:
-	bash scripts/dev/dev-start.sh
-
-obs-up:
-	bash scripts/observability/obs-up.sh
-
-obs-down:
-	bash scripts/observability/obs-down.sh
-
-seed:
-	bash scripts/dev/seed-dev-data.sh
+	$(PYTHON) $(H)/pre_pr_gate.py
 
 gardener:
-	$(PYTHON) scripts/health/doc_gardener.py
+	$(PYTHON) $(H)/doc-health/doc_health_check.py
+
+# Observability
+obs-up:
+	$(PYTHON) $(H)/observability/structured_log.py up
+
+obs-down:
+	$(PYTHON) $(H)/observability/structured_log.py down
