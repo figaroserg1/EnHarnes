@@ -19,7 +19,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 ## Task Loop
 
 1. **Boot worktree** — `python scripts/harness/worktree_boot.py <task-name>`
-2. **Validate** — `make lint-docs`. Stop if fails.
+2. **Validate** — `make lint-todos`. Stop if fails.
 3. **Load context** — check `progress.txt` if resuming. Load docs from Reference Table.
 4. **Research** — for medium/high risk: launch subagent in researcher role (facts only, no opinions). Output → `docs/exec-plans/active/*-research.md`.
 5. **Implement** — small steps. `make lint` after each change.
@@ -40,7 +40,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 | Command | Purpose |
 |---------|---------|
-| `make lint-docs` | Doc linter only (~5s) |
+| `make lint-todos` | TODO ownership & placeholder checks (~5s) |
 | `make lint` | All static checks (doc lint + code conventions) |
 | `make structural` | Architecture boundary tests (pytest) |
 | `make test` | Full suite: lint + structural |
@@ -76,7 +76,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Topic | File | When to load |
 |-------|------|-------------|
 | Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
-| Core skill (docs, templates, example) | `.claude/skills/harness.core/SKILL.md` | Setting up harness in a new project |
+| Core skill (docs, templates, examples) | `.claude/skills/harness.core/SKILL.md` | Setting up harness in a new project |
 | Workflow rules | `.claude/skills/harness.core/docs/WORKFLOW_RULES.md` | Agent execution, change mgmt |
 | Core principles | `.claude/skills/harness.core/docs/CORE_PRINCIPLES.md` | Harness methodology |
 | Golden principles (linter rules) | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
@@ -119,7 +119,7 @@ When an agent breaks something, **fix the harness, not the agent**. Add entries:
 
 | Command | What it does |
 |---------|-------------|
-| `/harness.smoke` | Run `make lint-docs`. Report result. If passed → suggest `/harness.test` or `/harness.review`. |
+| `/harness.smoke` | Run `make lint-todos`. Report result. If passed → suggest `/harness.test` or `/harness.review`. |
 | `/harness.test` | Run `make test`. Report results. If all passed → suggest `/harness.review`. |
 | `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: lint / structural / doc-drift / entropy. If all pass → "Ready for PR". |
 | `/harness.entropy` | Run `make entropy` + `make doc-health`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |

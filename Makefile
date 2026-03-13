@@ -1,11 +1,11 @@
-.PHONY: lint-docs lint structural ast-rules ast-scan test ci handbook todo-sync sync-skills sync-indexes entropy review doc-health worktree obs-up obs-down
+.PHONY: lint-todos lint structural ast-rules ast-scan test ci handbook todo-sync sync-skills sync-indexes entropy review doc-health worktree obs-up obs-down
 
 # Python interpreter — override: make lint PYTHON=python3
 PYTHON ?= python
 S = .claude/skills
 
-# Doc linter only (~5s)
-lint-docs:
+# TODO & placeholder linter (~5s)
+lint-todos:
 	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_linter.py
 
 # All static checks: doc lint + code conventions

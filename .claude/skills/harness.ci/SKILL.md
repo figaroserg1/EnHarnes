@@ -31,7 +31,7 @@ ci:       make test (lint + structural)
 ## CI Workflow
 
 Typical CI pipeline order:
-1. `make lint-docs` — Doc linter only (~5s)
+1. `make lint-todos` — Doc linter only (~5s)
 2. `make lint` — All static checks (lint runner)
 3. `make structural` — Architecture boundary tests
 4. `make review` — Pre-PR gate (5 checks)

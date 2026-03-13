@@ -4,7 +4,7 @@
 Steps:
   1. Creates worktree at ../worktree_<task-name> on branch task/<task-name>
   2. Auto-detects project type (Python/Node/Rust) and installs dependencies
-  3. Runs smoke check (make lint-docs or make lint)
+  3. Runs smoke check (make lint-todos or make lint)
 
 Usage:
     python scripts/dev/worktree_boot.py <task-name>
@@ -73,9 +73,9 @@ def main() -> int:
     print("\n-- Running smoke check --")
     make = shutil.which("make")
     if make and (worktree_dir / "Makefile").exists():
-        rc = run([make, "smoke"], cwd=worktree_dir)
+        rc = run([make, "lint-todos"], cwd=worktree_dir)
         if rc != 0:
-            run([make, "check"], cwd=worktree_dir)
+            run([make, "lint"], cwd=worktree_dir)
     else:
         print("[WARN] make not available or no Makefile. Skipping smoke check.")
 

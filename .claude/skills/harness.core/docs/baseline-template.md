@@ -45,7 +45,7 @@ Run `make ci` and record:
 
 ```
 make ci exit code: TODO
-make lint-docs time: TODO
+make lint-todos time: TODO
 make lint time: TODO
 make test time: TODO
 Total CI time: TODO

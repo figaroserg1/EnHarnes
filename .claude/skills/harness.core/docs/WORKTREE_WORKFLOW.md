@@ -19,7 +19,7 @@ git worktree add ../worktree_feature-x -b task/feature-x
 
 # Enter and work
 cd ../worktree_feature-x
-make lint-docs
+make lint-todos
 
 # When done
 cd -
