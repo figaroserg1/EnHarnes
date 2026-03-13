@@ -30,8 +30,8 @@ _Generated from core Phase 1 docs._
 
 ## Базовые команды
 ```bash
-make smoke    # быстрая проверка (~5с)
-make check    # статические проверки
+make lint-docs  # быстрая проверка доков (~5с)
+make lint       # все статические проверки
 make test     # полный набор тестов
 ```
 

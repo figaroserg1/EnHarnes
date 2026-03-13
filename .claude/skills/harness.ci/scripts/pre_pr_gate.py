@@ -2,7 +2,7 @@
 """pre_pr_gate.py — Pre-PR gate: runs 5 checks equivalent to CI.
 
 Steps:
-  1. Static checks (make check) — doc lint + code conventions
+  1. Static checks (make lint) — doc lint + code conventions
   2. Structural tests (make structural) — layer dependencies + cross-cutting
   3. Doc-drift (check_doc_drift.py) — risk-policy.json references
   4. Watch-path reminders — changed files matching risk-policy watch paths
@@ -85,7 +85,7 @@ def main() -> int:
 
     # 1. Static checks
     print("\n-- Step 1/5: Static checks --")
-    if run_make("check") != 0:
+    if run_make("lint") != 0:
         failures += 1
 
     # 2. Structural tests

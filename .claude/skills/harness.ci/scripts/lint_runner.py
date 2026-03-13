@@ -10,8 +10,8 @@ Override via HARNESS_LINT_CMD environment variable.
 
 Usage:
     python scripts/harness/lint.py
-    or: make check
-    or: HARNESS_LINT_CMD="flake8 src/" make check
+    or: make lint
+    or: HARNESS_LINT_CMD="flake8 src/" make lint
 """
 
 import json

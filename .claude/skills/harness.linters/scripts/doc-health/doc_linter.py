@@ -7,7 +7,7 @@ Checks:
   2. EXAMPLE placeholders — every 'EXAMPLE' block must contain
      '(REPLACE ME)' to indicate it's a template.
 
-Runs as part of `make check` (via lint.py).
+Runs as part of `make lint` (via lint_runner.py).
 """
 
 from pathlib import Path

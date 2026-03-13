@@ -17,7 +17,7 @@ This document defines what drift looks like and how we fight it.
 
 | Cadence | Action |
 |---|---|
-| Per PR | `make check` catches lint + structural violations before merge |
+| Per PR | `make lint` catches lint + structural violations before merge |
 | Weekly | Run `scripts/health/entropy_check.py` — scans for stale docs, dead scripts, orphaned TODOs |
 | Monthly | Review `docs/exec-plans/tech-debt-tracker.md` — escalate items older than 30 days |
 | After refactor | Re-run structural tests and verify `policies/risk-policy.json` doc links still resolve |

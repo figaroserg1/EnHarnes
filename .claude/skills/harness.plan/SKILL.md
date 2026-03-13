@@ -29,4 +29,4 @@ Autonomy tiers, quality gates, doc-drift rules, and the full task loop are defin
 - [ ] Every file referenced by full repo-relative path
 - [ ] Acceptance criteria are observable behaviors, not code attributes
 - [ ] Risk-policy watch paths identified, affected docs listed
-- [ ] `make smoke` passes
+- [ ] `make lint-docs` passes

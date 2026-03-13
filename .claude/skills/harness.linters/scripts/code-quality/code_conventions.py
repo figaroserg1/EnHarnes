@@ -9,7 +9,7 @@ Checks (per docs/harness/GOLDEN_PRINCIPLES.md):
   Naming — Files in src/ must be kebab-case.
   Naming — Subdirectories in src/ must match recognized layer names.
 
-Runs as part of `make check`.
+Runs as part of `make lint`.
 """
 
 import os

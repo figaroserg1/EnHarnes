@@ -23,15 +23,15 @@ Orchestration scripts for CI pipelines, pre-PR quality gates, and developer work
 ## Makefile Targets
 
 ```makefile
-check:    lint_runner.py
+lint:     lint_runner.py
 review:   pre_pr_gate.py
-ci:       make test (check + structural)
+ci:       make test (lint + structural)
 ```
 
 ## CI Workflow
 
 Typical CI pipeline order:
-1. `make smoke` — Fast sanity (doc linter only)
-2. `make check` — Static checks (lint runner)
+1. `make lint-docs` — Doc linter only (~5s)
+2. `make lint` — All static checks (lint runner)
 3. `make structural` — Architecture boundary tests
 4. `make review` — Pre-PR gate (5 checks)

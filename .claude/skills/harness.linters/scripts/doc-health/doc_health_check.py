@@ -6,15 +6,15 @@ Runs 3 checks:
   2. Broken internal links — markdown [text](path) pointing to missing files
   3. Sparse index files — auto-discovers all index.md under docs/
 
-Note: doc_linter.py and check_doc_drift.py run separately via `make check`.
+Note: doc_linter.py and check_doc_drift.py run separately via `make lint`.
 
 Exit code:
   0 — docs are healthy
   1 — issues found
 
 Usage:
-    python scripts/harness/doc-health/doc_health_check.py
-    or: make gardener
+    python .claude/skills/harness.linters/scripts/doc-health/doc_health_check.py
+    or: make doc-health
 """
 
 import re

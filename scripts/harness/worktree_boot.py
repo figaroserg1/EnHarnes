@@ -4,7 +4,7 @@
 Steps:
   1. Creates worktree at ../worktree_<task-name> on branch task/<task-name>
   2. Auto-detects project type (Python/Node/Rust) and installs dependencies
-  3. Runs smoke check (make smoke or make check)
+  3. Runs smoke check (make lint-docs or make lint)
 
 Usage:
     python scripts/dev/worktree_boot.py <task-name>

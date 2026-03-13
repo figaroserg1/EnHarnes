@@ -19,8 +19,8 @@ that all listed docs still accurately reflect the code. This happens in `agent_s
 **2. CI quality gates are explicit and sequential.**
 `.github/workflows/ci.yml` runs one command: `make test`.
 `make test` wraps two gates in order:
-- `make check` — doc lint (TODO ownership, unreplaced template markers) + Python source guard (print detection, file size limits)
-- `make structural` — AST-based layer dependency validation (Types → Config → Repo → Service → Runtime → UI)
+1. `make lint` — doc lint (TODO ownership, unreplaced template markers) + Python source guard (print detection, file size limits)
+2. `make structural` — AST-based layer dependency validation (Types → Config → Repo → Service → Runtime → UI)
 
 Both gates are blocking. No advisory-only CI steps.
 
@@ -69,7 +69,7 @@ when CI is green. This ensures every comment is addressed, not ignored.
 
 ## Consequences
 
-- Any violation of Golden Principles (print statements, oversized files) in `src/` blocks merge at `make check`.
+- Any violation of Golden Principles (print statements, oversized files) in `src/` blocks merge at `make lint`.
 - Layer boundary violations block merge at `make structural`.
 - Doc references in `risk-policy.json` that no longer resolve are caught by the nightly entropy scan, not PR CI.
 - Adding a new script to `scripts/` without a Makefile target will be flagged by `make entropy`.

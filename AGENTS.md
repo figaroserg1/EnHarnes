@@ -19,10 +19,10 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 ## Task Loop
 
 1. **Boot worktree** — `python scripts/harness/worktree_boot.py <task-name>`
-2. **Validate** — `make smoke`. Stop if fails.
+2. **Validate** — `make lint-docs`. Stop if fails.
 3. **Load context** — check `progress.txt` if resuming. Load docs from Reference Table.
 4. **Research** — for medium/high risk: launch subagent in researcher role (facts only, no opinions). Output → `docs/exec-plans/active/*-research.md`.
-5. **Implement** — small steps. `make check` after each change.
+5. **Implement** — small steps. `make lint` after each change.
 6. **Doc drift** — check `policies/risk-policy.json` → `docsDriftRules`. Update matching docs.
 7. **Pre-PR** — `make review`. Fix all failures.
 8. **Agent review** — for medium/high risk: launch subagent in reviewer role (fresh context, no shared assumptions).
@@ -32,7 +32,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 ## Cadenced Ops
 
-- **Weekly / between tasks:** `make entropy`, `make gardener`
+- **Weekly / between tasks:** `make entropy`, `make doc-health`
 - **Monthly / when drift:** `python .claude/skills/harness.ci/scripts/measure_metrics.py`
 - **Every PR (CI):** `python .claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py`
 
@@ -40,15 +40,15 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 | Command | Purpose |
 |---------|---------|
-| `make smoke` | Fast sanity check (~5s) |
-| `make check` | Static checks (lint + source guard) |
-| `make structural` | Architecture boundary tests |
-| `make test` | Full test suite |
+| `make lint-docs` | Doc linter only (~5s) |
+| `make lint` | All static checks (doc lint + code conventions) |
+| `make structural` | Architecture boundary tests (pytest) |
+| `make test` | Full suite: lint + structural |
 | `make ci` | CI-equivalent local run |
-| `make review` | Pre-PR self-review (5 checks) |
-| `make entropy` | Entropy scan |
-| `make gardener` | Doc gardening check |
-| `make build` | Generate handbook |
+| `make review` | Pre-PR self-review (5 gates) |
+| `make entropy` | Entropy scan (orphans, blank setpoints) |
+| `make doc-health` | Doc health (stale headers, broken links) |
+| `make handbook` | Generate project handbook |
 | `make sync-skills` / `sync-indexes` / `todo-sync` | Sync generators |
 | `make obs-up` / `obs-down` | Observability stack |
 
@@ -119,10 +119,10 @@ When an agent breaks something, **fix the harness, not the agent**. Add entries:
 
 | Command | What it does |
 |---------|-------------|
-| `/harness.smoke` | Run `make smoke`. Report result. If passed → suggest `/harness.test` or `/harness.review`. |
+| `/harness.smoke` | Run `make lint-docs`. Report result. If passed → suggest `/harness.test` or `/harness.review`. |
 | `/harness.test` | Run `make test`. Report results. If all passed → suggest `/harness.review`. |
-| `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: static / structural / doc-drift / entropy. If all pass → "Ready for PR". |
-| `/harness.entropy` | Run `make entropy` + `make gardener`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |
+| `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: lint / structural / doc-drift / entropy. If all pass → "Ready for PR". |
+| `/harness.entropy` | Run `make entropy` + `make doc-health`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |
 
 ## Self-Improvement
 

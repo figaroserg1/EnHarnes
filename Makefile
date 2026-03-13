@@ -1,18 +1,18 @@
-.PHONY: smoke check structural ast-rules ast-scan test ci build tools todo-sync sync-skills sync-indexes entropy review gardener worktree obs-up obs-down
+.PHONY: lint-docs lint structural ast-rules ast-scan test ci handbook todo-sync sync-skills sync-indexes entropy review doc-health worktree obs-up obs-down
 
 # Python interpreter — auto-detect: python3 (Unix) or python (Windows)
 PYTHON ?= $(shell command -v python3 2>/dev/null || command -v python 2>/dev/null)
 S = .claude/skills
 
-# Fast sanity: doc linter only (~5s)
-smoke:
+# Doc linter only (~5s)
+lint-docs:
 	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_linter.py
 
-# Static checks: doc lint + code conventions
-check:
+# All static checks: doc lint + code conventions
+lint:
 	$(PYTHON) $(S)/harness.ci/scripts/lint_runner.py
 
-# Validate lint rule YAML files
+# Validate ast-grep rule YAML files
 ast-rules:
 	$(PYTHON) $(S)/harness.linters/scripts/code-quality/validate_lint_rules.py policies/ast-grep/
 
@@ -20,23 +20,24 @@ ast-rules:
 ast-scan:
 	ast-grep scan --rule policies/ast-grep/ src/
 
-# Structural architecture tests only
+# Structural architecture tests (pytest)
 structural:
 	pytest $(S)/harness.linters/scripts/architecture/test_layer_dependencies.py
 
-# Full test suite: check + structural
+# Full test suite: lint + structural
 test:
-	make check
+	make lint
 	make structural
 
-# CI-equivalent local run — same as make test
+# CI-equivalent local run
 ci:
 	make test
 
-# Generators
-build:
+# Generate project handbook
+handbook:
 	$(PYTHON) $(S)/harness.generators/scripts/build_handbook.py
 
+# Sync generators
 todo-sync:
 	$(PYTHON) $(S)/harness.generators/scripts/sync_todo_registry.py
 
@@ -46,17 +47,18 @@ sync-skills:
 sync-indexes:
 	$(PYTHON) $(S)/harness.generators/scripts/sync_doc_indexes.py
 
-# Health
+# Health checks
 entropy:
 	$(PYTHON) $(S)/harness.linters/scripts/entropy/entropy_check.py
 
+doc-health:
+	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_health_check.py
+
+# Pre-PR self-review (5 gates)
 review:
 	$(PYTHON) $(S)/harness.ci/scripts/pre_pr_gate.py
 
-gardener:
-	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_health_check.py
-
-# Worktree
+# Worktree bootstrap
 worktree:
 	$(PYTHON) scripts/harness/worktree_boot.py $(TASK)
 
