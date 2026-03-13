@@ -1,7 +1,7 @@
-.PHONY: smoke check structural ast-rules ast-scan test ci build tools todo-sync sync-skills sync-indexes entropy review gardener obs-up obs-down
+.PHONY: smoke check structural ast-rules ast-scan test ci build tools todo-sync sync-skills sync-indexes entropy review gardener worktree obs-up obs-down
 
-# Python interpreter — override on Windows: make check PYTHON=python
-PYTHON ?= python3
+# Python interpreter — auto-detect: python3 (Unix) or python (Windows)
+PYTHON ?= $(shell command -v python3 2>/dev/null || command -v python 2>/dev/null)
 S = .claude/skills
 
 # Fast sanity: doc linter only (~5s)
@@ -55,6 +55,10 @@ review:
 
 gardener:
 	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_health_check.py
+
+# Worktree
+worktree:
+	$(PYTHON) scripts/harness/worktree_boot.py $(TASK)
 
 # Observability
 obs-up:

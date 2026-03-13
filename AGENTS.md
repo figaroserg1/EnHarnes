@@ -33,8 +33,8 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 ## Cadenced Ops
 
 - **Weekly / between tasks:** `make entropy`, `make gardener`
-- **Monthly / when drift:** `python scripts/harness/measure_metrics.py`
-- **Every PR (CI):** `scripts/harness/doc-health/check_doc_drift.py`
+- **Monthly / when drift:** `python .claude/skills/harness.ci/scripts/measure_metrics.py`
+- **Every PR (CI):** `python .claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py`
 
 ## Available Tools
 
@@ -81,7 +81,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Core principles | `.claude/skills/harness.core/docs/CORE_PRINCIPLES.md` | Harness methodology |
 | Golden principles (linter rules) | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` | Writing/modifying linters |
 | CI/merge policy | `docs/design-docs/ci-enforcement.md` | CI or merge config changes |
-| harness-planner (skill) | `.claude/skills/harness.planner/SKILL.md` | ExecPlans for medium/high risk. No code during planning. |
+| Execution plans | `.claude/skills/harness.plan/SKILL.md` | ExecPlans for medium/high risk |
 | Worktree workflow | `.claude/skills/harness.core/docs/WORKTREE_WORKFLOW.md` | Boot script issues |
 | Observability | `docs/PROJECT_OBSERVABILITY.md` | Logging or metrics |
 | Browser automation | `.claude/skills/harness.core/docs/BROWSER_AUTOMATION.md` | UI testing |
@@ -90,7 +90,10 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Doc drift policy | `policies/risk-policy.json` | After any code change (step 5) |
 | Architecture policy | `policies/architecture.yaml` | Setting up layers for a new project |
 | Example project | `.claude/skills/harness.core/example/` | Reference for `src/` layout + `architecture.yaml` |
-
+| Anti-overengineering | `.claude/skills/harness.anti-overengineering/SKILL.md` | Startup-style pragmatic rules |
+| Linters | `.claude/skills/harness.linters/SKILL.md` | Architecture, code quality, doc health checks |
+| Generators | `.claude/skills/harness.generators/SKILL.md` | Handbook, doc index, TODO sync |
+| CI scripts | `.claude/skills/harness.ci/SKILL.md` | CI orchestration, pre-PR gates |
 ## Subagent Roles
 
 Launch subagents by role name. If `.claude/agents/harness/<role>.md` exists, it will be used. Otherwise Claude creates a universal agent with that role — both work fine.

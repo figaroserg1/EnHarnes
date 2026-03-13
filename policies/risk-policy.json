@@ -2,7 +2,7 @@
   "version": 1,
   "description": "When code in a watchPath changes, verify that the listed docs are still accurate.",
   "tiers": ["low", "medium", "high"],
-  "watchPaths": ["src/", "scripts/harness/", "policies/"],
+  "watchPaths": ["src/", ".claude/skills/", "policies/"],
   "docsDriftRules": [
     {
       "watch": "src/",
@@ -19,23 +19,23 @@
       ]
     },
     {
-      "watch": "scripts/harness/",
+      "watch": ".claude/skills/harness.linters/",
       "docs": [
         "AGENTS.md",
-        "docs/PROJECT_OBSERVABILITY.md"
+        ".claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md"
       ]
     },
     {
-      "watch": "scripts/harness/code-quality/",
+      "watch": ".claude/skills/harness.ci/",
       "docs": [
-        "docs/harness/GOLDEN_PRINCIPLES.md",
-        "docs/harness/WORKFLOW_RULES.md"
+        "AGENTS.md",
+        ".claude/skills/harness.core/docs/WORKFLOW_RULES.md"
       ]
     },
     {
       "watch": "policies/",
       "docs": [
-        "docs/harness/ENTROPY_PRINCIPLES.md"
+        ".claude/skills/harness.core/docs/ENTROPY_PRINCIPLES.md"
       ]
     }
   ]

@@ -54,7 +54,11 @@ def check_broken_links() -> int:
     print("\n-- Broken internal references --")
     issues = 0
 
-    for md in DOCS_DIR.rglob("*.md"):
+    # Scan docs/ and root-level markdown (AGENTS.md, ARCHITECTURE.md, etc.)
+    md_files = list(DOCS_DIR.rglob("*.md")) if DOCS_DIR.exists() else []
+    md_files.extend(ROOT.glob("*.md"))
+
+    for md in md_files:
         try:
             text = md.read_text(encoding="utf-8")
         except OSError:
