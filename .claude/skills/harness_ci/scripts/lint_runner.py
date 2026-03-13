@@ -21,7 +21,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[5]
+ROOT = Path(__file__).resolve().parents[4]
 
 
 def run(cmd: list[str], **kwargs) -> int:
@@ -51,9 +51,9 @@ def main() -> int:
     # Python
     if (ROOT / "pyproject.toml").exists() or (ROOT / "requirements.txt").exists():
         py = sys.executable
-        S = ".claude/skills/harness"
-        rc1 = run([py, f"{S}/linters/scripts/doc-health/doc_linter.py"])
-        rc2 = run([py, f"{S}/linters/scripts/code-quality/code_conventions.py"])
+        S = ".claude/skills"
+        rc1 = run([py, f"{S}/harness_linters/scripts/doc-health/doc_linter.py"])
+        rc2 = run([py, f"{S}/harness_linters/scripts/code-quality/code_conventions.py"])
         return max(rc1, rc2)
 
     print("No default lint command detected.")

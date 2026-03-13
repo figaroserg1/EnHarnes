@@ -26,7 +26,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[5]
+ROOT = Path(__file__).resolve().parents[4]
 
 KNOWN_BOTS = {
     "dependabot[bot]", "github-actions[bot]", "renovate[bot]",

@@ -22,7 +22,7 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[6]
+ROOT = Path(__file__).resolve().parents[5]
 DOCS_DIR = ROOT / "docs"
 
 VERIFIED_RE = re.compile(r"Verified:\s*(\d{4}-\d{2}-\d{2})")

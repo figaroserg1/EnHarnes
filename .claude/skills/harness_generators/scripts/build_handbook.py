@@ -16,7 +16,7 @@ Output:
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[5]
+ROOT = Path(__file__).resolve().parents[4]
 DIST_DIR = ROOT / "docs" / "generated"
 
 SOURCES = [

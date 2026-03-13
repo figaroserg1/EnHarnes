@@ -14,7 +14,7 @@ from pathlib import Path
 import re
 import sys
 
-ROOT = Path(__file__).resolve().parents[6]
+ROOT = Path(__file__).resolve().parents[5]
 OWNER_RE = re.compile(r"TODO:\s*\[(HUMAN|AI|AI->HUMAN)\]")
 
 errors: list[str] = []

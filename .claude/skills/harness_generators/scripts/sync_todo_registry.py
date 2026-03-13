@@ -21,7 +21,7 @@
 from pathlib import Path
 import re
 
-root = Path(__file__).resolve().parents[5]
+root = Path(__file__).resolve().parents[4]
 owner_re = re.compile(r"TODO:\s*\[(HUMAN|AI|AI->HUMAN)\]")
 
 counts = {"HUMAN": 0, "AI": 0, "AI->HUMAN": 0}
