@@ -2,8 +2,8 @@
 # Defines layers, allowed imports between them, and code conventions.
 #
 # Used by:
-#   scripts/harness/architecture/test_layer_dependencies.py
-#   scripts/harness/code-quality/code_conventions.py
+#   .claude/skills/harness.linters/scripts/architecture-health/test_layer_dependencies.py
+#   .claude/skills/harness.linters/scripts/code-health/code_conventions.py
 #
 # See example/ for a working reference with 7-layer architecture.
 # TODO: [AI] Hook to sync from ARCHITECTURE.md automatically.

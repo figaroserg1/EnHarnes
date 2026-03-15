@@ -2,6 +2,8 @@
 
 **Humans steer, agents execute.** Read this fully at session start.
 
+> **New project? Start with [ONBOARDING.md](ONBOARDING.md)** — step-by-step bootstrap from RFP to ready-for-development. Remove this line once onboarding is complete.
+
 ## Permissions
 
 You own the full repo. You may create, modify, and delete any file — code, scripts, linters, tests, docs, configs, instructions (including this file). Build deterministic tools for everything checkable mechanically. If it can be a linter rule or test — make it one.
@@ -50,6 +52,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | `make check-docs` | Doc health (stale headers, broken links) |
 | `make gen-handbook` | Generate project handbook |
 | `make sync-skills` / `sync-indexes` / `sync-todos` | Sync generators |
+| `make install-hooks` | Install pre-commit hook (runs `make lint`) |
 | `make obs-up` / `obs-down` | Observability stack |
 
 ### DO NOT USE
@@ -75,6 +78,7 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 
 | Topic | File | When to load |
 |-------|------|-------------|
+| Onboarding guide | `ONBOARDING.md` | New project bootstrap (RFP → docs → code) |
 | Architecture + quality grades | `ARCHITECTURE.md` | Architecture decisions |
 | Architecture checklist | `.claude/skills/harness.core/docs/ARCHITECTURE_CHECKLIST.md` | Writing or validating ARCHITECTURE.md |
 | Core skill (docs, templates, examples) | `.claude/skills/harness.core/SKILL.md` | Setting up harness in a new project |
@@ -92,9 +96,9 @@ Unsure → medium. Tiers defined in `policies/risk-policy.json`.
 | Architecture policy | `policies/architecture.yaml` | Setting up layers for a new project |
 | Example project | `.claude/skills/harness.core/example/` | Reference for `src/` layout + `architecture.yaml` |
 | Anti-overengineering | `.claude/skills/harness.anti-overengineering/SKILL.md` | Startup-style pragmatic rules |
-| Linters | `.claude/skills/harness.linters/SKILL.md` | Architecture, code quality, doc health checks |
+| Linters | `.claude/skills/harness.linters/SKILL.md` | Architecture, code health, doc health, pre-PR gates |
 | Generators | `.claude/skills/harness.generators/SKILL.md` | Handbook, doc index, TODO sync |
-| CI scripts | `.claude/skills/harness.ci/SKILL.md` | CI orchestration, pre-PR gates |
+| CI observability | `.claude/skills/harness.ci/SKILL.md` | Health metrics via GitHub API |
 ## Subagent Roles
 
 Launch subagents by role name. If `.claude/agents/harness/<role>.md` exists, it will be used. Otherwise Claude creates a universal agent with that role — both work fine.
@@ -124,6 +128,43 @@ When an agent breaks something, **fix the harness, not the agent**. Add entries:
 | `/harness.lint` | Run `make lint`. Report results. If all passed → suggest `/harness.review`. |
 | `/harness.review` | Run `make review`. Fix failures, re-run. Summarize: lint / doc-drift / entropy. If all pass → "Ready for PR". |
 | `/harness.entropy` | Run `make check-entropy` + `make check-docs`. Summarize findings (issue, file, severity, fix). Ask: fix now or log to `docs/exec-plans/tech-debt-tracker.md`? |
+
+## Activity Log
+
+Maintain a concise session activity log at `docs/activity-log.md`. Append entries during work:
+
+```
+## YYYY-MM-DD HH:MM — <task summary>
+- READ: AGENTS.md, ARCHITECTURE.md, policies/risk-policy.json
+- SCRIPTS: make smoke, make lint, pytest tests/
+- DECISIONS: chose X over Y because Z
+```
+
+Rules:
+- One entry per session or major task
+- List every .md file you read and every script/command you ran
+- Keep entries to 3-5 lines max
+- Purpose: trace whether agent followed instructions and which tools were used
+
+## Verification-First Engineering
+
+**Every feature and every plan MUST include a deterministic, executable verification strategy.** The agent should always think: "how do I verify this works without a human?"
+
+Verification tools are a first-class part of the project. Build them alongside features, not after.
+
+| Verification type | Tool | When to use |
+|-------------------|------|-------------|
+| Code structure | `make lint`, `make lint-structural` | After every change |
+| Runtime behavior | pytest, integration tests | After feature completion |
+| Web UI / frontend | Playwright MCP, agentic-browser | Web app features |
+| API endpoints | curl/httpx scripts, contract tests | API changes |
+| Data pipelines | Snapshot tests, deterministic fixtures | Data processing |
+
+Principles:
+- If you can't verify it without a human, design it differently
+- Verification scripts live in `tests/` or `scripts/verify/`
+- Every ExecPlan must have a "Verification" section with concrete commands
+- Prefer executable checks over manual inspection — automate judgment out of the loop
 
 ## Self-Improvement
 

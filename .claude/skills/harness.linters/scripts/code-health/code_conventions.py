@@ -104,7 +104,7 @@ def check_naming() -> None:
             warnings.append(
                 f"{rel}: filename '{name}' is not kebab-case. "
                 f"Fix: rename to kebab-case (e.g., 'user-service.py'). "
-                f"Convention: files=kebab-case, types=PascalCase, functions=camelCase."
+                f"Convention: files=kebab-case, classes=PascalCase, functions/variables=snake_case."
             )
 
     # Check layer directory names

@@ -1,0 +1,31 @@
+# CLAUDE.md — Harness Engineering Bootstrap
+
+**Read `AGENTS.md` fully before any work.** It is your control panel.
+
+## Mandatory Workflow
+
+1. **Before any code change**: determine risk level (Low / Medium / High per `AGENTS.md`)
+2. **Medium+ risk**: create an ExecPlan first via `/harness.plan`. Do NOT write code until plan is approved.
+3. **After every change**: run `make smoke` (quick sanity) or `make check` (full suite)
+4. **Before PR**: run `make review` — do not open PR if it fails
+
+## Available Slash Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/harness.plan` | Create an ExecPlan for medium/high risk tasks |
+| `/harness.smoke` | Quick sanity check (~5s) |
+| `/harness.test` | Full test suite (lint + structural) |
+| `/harness.review` | Pre-PR gate (all checks) |
+| `/harness.entropy` | Detect orphan scripts, broken refs |
+
+## Key Rules
+
+- **No code without a plan** for medium/high risk work
+- **Small steps** — implement one thing, run `make smoke`, repeat
+- **Verify without human** — every feature needs a deterministic, executable verification strategy
+- **Log your activity** — append to `docs/activity-log.md` (files read, scripts run, decisions)
+- **Update docs** when changing code — check `policies/risk-policy.json` → `docsDriftRules`
+- Read `ARCHITECTURE.md` before touching project structure
+- Read skill docs in `.claude/skills/harness.*/SKILL.md` for methodology details
+- **Naming**: files=kebab-case, classes=PascalCase, functions/variables=snake_case

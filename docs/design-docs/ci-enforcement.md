@@ -21,7 +21,7 @@ that all listed docs still accurately reflect the code. This happens in `agent_s
 `make lint` is a composite target that runs three gates:
 1. `make lint-todos` — TODO ownership, unreplaced template markers
 2. `make lint-src` — Python source guard (print detection, file size limits)
-3. `make lint-structural` — AST-based layer dependency validation (Types → Config → Repo → Service → Runtime → UI)
+3. `make lint-structural` — AST-based layer dependency validation (layers defined in `policies/architecture.yaml`)
 
 All gates are blocking. No advisory-only CI steps.
 
@@ -40,7 +40,7 @@ When branch protection enforces conversation resolution, unresolved review comme
 block merge even when CI is green. This is the only non-automated merge gate.
 
 **6. Harness scripts provide portable entry points.**
-`.claude/skills/harness.ci/scripts/lint_runner.py` and `.claude/skills/harness.ci/scripts/typecheck.py` auto-detect the project
+`.claude/skills/harness.linters/scripts/lint_runner.py` and `.claude/skills/harness.linters/scripts/typecheck.py` auto-detect the project
 runtime (Rust/Node/Python) and run the appropriate toolchain. For EnHarnes (Python),
 they delegate to `todo_linter.py` and `code_conventions.py`.
 

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Harness pre-commit hook — runs linters before every commit.
+# Install: make install-hooks (or: cp scripts/harness/pre-commit .git/hooks/pre-commit)
+
+set -e
+
+echo "=== Harness pre-commit ==="
+
+# Run TODO linter + code conventions + structural tests
+make lint
+
+echo "=== Pre-commit passed ==="

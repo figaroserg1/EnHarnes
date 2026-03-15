@@ -58,10 +58,10 @@
 |---|----------|-|-------|
 | 3.1 | Strict layer ordering defined | Y | `policies/architecture.yaml` (layers + allowed_imports), `ARCHITECTURE.md` → "Логика слоёв" |
 | 3.2 | Providers as single cross-cutting abstraction | Y | `policies/architecture.yaml` → `cross_cutting_modules`, `AGENTS.md` строка 66 |
-| 3.3 | Dependency direction: forward-only | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` (AST-проверка) |
+| 3.3 | Dependency direction: forward-only | Y | `.claude/skills/harness.linters/scripts/architecture-health/test_layer_dependencies.py` (AST-проверка) |
 | 3.4 | ARCHITECTURE.md with domain map + quality grades | Y | `ARCHITECTURE.md` → "Основные зоны" + Quality Grades (A/B/C/D) |
-| 3.5 | Custom linters enforce layer boundaries | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` |
-| 3.6 | Structural tests validate dependency direction | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py`, `Makefile` target `lint-structural` |
+| 3.5 | Custom linters enforce layer boundaries | Y | `.claude/skills/harness.linters/scripts/architecture-health/test_layer_dependencies.py` |
+| 3.6 | Structural tests validate dependency direction | Y | `.claude/skills/harness.linters/scripts/architecture-health/test_layer_dependencies.py`, `Makefile` target `lint-structural` |
 | 3.7 | Data parsed at layer boundaries | Y | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` (Principle #2: boundary validation) |
 
 ---
@@ -87,10 +87,10 @@
 | # | Practice | | Файлы |
 |---|----------|-|-------|
 | 5.1 | Golden principles doc (mechanical taste invariants) | Y | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` (14 mechanical invariants) |
-| 5.2 | Custom linters with actionable error messages | Y | `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py`, `.claude/skills/harness.linters/scripts/code-quality/validate_lint_rules.py` |
-| 5.3 | Structural tests (AST-based layer dependency checks) | Y | `.claude/skills/harness.linters/scripts/architecture/test_layer_dependencies.py` |
+| 5.2 | Custom linters with actionable error messages | Y | `.claude/skills/harness.linters/scripts/code-health/code_conventions.py`, `.claude/skills/harness.linters/scripts/code-health/validate_lint_rules.py` |
+| 5.3 | Structural tests (AST-based layer dependency checks) | Y | `.claude/skills/harness.linters/scripts/architecture-health/test_layer_dependencies.py` |
 | 5.4 | Taste invariants: structured logging enforced | Y | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` → Principle #13, `.claude/skills/harness.generators/scripts/observability/structured_log.py` |
-| 5.5 | Taste invariants: naming conventions enforced | Y | `.claude/skills/harness.linters/scripts/code-quality/code_conventions.py` |
+| 5.5 | Taste invariants: naming conventions enforced | Y | `.claude/skills/harness.linters/scripts/code-health/code_conventions.py` |
 | 5.6 | Taste invariants: file size limits enforced | Y | `policies/architecture.yaml` → `file_size: { soft_limit: 500, hard_limit: 1500 }` |
 | 5.7 | Invariants over micromanagement | Y | `.claude/skills/harness.core/docs/GOLDEN_PRINCIPLES.md` — каждый принцип = механическое правило |
 | 5.8 | Human taste fed back via docs/tooling, not ad-hoc | Y | `AGENTS.md` → Failure Ledger (строки 109-114): failure → fix → enforcement |
@@ -129,7 +129,7 @@
 | # | Practice | | Файлы |
 |---|----------|-|-------|
 | 8.1 | Stable command surface: `make lint-todos`, `make lint`, `make ci` | Y | `Makefile` — targets: lint-todos, lint-src, lint-structural, lint, ci, review, check-entropy, check-docs, gen-handbook |
-| 8.2 | CI runs lint + typecheck + structural tests + unit tests | Y | `.github/workflows/ci.yml` (make lint → doc-drift), `.claude/skills/harness.ci/scripts/lint_runner.py`, `.claude/skills/harness.ci/scripts/typecheck.py` |
+| 8.2 | CI runs lint + typecheck + structural tests + unit tests | Y | `.github/workflows/ci.yml` (make lint → doc-drift), `.claude/skills/harness.linters/scripts/lint_runner.py`, `.claude/skills/harness.linters/scripts/typecheck.py` |
 | 8.3 | Minimal blocking merge gates (speed over perfection) | Y | `docs/design-docs/ci-enforcement.md` |
 | 8.4 | Short-lived PRs, flakes addressed with follow-up runs | Y | `docs/design-docs/ci-enforcement.md` |
 | 8.5 | CI config as code in repo (.github/workflows/) | Y | `.github/workflows/ci.yml`, `.github/workflows/nightly-entropy.yml`, `.github/workflows/weekly-cleanup.yml` |
@@ -144,7 +144,7 @@
 |---|----------|-|-------|
 | 9.1 | risk-policy.json exists (risk tiers, watch paths, doc drift) | Y | `policies/risk-policy.json` (tiers: low/medium/high, watchPaths, docsDriftRules) |
 | 9.2 | Watch paths map source dirs to docs | Y | `policies/risk-policy.json` → `watchPaths` (src/, scripts/harness/, policies/) + `docsDriftRules` (5 правил) |
-| 9.3 | CI or agent self-review reads risk-policy.json | Y | `.claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py`, `.claude/skills/harness.ci/scripts/pre_pr_gate.py` |
+| 9.3 | CI or agent self-review reads risk-policy.json | Y | `.claude/skills/harness.linters/scripts/doc-health/check_doc_drift.py`, `.claude/skills/harness.linters/scripts/pre_pr_gate.py` |
 | 9.4 | .coderabbit.yaml or equivalent AI code review config | Y | `policies/.coderabbit.yaml` |
 
 ---
@@ -153,7 +153,7 @@
 
 | # | Practice | | Файлы |
 |---|----------|-|-------|
-| 10.1 | Agent reviews own changes locally before PR | Y | `Makefile` target `review`, `.claude/skills/harness.ci/scripts/pre_pr_gate.py` |
+| 10.1 | Agent reviews own changes locally before PR | Y | `Makefile` target `review`, `.claude/skills/harness.linters/scripts/pre_pr_gate.py` |
 | 10.2 | Agent-to-agent review | Y | `.claude/agents/harness/reviewer.md`, `AGENTS.md` → Task Loop шаг 8 |
 | 10.3 | Agent can: validate → reproduce → fix → validate → open PR | **P** | `AGENTS.md` → Task Loop (11 шагов). Partial — нет running app для полного цикла reproduce→fix |
 | 10.4 | Escalation only when human judgment required | Y | `AGENTS.md` → Autonomy table (строки 9-15): Low/Medium/High risk → разные действия |
@@ -182,7 +182,7 @@
 |---|----------|-|-------|
 | 12.1 | Product code and tests | — | Нет application code (EnHarnes — harness-фреймворк, не приложение) |
 | 12.2 | CI configuration and release tooling | Y | `.github/workflows/ci.yml`, `.github/workflows/nightly-entropy.yml`, `.github/workflows/weekly-cleanup.yml` |
-| 12.3 | Internal developer tools (scripts, linters) | Y | `.claude/skills/harness.linters/scripts/` (7 скриптов), `.claude/skills/harness.ci/scripts/` (4 скрипта), `policies/ast-grep/` (5 правил) |
+| 12.3 | Internal developer tools (scripts, linters) | Y | `.claude/skills/harness.linters/scripts/` (10 скриптов), `.claude/skills/harness.ci/scripts/` (1 скрипт), `policies/ast-grep/` (5 правил) |
 | 12.4 | Documentation and design history | Y | `docs/generated/project-handbook.md`, `docs/generated/todo-registry.md`, `docs/generated/db-schema.md` |
 | 12.5 | Scripts that manage the repository itself | Y | `.claude/skills/harness.generators/scripts/` (build_handbook, sync_doc_indexes, sync_skills_to_agents, sync_todo_registry), `scripts/harness/worktree_boot.py` |
 | 12.6 | Evaluation harnesses | Y | `.claude/skills/harness.linters/` (вся подсистема линтеров), `.claude/skills/harness.ci/scripts/measure_metrics.py` |
@@ -195,7 +195,7 @@
 |---|----------|-|-------|
 | 13.1 | Baseline recording (current entrypoints, flaky checks, environments) | Y | `.claude/skills/harness.core/docs/baseline-template.md` |
 | 13.2 | Wizard/bootstrap to scaffold harness from scratch | **N** | By design: EnHarnes — конкретный инстанс, не шаблон. Bootstrap = harness-core plugin |
-| 13.3 | Harness audit script runnable in CI | Y | `.claude/skills/harness.ci/scripts/pre_pr_gate.py`, `.github/workflows/ci.yml` |
+| 13.3 | Harness audit script runnable in CI | Y | `.claude/skills/harness.linters/scripts/pre_pr_gate.py`, `.github/workflows/ci.yml` |
 | 13.4 | Static analysis mandatory before full test runs | Y | `.github/workflows/ci.yml` → static checks → structural → doc-drift → full test (строгий порядок) |
 | 13.5 | Periodic review cadence for doc/script drift | Y | `.github/workflows/nightly-entropy.yml`, `AGENTS.md` → Cadenced Ops (weekly/monthly) |
 | 13.6 | New contributors can run harness commands without tribal knowledge | Y | `AGENTS.md` → Available Tools table, `Makefile` (все команды — `make <target>`) |

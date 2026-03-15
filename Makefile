@@ -1,4 +1,4 @@
-.PHONY: lint-todos lint-src lint-structural lint-yaml lint-ast lint ci check-docs check-entropy review gen-handbook sync-todos sync-skills sync-indexes worktree obs-up obs-down
+.PHONY: lint-todos lint-src lint-structural lint-yaml lint-ast lint ci check-docs check-entropy review gen-handbook sync-todos sync-skills sync-indexes worktree obs-up obs-down install-hooks
 
 # Python interpreter — override: make lint PYTHON=python3
 PYTHON ?= python
@@ -12,15 +12,15 @@ lint-todos:
 
 # Code conventions: bare print, kebab-case, file size
 lint-src:
-	$(PYTHON) $(S)/harness.linters/scripts/code-quality/code_conventions.py
+	$(PYTHON) $(S)/harness.linters/scripts/code-health/code_conventions.py
 
 # Architecture boundary tests (pytest)
 lint-structural:
-	pytest $(S)/harness.linters/scripts/architecture/test_layer_dependencies.py
+	pytest $(S)/harness.linters/scripts/architecture-health/test_layer_dependencies.py
 
 # Validate ast-grep rule YAML files
 lint-yaml:
-	$(PYTHON) $(S)/harness.linters/scripts/code-quality/validate_lint_rules.py policies/ast-grep/
+	$(PYTHON) $(S)/harness.linters/scripts/code-health/validate_lint_rules.py policies/ast-grep/
 
 # Run ast-grep scan on src/
 lint-ast:
@@ -46,7 +46,7 @@ check-entropy:
 
 # Pre-PR self-review (4 gates)
 review:
-	$(PYTHON) $(S)/harness.ci/scripts/pre_pr_gate.py
+	$(PYTHON) $(S)/harness.linters/scripts/pre_pr_gate.py
 
 # === Generators ===
 
@@ -63,6 +63,12 @@ sync-indexes:
 	$(PYTHON) $(S)/harness.generators/scripts/sync_doc_indexes.py
 
 # === Dev tools ===
+
+# Install git hooks (pre-commit runs make lint)
+install-hooks:
+	cp scripts/harness/pre-commit .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
+	@echo "Pre-commit hook installed."
 
 # Worktree bootstrap
 worktree:

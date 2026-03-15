@@ -1,7 +1,7 @@
 # Harness Makefile include — add to your project Makefile:
 #   include .claude/skills/harness.core/templates/Makefile.inc
 
-.PHONY: smoke check structural ast-rules ast-scan test ci build todo-sync sync-skills sync-indexes entropy review gardener obs-up obs-down
+.PHONY: smoke check structural ast-rules ast-scan test ci build todo-sync sync-skills sync-indexes entropy review gardener obs-up obs-down install-hooks
 
 PYTHON ?= python3
 S ?= .claude/skills
@@ -12,11 +12,11 @@ smoke:
 
 # Static checks: doc lint + code conventions
 check:
-	$(PYTHON) $(S)/harness.ci/scripts/lint_runner.py
+	$(PYTHON) $(S)/harness.linters/scripts/lint_runner.py
 
 # Validate lint rule YAML files
 ast-rules:
-	$(PYTHON) $(S)/harness.linters/scripts/code-quality/validate_lint_rules.py policies/ast-grep/
+	$(PYTHON) $(S)/harness.linters/scripts/code-health/validate_lint_rules.py policies/ast-grep/
 
 # Run ast-grep scan on src/
 ast-scan:
@@ -24,7 +24,7 @@ ast-scan:
 
 # Structural architecture tests only
 structural:
-	pytest $(S)/harness.linters/scripts/architecture/test_layer_dependencies.py
+	pytest $(S)/harness.linters/scripts/architecture-health/test_layer_dependencies.py
 
 # Full test suite: check + structural
 test:
@@ -53,10 +53,16 @@ entropy:
 	$(PYTHON) $(S)/harness.linters/scripts/entropy/entropy_check.py
 
 review:
-	$(PYTHON) $(S)/harness.ci/scripts/pre_pr_gate.py
+	$(PYTHON) $(S)/harness.linters/scripts/pre_pr_gate.py
 
 gardener:
 	$(PYTHON) $(S)/harness.linters/scripts/doc-health/doc_health_check.py
+
+# Install git hooks (pre-commit runs make lint)
+install-hooks:
+	cp scripts/harness/pre-commit .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
+	@echo "Pre-commit hook installed."
 
 # Observability
 obs-up:

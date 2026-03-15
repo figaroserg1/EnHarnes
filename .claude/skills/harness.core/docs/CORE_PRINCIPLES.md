@@ -21,9 +21,10 @@ Minimal CI gates. No flaky-test blocking. Unresolved review threads are the only
 
 ## 4. Constraints Enable Speed
 
-Strict layered architecture (e.g.`Types → Config → Repo → Service → Runtime → UI`),
-enforced mechanically by linters and structural tests, allows the agent to ship fast
-without architectural drift. Freedom exists within boundaries.
+Strict layered architecture, enforced mechanically by linters and structural tests,
+allows the agent to ship fast without architectural drift. Freedom exists within boundaries.
+Each project defines its own layers in `policies/architecture.yaml` — do NOT assume a fixed set.
+Example layers: `Types → Config → Repo → Service → Runtime → UI` (illustrative only).
 
 ## 5. Taste Is Captured Once, Enforced Continuously
 

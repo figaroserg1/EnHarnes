@@ -1,35 +1,30 @@
 ---
 name: harness-ci
-description: CI orchestration, pre-PR gates, type checking, metrics, and worktree management. Ties linters and generators into CI pipelines.
+description: CI observability — health metrics collection via GitHub API, worktree management.
 ---
 
 # Harness CI
 
-Orchestration scripts for CI pipelines, pre-PR quality gates, and developer workflow tools.
+CI observability and developer workflow tools.
 
 ## Scripts
 
-- `lint_runner.py` — Orchestrator: runs todo_linter + code_conventions in sequence
-- `pre_pr_gate.py` — 4-check pre-PR self-review gate
-- `typecheck.py` — Type checking wrapper
-- `measure_metrics.py` — Harness health metrics collection
-- `worktree_boot.py` — Git worktree bootstrap for isolated task branches
+- `measure_metrics.py` — Harness health metrics collection via GitHub API (`gh` CLI). Measures PR pass-at-1 rate, merge cycle time, revert rate, human intervention rate, time to CI failure. Reads setpoints from `policies/control-loop-metrics.yaml`.
+
+## Related (not in this skill)
+
+- `scripts/harness/worktree_boot.py` — Git worktree bootstrap for isolated task branches
 
 ## Dependencies
 
-- Requires **harness-linters** (lint_runner calls linter scripts)
-- Requires **harness-core** (for policies/ and workflow rules)
+- Requires **harness-linters** (linting and pre-PR gates moved there)
+- Requires **harness-core** (for policies/)
+- Requires `gh` CLI authenticated (`gh auth login`)
 
 ## Makefile Targets
 
-```makefile
-lint:     lint-todos + lint-src + lint-structural (composite)
-review:   pre_pr_gate.py
-ci:       lint (alias)
+No direct Makefile targets. Run manually:
+
+```bash
+python .claude/skills/harness.ci/scripts/measure_metrics.py --owner OWNER --repo REPO [--days 30]
 ```
-
-## CI Workflow
-
-Typical CI pipeline order:
-1. `make lint` — All linters (TODO + source + structural)
-2. `make review` — Pre-PR gate (4 checks)
