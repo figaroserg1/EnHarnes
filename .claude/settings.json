@@ -34,6 +34,19 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": {
+          "tools": ["Task"]
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python3 || command -v python) .claude/hooks/log-agent-usage.py"
+          }
+        ]
+      }
     ]
   }
 }

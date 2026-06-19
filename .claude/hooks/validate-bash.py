@@ -30,34 +30,40 @@ ASK_PATTERNS = [
 ]
 
 
+def _emit(decision: str, reason: str) -> None:
+    """Emit a PreToolUse permission decision in Claude Code's current schema."""
+    json.dump({
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": decision,
+            "permissionDecisionReason": reason,
+        },
+    }, sys.stdout)
+
+
 def main():
     try:
         data = json.load(sys.stdin)
     except (json.JSONDecodeError, EOFError):
         return
 
-    tool_name = data.get("toolName", "")
+    # Claude Code passes snake_case keys (tool_name / tool_input).
+    tool_name = data.get("tool_name", "")
     if tool_name != "Bash":
         return
 
-    command = data.get("toolInput", {}).get("command", "")
+    command = data.get("tool_input", {}).get("command", "")
     if not command:
         return
 
     for pattern, reason in BLOCKED_PATTERNS:
         if re.search(pattern, command, re.IGNORECASE):
-            json.dump({
-                "permissionDecision": "deny",
-                "reason": reason,
-            }, sys.stdout)
+            _emit("deny", reason)
             return
 
     for pattern, reason in ASK_PATTERNS:
         if re.search(pattern, command, re.IGNORECASE):
-            json.dump({
-                "permissionDecision": "ask",
-                "reason": reason,
-            }, sys.stdout)
+            _emit("ask", reason)
             return
 
 

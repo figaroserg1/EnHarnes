@@ -8,7 +8,6 @@ Blocks if a likely secret is detected.
 import json
 import re
 import sys
-from datetime import datetime, timezone
 
 SECRET_PATTERNS = [
     (r"(?i)(api[_-]?key|apikey)\s*[:=]\s*[\"']?[a-zA-Z0-9]{20,}", "API key detected"),
@@ -27,7 +26,8 @@ def main():
     except (json.JSONDecodeError, EOFError):
         return
 
-    prompt = data.get("userPrompt", "")
+    # Claude Code passes the prompt under the snake_case key "prompt".
+    prompt = data.get("prompt", "")
     if not prompt:
         return
 
@@ -39,8 +39,8 @@ def main():
             }, sys.stdout)
             return
 
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    print(f"[{ts}] Prompt validated — no secrets detected")
+    # No secret detected: stay silent. A UserPromptSubmit hook's stdout is
+    # injected into the prompt context, so emitting anything here would be noise.
 
 
 if __name__ == "__main__":

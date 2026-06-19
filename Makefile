@@ -1,18 +1,20 @@
 .PHONY: lint-todos lint-src lint-structural lint-yaml lint-ast lint ci check-docs check-entropy review gen-handbook sync-todos sync-skills sync-indexes worktree obs-up obs-down install-hooks
 
-# Python interpreter — override: make lint PYTHON=python3
-PYTHON ?= python
+# Python interpreter. Auto-detects python3 then python; override: make lint PYTHON=/path/to/python
+PYTHON ?= $(shell command -v python3 2>/dev/null || command -v python 2>/dev/null || echo python3)
 S = .claude/skills
 
 # === Linters (CI-blocking) ===
 
-# TODO ownership & placeholder checks (~5s)
+# TODO ownership & placeholder checks (~5s) + misfiled-plan check
 lint-todos:
 	$(PYTHON) $(S)/harness.linters/scripts/doc-health/todo_linter.py
+	$(PYTHON) $(S)/harness.linters/scripts/doc-health/misfiled_plans.py
 
-# Code conventions: bare print, kebab-case, file size
+# Code conventions: bare print, kebab-case, file size + hook-registration check
 lint-src:
 	$(PYTHON) $(S)/harness.linters/scripts/code-health/code_conventions.py
+	$(PYTHON) $(S)/harness.linters/scripts/code-health/hooks_registered.py
 
 # Architecture boundary tests (pytest)
 lint-structural:
@@ -64,11 +66,14 @@ sync-indexes:
 
 # === Dev tools ===
 
-# Install git hooks (pre-commit runs make lint)
+# Install hooks: git pre-commit (runs make lint) + Claude Code hooks
+# (registers validate-bash / prompt-validator / post-response-sync / log-agent-usage
+#  into the operator-local .claude/settings.json; idempotent).
 install-hooks:
 	cp scripts/harness/pre-commit .git/hooks/pre-commit
 	chmod +x .git/hooks/pre-commit
-	@echo "Pre-commit hook installed."
+	@echo "Pre-commit (git) hook installed."
+	$(PYTHON) $(S)/harness.generators/scripts/install_claude_hooks.py
 
 # Worktree bootstrap
 worktree:

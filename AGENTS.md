@@ -58,6 +58,7 @@ Every task MUST follow this loop. Steps marked 🚫 STOP are hard gates — do n
 | Before every bash command | `validate-bash.py` (PreToolUse hook) | Blocks dangerous commands (rm -rf, force push, DROP) |
 | Before every prompt | `prompt-validator.py` (UserPromptSubmit hook) | Blocks secrets in prompts |
 | After every response | `post-response-sync.py` (Stop hook) | Auto-syncs doc indexes if .md files changed |
+| After every subagent launch | `log-agent-usage.py` (PostToolUse hook) | Logs each Task launch to `logs/agent-usage.toon` (visibility only) |
 | Before every commit | `pre-commit` hook | Runs `make lint` — blocks commit on failure |
 | On PR / push to main | `ci.yml` workflow | Lint + doc-drift check |
 | Daily 03:00 UTC | `nightly-entropy.yml` | Entropy scan |
@@ -127,7 +128,9 @@ Every task MUST follow this loop. Steps marked 🚫 STOP are hard gates — do n
 | Architecture policy | `policies/architecture.yaml` | Setting up layers for a new project |
 | Example project | `.claude/skills/harness.core/example/` | Reference for `src/` layout + `architecture.yaml` |
 | Anti-overengineering | `.claude/skills/harness.anti-overengineering/SKILL.md` | Startup-style pragmatic rules |
+| Harness feedback | `docs/harness-feedback.md` + `.claude/skills/harness.feedback/SKILL.md` | Friction you noticed in the harness itself |
 | Linters | `.claude/skills/harness.linters/SKILL.md` | Architecture, code health, doc health, pre-PR gates |
+| Module split | `.claude/skills/harness.module-split/SKILL.md` | Splitting an oversized module into a package without API change |
 | Generators | `.claude/skills/harness.generators/SKILL.md` | Handbook, doc index, TODO sync |
 | CI observability | `.claude/skills/harness.ci/SKILL.md` | Health metrics via GitHub API |
 | Task walkthrough (example) | `docs/TASK_WALKTHROUGH.md` | Understanding the full task flow, auto vs manual |
@@ -222,3 +225,9 @@ Principles:
 
 - Update this file, docs, and scripts as needed. Your convenience is priority.
 - On failure → add ledger entry + update docs. If automatable → write a linter/test instead.
+- **Step-exit scan (every meaningful step):** did the harness slow you down,
+  confuse you, or contradict itself? If yes, log a calibrated entry to
+  `docs/harness-feedback.md` per the `harness.feedback` skill (≤3 per session,
+  concrete target). This is for friction with the **harness itself** — product
+  bugs go to an ExecPlan, task failures go to the Failure Ledger. Skip silently
+  when nothing surfaced.

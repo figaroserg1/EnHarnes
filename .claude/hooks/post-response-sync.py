@@ -51,27 +51,21 @@ def main():
     if not needs_sync:
         return
 
-    # Find sync script — try project's scripts/ first, then plugin's
-    candidates = [
-        Path("scripts/generators/sync_doc_indexes.py"),
-    ]
-    # Also try relative to this hook's location (plugin path)
+    # Find the sync script: it lives in the harness.generators skill, resolved
+    # relative to this hook (.claude/hooks/ → .claude/skills/harness.generators/).
     hook_dir = Path(__file__).resolve().parent
-    plugin_script = hook_dir.parent / "scripts" / "generators" / "sync_doc_indexes.py"
-    candidates.append(plugin_script)
+    script = hook_dir.parent / "skills" / "harness.generators" / "scripts" / "sync_doc_indexes.py"
 
-    for script in candidates:
-        if script.exists():
-            result = subprocess.run(
-                [sys.executable, str(script)],
-                capture_output=True, text=True,
-            )
-            if result.stdout.strip():
-                # Only print if something actually changed
-                for line in result.stdout.strip().splitlines():
-                    if "Updated:" in line:
-                        print(line)
-            return
+    if script.exists():
+        result = subprocess.run(
+            [sys.executable, str(script)],
+            capture_output=True, text=True,
+        )
+        if result.stdout.strip():
+            # Only print if something actually changed
+            for line in result.stdout.strip().splitlines():
+                if "Updated:" in line:
+                    print(line)
 
 
 if __name__ == "__main__":
